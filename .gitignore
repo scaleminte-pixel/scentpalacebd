@@ -22,7 +22,10 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
+.vscode/
+.idea/
 
 # debug
 npm-debug.log*
@@ -30,8 +33,23 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# database (local SQLite files must never be committed)
+prisma/*.db
+prisma/*.db-journal
+prisma/*.db-shm
+prisma/*.db-wal
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# env files (secrets stay private; template is committed)
+.env
+.env*.local
+.env.development
+.env.test
+.env.production
+!.env.example
 
 # vercel
 .vercel

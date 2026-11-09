@@ -1,0 +1,437 @@
+// Prisma Schema for Rāwdah Haute Parfumerie
+// Supports SQLite locally (zero config) and PostgreSQL in production via DATABASE_URL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// -------------------------------------------------------------
+// 1. ADMIN TEAM & ACCESS CONTROL
+// -------------------------------------------------------------
+model AdminUser {
+  id           String     @id @default(cuid())
+  name         String
+  email        String     @unique
+  passwordHash String
+  role         String     @default("MANAGER") // OWNER, MANAGER, ORDER_STAFF, CATALOG_EDITOR, ACCOUNTANT
+  isActive     Boolean    @default(true)
+  avatar       String?
+  phone        String?
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  auditLogs    AuditLog[]
+}
+
+model AuditLog {
+  id        String     @id @default(cuid())
+  userId    String?
+  user      AdminUser? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userName  String?
+  action    String     // CREATE, UPDATE, DELETE, PUBLISH, ADJUST_STOCK, STATUS_CHANGE, PAYMENT_VERIFY, REFUND
+  entity    String     // Product, Variant, Order, Stock, Payment, Expense, Content, Coupon, User
+  entityId  String?
+  details   String?    // JSON payload describing changes
+  ipAddress String?
+  createdAt DateTime   @default(now())
+}
+
+// -------------------------------------------------------------
+// 2. CUSTOMERS & ADDRESSES
+// -------------------------------------------------------------
+model Customer {
+  id            String    @id @default(cuid())
+  name          String
+  email         String
+  phone         String
+  address       String?
+  city          String?
+  division      String?
+  postalCode    String?
+  totalOrders   Int       @default(0)
+  totalSpent    Float     @default(0) // Delivered sales value in BDT
+  internalNotes String?
+  firstOrderAt  DateTime?
+  lastOrderAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  orders        Order[]
+
+  @@index([email])
+  @@index([phone])
+}
+
+// -------------------------------------------------------------
+// 3. CATALOG & TAXONOMIES
+// -------------------------------------------------------------
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  image       String?
+  itemCount   Int       @default(0)
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  products    Product[]
+
+  @@index([isActive])
+  @@index([sortOrder])
+}
+
+model ScentFamily {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  image       String?
+  itemCount   Int       @default(0)
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  products    Product[]
+
+  @@index([isActive])
+  @@index([sortOrder])
+}
+
+model Product {
+  id                      String           @id @default(cuid())
+  slug                    String           @unique
+  name                    String
+  concentration           String           @default("Extrait de Parfum")
+  tagline                 String
+  description             String
+  story                   String?
+  categoryId              String?
+  category                Category?        @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  scentFamilyId           String?
+  scentFamily             ScentFamily?     @relation(fields: [scentFamilyId], references: [id], onDelete: SetNull)
+  images                  String           // JSON string array of URLs
+  rating                  Float            @default(5.0)
+  reviewsCount            Int              @default(0)
+  notesTop                String           // JSON string array
+  notesHeart              String           // JSON string array
+  notesBase               String           // JSON string array
+  longevity               String           @default("14-18 Hours")
+  sillage                 String           @default("Enveloping & Royal")
+  bestSeason              String           @default("All Seasons / Evening Soirées")
+  ingredients             String           // JSON string array
+  isBestSeller            Boolean          @default(false)
+  isNewArrival            Boolean          @default(false)
+  isFeatured              Boolean          @default(false)
+  dealDiscountPercent     Int?
+  status                  String           @default("PUBLISHED") // PUBLISHED, DRAFT, ARCHIVED
+  bundleType              String           @default("SINGLE") // SINGLE, DISCOVERY_SET, GIFT_BUNDLE
+  bundleComponentIds      String?          // JSON array of variant IDs included
+  bundleDeductsComponents Boolean          @default(false)
+  seoTitle                String?
+  seoDescription          String?
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+
+  variants                ProductVariant[]
+  reviews                 Review[]
+  orderItems              OrderItem[]
+  dailyDeals              DailyDeal[]
+
+  @@index([status])
+  @@index([categoryId])
+  @@index([isBestSeller])
+  @@index([isNewArrival])
+  @@index([createdAt])
+}
+
+model ProductVariant {
+  id                String          @id @default(cuid())
+  productId         String
+  product           Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku               String          @unique
+  size              String          // e.g. 50ml, 100ml, 200ml
+  purchaseCost      Float           @default(0) // COGS in BDT
+  sellingPrice      Float           // Retail price in BDT
+  originalPrice     Float?          // Strikethrough price
+  stock             Int             @default(0) // Physical on-hand stock
+  reservedStock     Int             @default(0) // Reserved for pending checkouts
+  lowStockThreshold Int             @default(5)
+  weightGrams       Float           @default(250)
+  isActive          Boolean         @default(true)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  stockMovements    StockMovement[]
+  orderItems        OrderItem[]
+}
+
+// -------------------------------------------------------------
+// 4. INVENTORY & STOCK MOVEMENTS LEDGER
+// -------------------------------------------------------------
+model StockMovement {
+  id          String         @id @default(cuid())
+  variantId   String
+  variant     ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  type        String         // OPENING, PURCHASE_RECEIPT, ADJUSTMENT, RESERVATION, DISPATCH, CANCELLATION_RESTOCK, RETURN_RESTOCK
+  quantity    Int            // Delta (positive or negative)
+  beforeStock Int
+  afterStock  Int
+  reason      String
+  orderId     String?
+  order       Order?         @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  userId      String?
+  userName    String?
+  createdAt   DateTime       @default(now())
+}
+
+// -------------------------------------------------------------
+// 5. ORDERS & FULFILLMENT
+// -------------------------------------------------------------
+model Order {
+  id                        String               @id @default(cuid())
+  orderNumber               String               @unique // RDH-XXXXX
+  customerId                String?
+  customer                  Customer?            @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  customerName              String
+  customerEmail             String
+  customerPhone             String
+  shippingAddress           String               // JSON: street, city, division, postalCode
+  deliveryMethod            String               @default("inside_dhaka") // inside_dhaka, express_dhaka, outside_dhaka
+  subtotal                  Float
+  discount                  Float                @default(0)
+  couponCode                String?
+  shippingFee               Float                @default(0)
+  total                     Float
+  fulfillmentStatus         String               @default("PENDING") // PENDING, CONFIRMED, PROCESSING, PACKED, SHIPPED, DELIVERED, CANCELLED, RETURN_REQUESTED, RETURNED
+  paymentStatus             String               @default("UNPAID") // UNPAID, PARTIALLY_PAID, PAID, PARTIALLY_REFUNDED, REFUNDED
+  paymentMethod             String               @default("COD") // COD, BKASH, CARD
+  paymentReference          String?              // Gateway transaction ID / bKash trxID
+  paymentDetails            String?              // JSON metadata
+  courierProvider           String?              // STEADFAST, PATHAO, REDX, MANUAL
+  courierTrackingNumber     String?
+  courierStatus             String?              // IN_TRANSIT, DELIVERED, RETURNED
+  courierCodCollected       Float                @default(0)
+  courierDeductions         Float                @default(0)
+  courierRemittanceReceived Float                @default(0)
+  courierRemittanceDate     DateTime?
+  internalNotes             String?
+  customerNotes             String?
+  cancelReason              String?
+  returnReason              String?
+  isTrashed                 Boolean              @default(false)
+  isIncomplete              Boolean              @default(false)
+  incompleteReason          String?
+  itemsSnapshot             String               // Complete immutable JSON snapshot of items, prices & purchase costs
+  createdAt                 DateTime             @default(now())
+  updatedAt                 DateTime             @updatedAt
+  confirmedAt               DateTime?
+  shippedAt                 DateTime?
+  deliveredAt               DateTime?
+
+  items                     OrderItem[]
+  paymentTransactions       PaymentTransaction[]
+  stockMovements            StockMovement[]
+
+  @@index([fulfillmentStatus])
+  @@index([paymentStatus])
+  @@index([isTrashed])
+  @@index([isIncomplete])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id           String         @id @default(cuid())
+  orderId      String
+  order        Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product        @relation(fields: [productId], references: [id], onDelete: Restrict)
+  variantId    String
+  variant      ProductVariant @relation(fields: [variantId], references: [id], onDelete: Restrict)
+  productName  String
+  variantSku   String
+  size         String
+  unitPrice    Float
+  purchaseCost Float          @default(0)
+  quantity     Int
+  totalPrice   Float
+}
+
+// -------------------------------------------------------------
+// 6. PAYMENTS & TRANSACTIONS
+// -------------------------------------------------------------
+model PaymentTransaction {
+  id                String    @id @default(cuid())
+  orderId           String
+  order             Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amount            Float
+  method            String    // BKASH, COD, CARD, BANK
+  gatewayRef        String?
+  trxId             String?
+  senderPhone       String?
+  status            String    @default("PENDING") // PENDING, SUCCESS, FAILED, VERIFIED_MANUAL, REFUNDED
+  isManual          Boolean   @default(false)
+  adminVerifiedBy   String?
+  verificationNotes String?
+  rawResponse       String?   // JSON response from bKash / payment gateway
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+// -------------------------------------------------------------
+// 7. FINANCE & ACCOUNTS LEDGER
+// -------------------------------------------------------------
+model FinanceAccount {
+  id             String          @id @default(cuid())
+  name           String          // e.g. "bKash Merchant 01711...", "Prime Bank Ltd", "Cash Drawer", "Steadfast Escrow"
+  type           String          // BKASH, BANK, CASH, COURIER_ESCROW
+  accountNumber  String?
+  openingBalance Float           @default(0)
+  currentBalance Float           @default(0)
+  isActive       Boolean         @default(true)
+  notes          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  ledgers        FinanceLedger[]
+  expenses       Expense[]
+}
+
+model FinanceLedger {
+  id            String         @id @default(cuid())
+  accountId     String
+  account       FinanceAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  type          String         // SALE_INFLOW, EXPENSE_OUTFLOW, REFUND_OUTFLOW, COURIER_SETTLEMENT, TRANSFER_IN, TRANSFER_OUT, RECONCILIATION_ADJUSTMENT
+  amount        Float          // Always positive number
+  referenceType String?        // ORDER, EXPENSE, TRANSFER, MANUAL
+  referenceId   String?
+  category      String?
+  notes         String?
+  receiptUrl    String?
+  createdBy     String?
+  createdAt     DateTime       @default(now())
+}
+
+model Expense {
+  id          String         @id @default(cuid())
+  title       String
+  category    String         // PRODUCT_PURCHASE, PACKAGING, ADVERTISING, COURIER_CHARGES, SALARY, SOFTWARE, OFFICE_RENT, OTHER_OPERATIONS
+  amount      Float
+  accountId   String
+  account     FinanceAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  vendor      String?
+  date        DateTime       @default(now())
+  receiptUrl  String?
+  notes       String?
+  recordedBy  String?
+  createdAt   DateTime       @default(now())
+}
+
+// -------------------------------------------------------------
+// 8. MARKETING, OFFERS & REVIEWS
+// -------------------------------------------------------------
+model Coupon {
+  id                 String    @id @default(cuid())
+  code               String    @unique
+  type               String    // PERCENTAGE, FIXED
+  value              Float
+  minSpend           Float     @default(0)
+  maxDiscount        Float?
+  usageLimit         Int?
+  usageCount         Int       @default(0)
+  expiresAt          DateTime?
+  isActive           Boolean   @default(true)
+  description        String?
+  eligibleCategories String?   // JSON array string of category names
+  eligibleProducts   String?   // JSON array string of product slugs
+  allowStacking      Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+}
+
+model DailyDeal {
+  id             String         @id @default(cuid())
+  productId      String
+  product        Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantId      String
+  title          String
+  tagline        String
+  dealPrice      Float
+  originalPrice  Float
+  startTime      DateTime       @default(now())
+  endTime        DateTime
+  stockTotal     Int
+  stockRemaining Int
+  isEnabled      Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+}
+
+model Review {
+  id                 String   @id @default(cuid())
+  productId          String
+  product            Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  author             String
+  email              String?
+  city               String   @default("Dhaka")
+  rating             Int      @default(5)
+  title              String
+  comment            String
+  isVerifiedPurchase Boolean  @default(false)
+  isApproved         Boolean  @default(true)
+  orderId            String?
+  createdAt          DateTime @default(now())
+}
+
+// -------------------------------------------------------------
+// 9. WEBSITE CONTENT MANAGEMENT
+// -------------------------------------------------------------
+model WebsiteSection {
+  id              String    @id @default(cuid())
+  sectionKey      String    @unique // hero, announcement, editorial, best_sellers, collection_banner, shop_by_scent, daily_deal, new_arrivals, gift_sets_banner, reviews, instagram, faq, custom_promo
+  type            String    // HERO, ANNOUNCEMENT, EDITORIAL, COLLECTION_BANNER, DAILY_DEAL, GIFT_SETS_BANNER, REVIEWS, INSTAGRAM, FAQ, CUSTOM
+  title           String
+  subtitle        String?
+  contentJson     String    // JSON payload of text, image URLs, button labels & targets
+  sortOrder       Int       @default(0)
+  isVisible       Boolean   @default(true)
+  animationPreset String?   // LUXURY_EASE, SCALE_SETTLE, EDITORIAL_REVEAL, SLIDE_HORIZONTAL, NONE
+  status          String    @default("PUBLISHED") // DRAFT, PUBLISHED, ARCHIVED
+  version         Int       @default(1)
+  publishedAt     DateTime?
+  updatedAt       DateTime  @updatedAt
+}
+
+// -------------------------------------------------------------
+// 10. VISITOR & CONVERSION ANALYTICS
+// -------------------------------------------------------------
+model AnalyticsEvent {
+  id           String   @id @default(cuid())
+  eventType    String   // PAGE_VIEW, SESSION_START, PRODUCT_VIEW, SEARCH, ADD_TO_CART, CHECKOUT_START, ORDER_PLACED, PAYMENT_CONFIRMED
+  sessionId    String
+  anonymousId  String
+  path         String
+  referrer     String?
+  utmSource    String?
+  utmMedium    String?
+  utmCampaign  String?
+  device       String?  // mobile, tablet, desktop
+  metadataJson String?
+  ipHash       String?
+  createdAt    DateTime @default(now())
+
+  @@index([sessionId])
+  @@index([eventType])
+  @@index([createdAt])
+}
+
+// -------------------------------------------------------------
+// 11. GENERAL STORE SETTINGS & INTEGRATIONS
+// -------------------------------------------------------------
+model StoreSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  valueJson String
+  group     String   // GENERAL, SHIPPING, PAYMENTS, COURIER, NOTIFICATIONS, SECURITY
+  updatedAt DateTime @updatedAt
+}
+

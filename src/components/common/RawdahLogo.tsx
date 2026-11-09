@@ -1,0 +1,50 @@
+import React from 'react';
+import Link from 'next/link';
+
+interface LogoProps {
+  variant?: 'light' | 'dark' | 'header';
+  className?: string;
+  showSubtitle?: boolean;
+}
+
+export const RawdahLogo: React.FC<LogoProps> = ({
+  variant = 'dark',
+  className = '',
+  showSubtitle = true,
+}) => {
+  const isLight = variant === 'light';
+
+  return (
+    <Link
+      href="/"
+      className={`inline-flex flex-col items-start select-none group transition-opacity hover:opacity-90 ${className}`}
+      aria-label="Rāwdah Haute Parfumerie Home"
+    >
+      <div className="flex items-center gap-2">
+        <span
+          className={`font-serif text-2xl md:text-3xl tracking-tight font-medium ${
+            isLight ? 'text-white' : 'text-neutral-900'
+          }`}
+          style={{ letterSpacing: '0.02em' }}
+        >
+          Rāwdah
+        </span>
+        <span
+          className={`w-1.5 h-1.5 rounded-full ${
+            isLight ? 'bg-amber-400' : 'bg-[#D45520]'
+          }`}
+        />
+      </div>
+      {showSubtitle && (
+        <span
+          className={`text-[9px] uppercase tracking-[0.28em] font-medium transition-colors -mt-0.5 ${
+            isLight ? 'text-neutral-300' : 'text-neutral-500'
+          }`}
+        >
+          Haute Parfumerie
+        </span>
+      )}
+    </Link>
+  );
+};
+
