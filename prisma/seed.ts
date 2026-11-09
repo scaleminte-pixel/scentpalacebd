@@ -6,6 +6,12 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('--- Seeding Rāwdah Haute Parfumerie Database ---');
 
+  const existingProductCount = await prisma.product.count();
+  if (existingProductCount > 0) {
+    console.log(`Database already contains ${existingProductCount} products. Skipping duplicate seed.`);
+    return;
+  }
+
   // 1. Create Admin Users with distinct roles
   console.log('Seeding administrative team...');
   const salt = await bcrypt.genSalt(10);

@@ -43,13 +43,10 @@ prisma/*.db-wal
 *.db-shm
 *.db-wal
 
-# env files (secrets stay private; template is committed)
-.env
+# env files
 .env*.local
 .env.development
 .env.test
-.env.production
-!.env.example
 
 # vercel
 .vercel
