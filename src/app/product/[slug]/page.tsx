@@ -6,7 +6,9 @@ import { Product } from '@/types';
 import { ProductDetailsClient } from './ProductDetailsClient';
 import { transformDbProduct } from '@/lib/server-catalog';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 interface Props {
   params: Promise<{ slug: string }>;

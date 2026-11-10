@@ -23,7 +23,14 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({ children, init
 
   const fetchContent = useCallback(async () => {
     try {
-      const res = await fetch('/api/content');
+      // Append timestamp & use cache: 'no-store' to guarantee 0s latency on content updates
+      const res = await fetch(`/api/content?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+        },
+      });
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.sections) {
@@ -38,11 +45,35 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({ children, init
   }, []);
 
   useEffect(() => {
-    // Only trigger initial client-side fetch if server didn't pre-hydrate the sections
-    if (!initialSections || Object.keys(initialSections).length === 0) {
+    // 1. Always fetch fresh content on client mount
+    fetchContent();
+
+    // 2. Auto-refresh when tab gains focus (e.g. user edits in admin and switches to storefront)
+    const handleFocus = () => {
       fetchContent();
-    }
-  }, [fetchContent, initialSections]);
+    };
+    window.addEventListener('focus', handleFocus);
+
+    // 3. Cross-tab instant notification when an admin saves content/banners
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'rawdah_content_updated' || e.key === 'rawdah_cache_purge') {
+        fetchContent();
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+
+    // 4. Custom event for immediate same-page updates
+    const handleCustomSync = () => {
+      fetchContent();
+    };
+    window.addEventListener('rawdah:content-updated', handleCustomSync);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('rawdah:content-updated', handleCustomSync);
+    };
+  }, [fetchContent]);
 
   const getSection = useCallback(
     (key: string, fallback: any = null) => {

@@ -126,6 +126,11 @@ export default function AdminContentPage() {
         setSections((prev) =>
           prev.map((s) => (s.id === section.id ? { ...s, isVisible: !s.isVisible } : s))
         );
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('rawdah_content_updated', Date.now().toString());
+          window.dispatchEvent(new CustomEvent('rawdah:content-updated'));
+        }
+        fetch('/api/admin/clear-cache', { method: 'POST' }).catch(() => {});
         setSaveSuccess(`Visibility updated for "${section.title}"`);
         setTimeout(() => setSaveSuccess(null), 2500);
       }
@@ -319,6 +324,11 @@ export default function AdminContentPage() {
 
       const data = await res.json();
       if (res.ok && data.success) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('rawdah_content_updated', Date.now().toString());
+          window.dispatchEvent(new CustomEvent('rawdah:content-updated'));
+        }
+        fetch('/api/admin/clear-cache', { method: 'POST' }).catch(() => {});
         setSaveSuccess(`"${form.title}" published and updated live on the storefront!`);
         setTimeout(() => setSaveSuccess(null), 3500);
         setEditingSection(null);

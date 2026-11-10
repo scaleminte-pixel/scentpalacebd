@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
+import { revalidateStorefront } from '@/lib/revalidate';
 
 export async function GET(
   req: NextRequest,
@@ -177,6 +178,8 @@ export async function PUT(
       return p;
     });
 
+    revalidateStorefront();
+
     return NextResponse.json({
       success: true,
       product: updated,
@@ -248,6 +251,8 @@ export async function DELETE(
         },
       });
     });
+
+    revalidateStorefront();
 
     return NextResponse.json({
       success: true,

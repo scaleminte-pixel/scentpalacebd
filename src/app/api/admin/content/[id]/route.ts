@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
+import { revalidateStorefront } from '@/lib/revalidate';
 
 export async function PUT(
   req: NextRequest,
@@ -45,6 +46,9 @@ export async function PUT(
         details: JSON.stringify({ sectionKey: existing.sectionKey, version: updated.version }),
       },
     });
+
+    // Purge and revalidate storefront cache instantly
+    revalidateStorefront();
 
     return NextResponse.json({
       success: true,

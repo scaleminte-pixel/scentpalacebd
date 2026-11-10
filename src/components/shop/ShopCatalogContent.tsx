@@ -56,8 +56,10 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
   );
 
   useEffect(() => {
-    if (!initialProducts || initialProducts.length === 0) {
-      fetch('/api/products')
+    if (initialProducts && initialProducts.length > 0) {
+      setCatalogProducts(initialProducts);
+    } else {
+      fetch(`/api/products?t=${Date.now()}`, { cache: 'no-store' })
         .then((res) => res.json())
         .then((data) => {
           if (data.products && Array.isArray(data.products) && data.products.length > 0) {
@@ -67,8 +69,10 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
         .catch(() => {});
     }
 
-    if (!initialCategories || initialCategories.length === 0) {
-      fetch('/api/categories')
+    if (initialCategories && initialCategories.length > 0) {
+      setCategories(initialCategories);
+    } else {
+      fetch(`/api/categories?t=${Date.now()}`, { cache: 'no-store' })
         .then((res) => res.json())
         .then((data) => {
           if (data.categories && Array.isArray(data.categories) && data.categories.length > 0) {

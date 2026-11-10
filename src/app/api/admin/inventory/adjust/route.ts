@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
+import { revalidateStorefront } from '@/lib/revalidate';
 
 export async function POST(req: NextRequest) {
   try {
@@ -81,6 +82,8 @@ export async function POST(req: NextRequest) {
 
       return { updatedVariant, movement };
     });
+
+    revalidateStorefront();
 
     return NextResponse.json({
       success: true,

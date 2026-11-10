@@ -3,7 +3,9 @@ import { Metadata } from 'next';
 import { ShopCatalogContent } from '@/components/shop/ShopCatalogContent';
 import { getServerProducts, getServerCategories } from '@/lib/server-catalog';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 export const metadata: Metadata = {
   title: 'Luxury Fragrance Catalog & Collections | Rāwdah Haute Parfumerie',

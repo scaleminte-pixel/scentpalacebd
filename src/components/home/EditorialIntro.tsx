@@ -21,8 +21,10 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
   );
 
   useEffect(() => {
-    if (!initialCategories || initialCategories.length === 0) {
-      fetch('/api/categories')
+    if (initialCategories && initialCategories.length > 0) {
+      setCategories(initialCategories);
+    } else {
+      fetch(`/api/categories?t=${Date.now()}`, { cache: 'no-store' })
         .then((res) => res.json())
         .then((data) => {
           if (data.categories && Array.isArray(data.categories) && data.categories.length > 0) {

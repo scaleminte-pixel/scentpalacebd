@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { transformDbProduct } from '@/lib/server-catalog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -68,7 +72,10 @@ export async function GET(req: NextRequest) {
       { success: true, count: transformed.length, products: transformed },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=5, stale-while-revalidate=30',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Surrogate-Control': 'no-store',
         },
       }
     );

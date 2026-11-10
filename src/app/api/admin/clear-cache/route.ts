@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache';
 import { getAdminSessionFromRequest } from '@/lib/auth';
 import prisma from '@/lib/db';
+import { revalidateStorefront } from '@/lib/revalidate';
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,9 +11,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Purge Next.js App Router route cache across storefront
-    revalidatePath('/', 'layout');
-    revalidatePath('/shop', 'page');
-    revalidatePath('/admin', 'layout');
+    revalidateStorefront();
 
     // Record audit log
     try {

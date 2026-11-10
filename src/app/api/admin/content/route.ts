@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
+import { revalidateStorefront } from '@/lib/revalidate';
 
 export async function GET(req: NextRequest) {
   try {
@@ -76,6 +77,8 @@ export async function POST(req: NextRequest) {
         details: JSON.stringify({ sectionKey: newSection.sectionKey, title: newSection.title }),
       },
     });
+
+    revalidateStorefront();
 
     return NextResponse.json({ success: true, section: newSection });
   } catch (error: any) {

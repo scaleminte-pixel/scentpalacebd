@@ -166,6 +166,10 @@ export default function AdminCategoriesPage() {
 
       const data = await res.json();
       if (res.ok && data.success) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('rawdah_content_updated', Date.now().toString());
+          window.dispatchEvent(new CustomEvent('rawdah:content-updated'));
+        }
         showToast('Category sequence saved successfully! Storefront updated.');
         setCategories(sorted.map((c, idx) => ({ ...c, sortOrder: idx + 1 })));
         setHasOrderChanged(false);
@@ -241,6 +245,10 @@ export default function AdminCategoriesPage() {
 
       const data = await res.json();
       if (res.ok && data.success) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('rawdah_content_updated', Date.now().toString());
+          window.dispatchEvent(new CustomEvent('rawdah:content-updated'));
+        }
         showToast(`Category "${editForm.name}" updated successfully.`);
         setEditModalOpen(false);
         fetchCategories();
@@ -281,6 +289,10 @@ export default function AdminCategoriesPage() {
 
       const data = await res.json();
       if (res.ok && data.success) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('rawdah_content_updated', Date.now().toString());
+          window.dispatchEvent(new CustomEvent('rawdah:content-updated'));
+        }
         showToast(`Category "${addForm.name}" created successfully.`);
         setAddModalOpen(false);
         fetchCategories();
@@ -312,6 +324,10 @@ export default function AdminCategoriesPage() {
 
       const data = await res.json();
       if (res.ok && data.success) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('rawdah_content_updated', Date.now().toString());
+          window.dispatchEvent(new CustomEvent('rawdah:content-updated'));
+        }
         showToast(`Category "${categoryToDelete.name}" deleted successfully.`);
         setDeleteModalOpen(false);
         fetchCategories();

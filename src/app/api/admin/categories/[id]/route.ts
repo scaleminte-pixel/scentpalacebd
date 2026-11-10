@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
+import { revalidateStorefront } from '@/lib/revalidate';
 
 export async function GET(
   req: NextRequest,
@@ -124,6 +125,8 @@ export async function PATCH(
       },
     });
 
+    revalidateStorefront();
+
     return NextResponse.json({
       success: true,
       category: updated,
@@ -179,6 +182,8 @@ export async function DELETE(
         details: JSON.stringify({ name: category.name, previousProductsCount: category._count.products }),
       },
     });
+
+    revalidateStorefront();
 
     return NextResponse.json({
       success: true,

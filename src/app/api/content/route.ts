@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 export async function GET() {
   try {
     const sections = await prisma.websiteSection.findMany({
@@ -36,7 +40,10 @@ export async function GET() {
       },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=60',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Surrogate-Control': 'no-store',
         },
       }
     );

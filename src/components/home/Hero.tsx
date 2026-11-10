@@ -19,10 +19,10 @@ export const Hero: React.FC = () => {
     badgeText: 'LONG LASTING',
     buttonText: 'Discover Fragrance',
     buttonLink: '/shop',
-    imageUrl: '/images/products/desert_elegance_with_arabian_perfume-1793886616226.webp',
+    imageUrl: '/images/banner-oud-collection.webp',
   });
 
-  const heroImage = heroContent.imageUrl || heroContent.bgImage || '/images/products/desert_elegance_with_arabian_perfume-1793886616226.webp';
+  const heroImage = heroContent.imageUrl || heroContent.bgImage || '/images/banner-oud-collection.webp';
   const ctaButtonText = heroContent.buttonText || heroContent.ctaText || 'Discover Fragrance';
   const ctaButtonLink = heroContent.buttonLink || heroContent.ctaLink || '/shop';
   const heroSubtitle = heroContent.subtitle || heroContent.description || 'A bold composition of rare woods, warm amber, and delicate florals, created to leave an unforgettable impression.';
