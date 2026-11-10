@@ -828,20 +828,61 @@ const RAW_PRODUCTS = [
 async function seed() {
   console.log('--- Wiping old products & seeding 43 real perfumes ---');
 
-  // 1. Ensure Admins Exist
+  // 1. Ensure All 4 Admin Demo Users Exist
   const salt = await bcrypt.genSalt(10);
-  const passwordHashOwner = await bcrypt.hash('RawdahOwner2026!', salt);
-  await prisma.adminUser.upsert({
-    where: { email: 'owner@rawdahperfumes.com' },
-    update: {},
-    create: {
+  const admins = [
+    {
       name: 'Tanvir Ahmed Chowdhury',
       email: 'owner@rawdahperfumes.com',
-      passwordHash: passwordHashOwner,
+      password: 'RawdahOwner2026!',
       role: 'OWNER',
       phone: '+880 1711-000001',
     },
-  });
+    {
+      name: 'Sadia Karim',
+      email: 'manager@rawdahperfumes.com',
+      password: 'RawdahManager2026!',
+      role: 'MANAGER',
+      phone: '+880 1711-000002',
+    },
+    {
+      name: 'Nafis Hasan',
+      email: 'orderstaff@rawdahperfumes.com',
+      password: 'RawdahStaff2026!',
+      role: 'ORDER_STAFF',
+      phone: '+880 1711-000003',
+    },
+    {
+      name: 'Farhana Yasmin',
+      email: 'accountant@rawdahperfumes.com',
+      password: 'RawdahAccounts2026!',
+      role: 'ACCOUNTANT',
+      phone: '+880 1711-000004',
+    },
+  ];
+
+  for (const admin of admins) {
+    const passwordHash = await bcrypt.hash(admin.password, salt);
+    await prisma.adminUser.upsert({
+      where: { email: admin.email },
+      update: {
+        name: admin.name,
+        passwordHash,
+        role: admin.role,
+        phone: admin.phone,
+        isActive: true,
+      },
+      create: {
+        name: admin.name,
+        email: admin.email,
+        passwordHash,
+        role: admin.role,
+        phone: admin.phone,
+        isActive: true,
+      },
+    });
+    console.log(`Upserted admin user: ${admin.email} (${admin.role})`);
+  }
 
   // 2. Wipe old product data
   console.log('Cleaning old reviews, daily deals, variants, order items, and products...');
@@ -987,16 +1028,81 @@ async function seed() {
 
   console.log('All 43 products seeded successfully!');
 
-  // Sync database files
-  const rootDb = path.join(__dirname, '../dev.db');
-  const prismaDb = path.join(__dirname, '../prisma/dev.db');
+  // 6. Clean up obsolete product images
+  const validSlugs = new Set(RAW_PRODUCTS.map((p) => `${p.slug}.webp`));
+  const productsDir = path.join(__dirname, '../public/images/products');
+  if (fs.existsSync(productsDir)) {
+    const existingFiles = fs.readdirSync(productsDir);
+    for (const f of existingFiles) {
+      if (!validSlugs.has(f)) {
+        try {
+          fs.unlinkSync(path.join(productsDir, f));
+          console.log(`Cleaned up obsolete image: ${f}`);
+        } catch (err) {
+          console.warn(`Could not delete ${f}:`, err.message);
+        }
+      }
+    }
+  }
 
-  if (fs.existsSync(rootDb)) {
-    fs.copyFileSync(rootDb, prismaDb);
-    console.log('Synchronized root dev.db -> prisma/dev.db');
-  } else if (fs.existsSync(prismaDb)) {
+  // 7. Update WebsiteSection Imagery Fallbacks
+  console.log('Updating website sections with reliable imagery...');
+  const sectionUpdates = [
+    {
+      key: 'hero',
+      updateData: {
+        imageUrl: '/images/banner-oud-collection.webp',
+        bgImage: '/images/banner-oud-collection.webp',
+      },
+    },
+    {
+      key: 'collection_banner',
+      updateData: {
+        imageUrl: '/images/banner-oud-collection.webp',
+        bgImage: '/images/banner-oud-collection.webp',
+      },
+    },
+    {
+      key: 'gift_sets_banner',
+      updateData: {
+        bgImage: '/images/products/arabiyat-prestige-marwa-tester.webp',
+        imageUrl: '/images/products/arabiyat-prestige-marwa-tester.webp',
+      },
+    },
+    {
+      key: 'welcome_promo',
+      updateData: {
+        imageUrl: '/images/products/rayhaan-azul.webp',
+        image: '/images/products/rayhaan-azul.webp',
+      },
+    },
+  ];
+
+  for (const item of sectionUpdates) {
+    const sec = await prisma.websiteSection.findUnique({ where: { sectionKey: item.key } });
+    if (sec) {
+      let content = {};
+      try {
+        content = JSON.parse(sec.contentJson);
+      } catch {}
+      Object.assign(content, item.updateData);
+      await prisma.websiteSection.update({
+        where: { sectionKey: item.key },
+        data: {
+          contentJson: JSON.stringify(content),
+        },
+      });
+      console.log(`Updated WebsiteSection: ${item.key}`);
+    }
+  }
+
+  // 8. Ensure root dev.db is an exact clone of prisma/dev.db
+  const prismaDb = path.join(__dirname, '../prisma/dev.db');
+  const rootDb = path.join(__dirname, '../dev.db');
+
+  if (fs.existsSync(prismaDb)) {
     fs.copyFileSync(prismaDb, rootDb);
-    console.log('Synchronized prisma/dev.db -> root dev.db');
+    console.log('Synchronized: prisma/dev.db -> root dev.db');
   }
 }
 

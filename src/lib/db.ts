@@ -7,7 +7,19 @@ try {
   const prismaDb = path.join(process.cwd(), 'prisma', 'dev.db');
   const rootDb = path.join(process.cwd(), 'dev.db');
 
-  if (fs.existsSync(prismaDb) && !fs.existsSync(rootDb)) {
+  if (fs.existsSync(prismaDb) && fs.existsSync(rootDb)) {
+    const pStat = fs.statSync(prismaDb);
+    const rStat = fs.statSync(rootDb);
+    if (pStat.size > 0 && rStat.size === 0) {
+      fs.copyFileSync(prismaDb, rootDb);
+    } else if (rStat.size > 0 && pStat.size === 0) {
+      fs.copyFileSync(rootDb, prismaDb);
+    } else if (pStat.mtimeMs > rStat.mtimeMs + 2000) {
+      fs.copyFileSync(prismaDb, rootDb);
+    } else if (rStat.mtimeMs > pStat.mtimeMs + 2000) {
+      fs.copyFileSync(rootDb, prismaDb);
+    }
+  } else if (fs.existsSync(prismaDb) && !fs.existsSync(rootDb)) {
     fs.copyFileSync(prismaDb, rootDb);
   } else if (fs.existsSync(rootDb) && !fs.existsSync(prismaDb)) {
     const prismaDir = path.join(process.cwd(), 'prisma');
