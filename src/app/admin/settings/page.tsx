@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Settings,
   Save,
@@ -10,6 +10,10 @@ import {
   Bell,
   Shield,
   CreditCard,
+  ImageIcon,
+  Upload,
+  X,
+  Palette,
 } from 'lucide-react';
 
 export default function AdminSettingsPage() {
@@ -25,10 +29,35 @@ export default function AdminSettingsPage() {
     lowStockThresholdDefault: 10,
     bkashMerchantNumber: '01711000000',
     allowGuestCheckout: true,
+    storefrontLogoUrl: '',
+    storefrontLogoDarkUrl: '',
+    faviconUrl: '',
+    adminLogoUrl: '',
   });
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
+
+  const handleBrandingUpload = async (fieldKey: string, file: File) => {
+    setUploadingField(fieldKey);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('folder', 'branding');
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.success && data.url) {
+        setForm((prev: any) => ({ ...prev, [fieldKey]: data.url }));
+      } else {
+        alert(data.error || 'Upload failed');
+      }
+    } catch (err: any) {
+      alert(err.message || 'Upload error');
+    } finally {
+      setUploadingField(null);
+    }
+  };
 
   useEffect(() => {
     fetch('/api/admin/settings')
@@ -53,6 +82,10 @@ export default function AdminSettingsPage() {
       });
       if (res.ok) {
         setSaveSuccess(true);
+        window.dispatchEvent(new Event('branding_updated'));
+        try {
+          localStorage.setItem('rawdah_branding_updated', Date.now().toString());
+        } catch (_) {}
         setTimeout(() => setSaveSuccess(false), 3000);
       } else {
         alert('Failed to save settings');
@@ -139,6 +172,69 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
+        {/* Branding & Visual Assets */}
+        <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-5">
+          <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
+            <Palette className="w-4 h-4 text-[#D45520]" />
+            <h3>Branding & Visual Assets</h3>
+          </div>
+          <p className="text-xs text-stone-500 -mt-2">
+            Upload logos and favicon. Changes reflect immediately across the storefront and admin panel.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Storefront Logo (Light / Header) */}
+            <BrandingUploadCard
+              label="Storefront Logo (Light / Header)"
+              description="Displayed on the dark header bar. Use a light or white logo."
+              currentUrl={form.storefrontLogoUrl}
+              fieldKey="storefrontLogoUrl"
+              uploading={uploadingField === 'storefrontLogoUrl'}
+              onUpload={handleBrandingUpload}
+              onClear={() => setForm((p: any) => ({ ...p, storefrontLogoUrl: '' }))}
+              previewBg="bg-[#141312]"
+            />
+
+            {/* Storefront Logo (Dark / Footer) */}
+            <BrandingUploadCard
+              label="Storefront Logo (Dark / Footer)"
+              description="Displayed on light backgrounds (footer, drawers). Use a dark logo."
+              currentUrl={form.storefrontLogoDarkUrl}
+              fieldKey="storefrontLogoDarkUrl"
+              uploading={uploadingField === 'storefrontLogoDarkUrl'}
+              onUpload={handleBrandingUpload}
+              onClear={() => setForm((p: any) => ({ ...p, storefrontLogoDarkUrl: '' }))}
+              previewBg="bg-[#FAF7F2]"
+            />
+
+            {/* Favicon */}
+            <BrandingUploadCard
+              label="Website Favicon"
+              description="Browser tab icon. Square image recommended (e.g. 64x64 or 128x128)."
+              currentUrl={form.faviconUrl}
+              fieldKey="faviconUrl"
+              uploading={uploadingField === 'faviconUrl'}
+              onUpload={handleBrandingUpload}
+              onClear={() => setForm((p: any) => ({ ...p, faviconUrl: '' }))}
+              previewBg="bg-white"
+              small
+            />
+
+            {/* Admin Logo */}
+            <BrandingUploadCard
+              label="Admin Panel Logo"
+              description="Shown on admin login page and sidebar header."
+              currentUrl={form.adminLogoUrl}
+              fieldKey="adminLogoUrl"
+              uploading={uploadingField === 'adminLogoUrl'}
+              onUpload={handleBrandingUpload}
+              onClear={() => setForm((p: any) => ({ ...p, adminLogoUrl: '' }))}
+              previewBg="bg-white"
+              small
+            />
+          </div>
+        </div>
+
         {/* Shipping & Delivery Policies */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-4">
           <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
@@ -218,6 +314,105 @@ export default function AdminSettingsPage() {
           </button>
         </div>
       </form>
+    </div>
+  );
+}
+
+/* ─── Branding Upload Card Component ─── */
+interface BrandingUploadCardProps {
+  label: string;
+  description: string;
+  currentUrl: string;
+  fieldKey: string;
+  uploading: boolean;
+  onUpload: (fieldKey: string, file: File) => void;
+  onClear: () => void;
+  previewBg?: string;
+  small?: boolean;
+}
+
+function BrandingUploadCard({
+  label,
+  description,
+  currentUrl,
+  fieldKey,
+  uploading,
+  onUpload,
+  onClear,
+  previewBg = 'bg-white',
+  small = false,
+}: BrandingUploadCardProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <div className="border border-stone-200 rounded-xl p-4 space-y-3">
+      <div>
+        <div className="text-xs font-bold text-stone-900">{label}</div>
+        <div className="text-[10px] text-stone-500 mt-0.5">{description}</div>
+      </div>
+
+      {/* Preview */}
+      <div
+        className={`${previewBg} rounded-lg border border-stone-200 flex items-center justify-center overflow-hidden ${
+          small ? 'h-20 w-20' : 'h-24 w-full'
+        }`}
+      >
+        {currentUrl ? (
+          <img
+            src={currentUrl}
+            alt={label}
+            className={`object-contain ${small ? 'max-h-16 max-w-16' : 'max-h-20 max-w-[80%]'}`}
+          />
+        ) : (
+          <div className="text-stone-300 text-xs flex flex-col items-center gap-1">
+            <ImageIcon className="w-5 h-5" />
+            <span>No image</span>
+          </div>
+        )}
+      </div>
+
+      {/* Actions */}
+      <div className="flex items-center gap-2">
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) onUpload(fieldKey, f);
+            e.target.value = '';
+          }}
+        />
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          disabled={uploading}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-semibold rounded-lg bg-[#D45520] text-white hover:bg-[#B34316] transition disabled:opacity-50"
+        >
+          {uploading ? (
+            <>
+              <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Uploading...
+            </>
+          ) : (
+            <>
+              <Upload className="w-3 h-3" />
+              Upload
+            </>
+          )}
+        </button>
+        {currentUrl && (
+          <button
+            type="button"
+            onClick={onClear}
+            className="inline-flex items-center gap-1 px-2 py-1.5 text-[10px] font-medium rounded-lg bg-stone-100 text-stone-600 hover:bg-rose-50 hover:text-rose-600 transition"
+          >
+            <X className="w-3 h-3" />
+            Remove
+          </button>
+        )}
+      </div>
     </div>
   );
 }

@@ -50,6 +50,27 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   const [unreadCount, setUnreadCount] = useState(2);
   const [isClearingCache, setIsClearingCache] = useState(false);
   const [cacheClearSuccess, setCacheClearSuccess] = useState(false);
+  const [adminLogoUrl, setAdminLogoUrl] = useState('');
+
+  // Fetch branding logo on mount and listen to updates
+  React.useEffect(() => {
+    const fetchBranding = () => {
+      fetch('/api/branding')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.adminLogoUrl) setAdminLogoUrl(data.adminLogoUrl);
+          else setAdminLogoUrl('');
+        })
+        .catch(() => {});
+    };
+    fetchBranding();
+    window.addEventListener('storage', fetchBranding);
+    window.addEventListener('branding_updated', fetchBranding);
+    return () => {
+      window.removeEventListener('storage', fetchBranding);
+      window.removeEventListener('branding_updated', fetchBranding);
+    };
+  }, []);
 
   // Fetch notifications on mount
   React.useEffect(() => {
@@ -158,9 +179,17 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         {/* Brand Header */}
         <div className="h-16 px-5 border-b border-[#EAE4DC] flex items-center justify-between">
           <Link href="/admin" className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-8 h-8 rounded-lg bg-[#141312] text-[#FAF7F2] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-              R
-            </div>
+            {adminLogoUrl ? (
+              <img
+                src={adminLogoUrl}
+                alt="Admin Logo"
+                className="w-8 h-8 rounded-lg object-contain bg-white border border-stone-200 shrink-0 p-0.5 shadow-xs"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-lg bg-[#141312] text-[#FAF7F2] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+                R
+              </div>
+            )}
             {!isCollapsed && (
               <div className="truncate">
                 <span className="font-bold text-sm tracking-tight text-neutral-900 block leading-tight">
@@ -417,7 +446,20 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           <div className="fixed inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setMobileMenuOpen(false)} />
           <div className="relative w-4/5 max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 border-r border-[#EAE4DC]">
             <div className="h-16 px-6 border-b border-[#EAE4DC] flex items-center justify-between">
-              <span className="font-bold text-base text-neutral-900 tracking-tight">Rāwdah Atelier</span>
+              <div className="flex items-center gap-2.5">
+                {adminLogoUrl ? (
+                  <img
+                    src={adminLogoUrl}
+                    alt="Admin Logo"
+                    className="w-7 h-7 rounded-md object-contain bg-white border border-stone-200 shrink-0 p-0.5"
+                  />
+                ) : (
+                  <div className="w-7 h-7 rounded-md bg-[#141312] text-[#FAF7F2] flex items-center justify-center font-bold text-xs shrink-0">
+                    R
+                  </div>
+                )}
+                <span className="font-bold text-base text-neutral-900 tracking-tight">Rāwdah Atelier</span>
+              </div>
               <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-neutral-400">
                 <X className="w-5 h-5" />
               </button>

@@ -45,6 +45,10 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const inputBuffer = Buffer.from(arrayBuffer);
 
+    // Support custom upload folder (e.g., 'branding' for logo/favicon)
+    const folder = (formData.get('folder') as string) || 'products';
+    const safeFolder = folder.replace(/[^a-zA-Z0-9_-]/g, '');
+
     // Generate safe base name
     const rawName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_').toLowerCase();
     const rawExt = path.extname(rawName);
@@ -53,7 +57,7 @@ export async function POST(req: NextRequest) {
     // Convert and compress to modern WebP using Sharp
     const timestamp = Date.now();
     const outputFileName = `${baseName}-${timestamp}.webp`;
-    const uploadDir = path.join(process.cwd(), 'public', 'images', 'products');
+    const uploadDir = path.join(process.cwd(), 'public', 'images', safeFolder);
 
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
@@ -87,7 +91,7 @@ export async function POST(req: NextRequest) {
 
     const metadata = await sharp(optimizedBuffer).metadata();
 
-    const publicUrl = `/images/products/${outputFileName}`;
+    const publicUrl = `/images/${safeFolder}/${outputFileName}`;
     const autoAlt = baseName
       .replace(/[-_]/g, ' ')
       .replace(/\b\w/g, (c) => c.toUpperCase());

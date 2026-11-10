@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 interface LogoProps {
@@ -13,12 +15,58 @@ export const RawdahLogo: React.FC<LogoProps> = ({
   showSubtitle = true,
 }) => {
   const isLight = variant === 'light';
+  const [logoUrl, setLogoUrl] = useState<string>('');
 
+  useEffect(() => {
+    const fetchLogo = () => {
+      fetch('/api/branding')
+        .then((r) => r.json())
+        .then((data) => {
+          if (isLight && data.storefrontLogoUrl) {
+            setLogoUrl(data.storefrontLogoUrl);
+          } else if (!isLight && data.storefrontLogoDarkUrl) {
+            setLogoUrl(data.storefrontLogoDarkUrl);
+          } else if (data.storefrontLogoUrl) {
+            setLogoUrl(data.storefrontLogoUrl);
+          } else {
+            setLogoUrl('');
+          }
+        })
+        .catch(() => {});
+    };
+
+    fetchLogo();
+    window.addEventListener('branding_updated', fetchLogo);
+    window.addEventListener('storage', fetchLogo);
+    return () => {
+      window.removeEventListener('branding_updated', fetchLogo);
+      window.removeEventListener('storage', fetchLogo);
+    };
+  }, [isLight]);
+
+  // If a custom logo image is set, render it
+  if (logoUrl) {
+    return (
+      <Link
+        href="/"
+        className={`inline-flex items-center select-none group transition-opacity hover:opacity-90 ${className}`}
+        aria-label="Home"
+      >
+        <img
+          src={logoUrl}
+          alt="Logo"
+          className="h-8 md:h-10 w-auto object-contain"
+        />
+      </Link>
+    );
+  }
+
+  // Default text logo fallback
   return (
     <Link
       href="/"
       className={`inline-flex flex-col items-start select-none group transition-opacity hover:opacity-90 ${className}`}
-      aria-label="Rāwdah Haute Parfumerie Home"
+      aria-label="Home"
     >
       <div className="flex items-center gap-2">
         <span
@@ -27,7 +75,7 @@ export const RawdahLogo: React.FC<LogoProps> = ({
           }`}
           style={{ letterSpacing: '0.02em' }}
         >
-          Rāwdah
+          Rawdah
         </span>
         <span
           className={`w-1.5 h-1.5 rounded-full ${
@@ -47,4 +95,3 @@ export const RawdahLogo: React.FC<LogoProps> = ({
     </Link>
   );
 };
-

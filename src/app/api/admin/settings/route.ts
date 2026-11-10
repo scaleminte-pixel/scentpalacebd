@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getAdminSession, canAccessModule } from "@/lib/auth";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 export async function GET(req: NextRequest) {
   try {
@@ -38,6 +39,11 @@ export async function GET(req: NextRequest) {
       bkashMerchantNumber: settingsMap["bkashMerchantNumber"] || "01711000000",
       allowGuestCheckout: settingsMap["allowGuestCheckout"] ?? true,
       maintenanceMode: settingsMap["maintenanceMode"] ?? false,
+      // Branding
+      storefrontLogoUrl: settingsMap["storefrontLogoUrl"] || "",
+      storefrontLogoDarkUrl: settingsMap["storefrontLogoDarkUrl"] || "",
+      faviconUrl: settingsMap["faviconUrl"] || "",
+      adminLogoUrl: settingsMap["adminLogoUrl"] || "",
     };
 
     return NextResponse.json(response);
@@ -69,6 +75,11 @@ export async function POST(req: NextRequest) {
       { key: "bkashMerchantNumber", group: "PAYMENTS" },
       { key: "allowGuestCheckout", group: "SECURITY" },
       { key: "maintenanceMode", group: "GENERAL" },
+      // Branding
+      { key: "storefrontLogoUrl", group: "BRANDING" },
+      { key: "storefrontLogoDarkUrl", group: "BRANDING" },
+      { key: "faviconUrl", group: "BRANDING" },
+      { key: "adminLogoUrl", group: "BRANDING" },
     ];
 
     for (const item of keysToSave) {
@@ -97,6 +108,8 @@ export async function POST(req: NextRequest) {
         details: JSON.stringify({ updatedKeys: Object.keys(body) }),
       },
     });
+
+    revalidateStorefront();
 
     return NextResponse.json({ success: true, message: "Settings updated successfully" });
   } catch (error) {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { Lock, Mail, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
@@ -13,6 +13,26 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('RawdahOwner2026!');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [adminLogoUrl, setAdminLogoUrl] = useState('');
+
+  useEffect(() => {
+    const fetchLogo = () => {
+      fetch('/api/branding')
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.adminLogoUrl) setAdminLogoUrl(data.adminLogoUrl);
+          else setAdminLogoUrl('');
+        })
+        .catch(() => {});
+    };
+    fetchLogo();
+    window.addEventListener('branding_updated', fetchLogo);
+    window.addEventListener('storage', fetchLogo);
+    return () => {
+      window.removeEventListener('branding_updated', fetchLogo);
+      window.removeEventListener('storage', fetchLogo);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,9 +69,15 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md bg-white rounded-3xl border border-[#EAE4DC] shadow-xl p-8 sm:p-10">
         {/* Brand Crest */}
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-[#141312] text-[#FAF7F2] flex items-center justify-center mx-auto font-bold text-2xl mb-4 shadow-md">
-            R
-          </div>
+          {adminLogoUrl ? (
+            <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-4 shadow-md flex items-center justify-center bg-white border border-stone-200">
+              <img src={adminLogoUrl} alt="Admin Logo" className="w-12 h-12 object-contain" />
+            </div>
+          ) : (
+            <div className="w-12 h-12 rounded-2xl bg-[#141312] text-[#FAF7F2] flex items-center justify-center mx-auto font-bold text-2xl mb-4 shadow-md">
+              R
+            </div>
+          )}
           <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#D45520] block mb-1">
             Maison Rāwdah
           </span>
