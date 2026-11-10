@@ -14,7 +14,7 @@ export function transformDbProduct(p: any): Product {
     .filter(Boolean);
 
   if (images.length === 0) {
-    images = ['/images/products/oud-ambre.jpg'];
+    images = ['/images/products/rayhaan-azul.webp'];
   }
 
   let top: string[] = [];
@@ -82,7 +82,7 @@ export async function getServerCategories() {
       id: c.name,
       name: c.name,
       tagline: c.description || '',
-      image: c.image || '/images/products/oud-ambre.jpg',
+      image: c.image || '/images/products/rayhaan-azul.webp',
       itemCount: c.itemCount || 0,
       slug: c.slug || c.name,
       sortOrder: c.sortOrder || 0,

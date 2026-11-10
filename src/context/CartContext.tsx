@@ -101,7 +101,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           name: product.name,
           size: variant.size,
           price: variant.price,
-          image: product.images[0] || '/images/bottle-oud-ambre.jpg',
+          image: product.images[0] || '/images/products/rayhaan-azul.webp',
           quantity: Math.min(quantity, variant.stock),
           stock: variant.stock,
           scentFamily: product.scentFamily,

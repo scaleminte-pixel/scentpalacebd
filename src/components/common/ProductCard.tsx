@@ -17,7 +17,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { formatPrice } = useCurrency();
 
   const [imgSrc, setImgSrc] = useState<string>(
-    product.images?.[0] || '/images/products/oud-ambre.webp'
+    product.images?.[0] || '/images/products/rayhaan-azul.webp'
   );
 
   const lowestPrice = Math.min(...product.variants.map((v) => v.price));
@@ -40,7 +40,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             src={imgSrc}
             alt={product.name}
             fill
-            onError={() => setImgSrc('/images/products/oud-ambre.webp')}
+            onError={() => setImgSrc('/images/products/rayhaan-azul.webp')}
             className="object-contain p-1.5 group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />

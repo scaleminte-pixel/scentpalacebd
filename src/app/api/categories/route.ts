@@ -36,7 +36,7 @@ export async function GET() {
       slug: c.slug,
       tagline: c.description || 'Exclusive handcrafted luxury parfumerie creation.',
       description: c.description || '',
-      image: c.image || '/images/products/oud-ambre.jpg',
+      image: c.image || '/images/products/rayhaan-azul.webp',
       itemCount: c._count.products,
       sortOrder: c.sortOrder,
     }));

@@ -6,11 +6,11 @@ export const REVIEWS: Review[] = [
     author: 'Tanvir Ahmed Chowdhury',
     city: 'Gulshan-2, Dhaka',
     rating: 5,
-    title: 'The best oud in Bangladesh, bar none.',
+    title: 'The best authentic fragrances in Bangladesh.',
     comment:
-      'Bleu Oud is absolutely mesmerizing. The longevity is incredible—over 14 hours in Dhaka heat and humidity without losing its crisp bergamot and dark woody base. Beautiful packaging and rapid delivery.',
+      'Afnan 9PM is absolutely mesmerizing. The longevity is incredible—over 14 hours in Dhaka heat and humidity without losing its crisp apple and dark vanilla base. 100% authentic packaging and rapid delivery.',
     date: '1 week ago',
-    productName: 'Bleu Oud (100ml)',
+    productName: 'Afnan 9PM (100ml)',
     verified: true,
   },
   {
@@ -20,9 +20,9 @@ export const REVIEWS: Review[] = [
     rating: 5,
     title: 'Pure poetry in a bottle.',
     comment:
-      'Rose Oud feels like standing in a royal garden in Taif. The rose is not sharp or synthetic; it is velvety, warm, and embraced by subtle amber. My new signature scent.',
+      'Swiss Arabian Rose 01 feels like standing in a royal garden in Taif. The rose is velvety, warm, and embraced by soft vanilla and cashmere musk. My new signature scent.',
     date: '2 weeks ago',
-    productName: 'Rose Oud (100ml)',
+    productName: 'Swiss Arabian Rose 01 (50ml)',
     verified: true,
   },
   {
@@ -32,9 +32,9 @@ export const REVIEWS: Review[] = [
     rating: 5,
     title: 'Masterpiece sillage and regal craftsmanship.',
     comment:
-      'I collect Roja and Clive Christian, but Oud Noir stands proudly alongside them. The leather and smoky agarwood command the room with understated power.',
+      'Lattafa Asad Elixir commands the room with understated power. The dark coffee, tobacco, and warm amber notes are stunningly blended.',
     date: '3 weeks ago',
-    productName: 'Oud Noir (100ml)',
+    productName: 'Lattafa Asad Elixir (100ml)',
     verified: true,
   },
   {
@@ -42,11 +42,11 @@ export const REVIEWS: Review[] = [
     author: 'Dr. Farah Naz',
     city: 'Khulshi, Chittagong',
     rating: 5,
-    title: 'The Discovery Coffret is the perfect gift.',
+    title: 'Hawas Ice Freeze is the ultimate fresh scent.',
     comment:
-      'Gifted this to my husband for our anniversary. The presentation box, the calligraphy card, and the five atomizers are exquisite. He wears Oud Ambre daily.',
+      'Gifted this to my husband. The frosty lemon, plum, and oceanic ambergris stay fresh all day. Authentic bottle and flawless courier dispatch.',
     date: '1 month ago',
-    productName: 'Grand Soirée Discovery Coffret',
+    productName: 'Hawas Ice Freeze (100ml)',
     verified: true,
   },
   {
@@ -54,23 +54,11 @@ export const REVIEWS: Review[] = [
     author: 'Shahriar Al Mamun',
     city: 'Uttara, Dhaka',
     rating: 5,
-    title: 'Royal Saffron is unlike anything on the market.',
+    title: 'Rayhaan Azul is unlike anything on the market.',
     comment:
-      'The Kashmiri saffron and blossom honey opening is divine, but the aged oud drydown is where the magic lives. Lasts on my blazer for 3 days straight.',
+      'The Calabrian bergamot and marine opening is divine, but the smooth ambroxan drydown is where the magic lives. Lasts on my blazer for days straight.',
     date: '3 days ago',
-    productName: 'Royal Saffron (100ml)',
-    verified: true,
-  },
-  {
-    id: 'rev-6',
-    author: 'Mahmudul Hasan',
-    city: 'Sylhet Sadar',
-    rating: 5,
-    title: 'Unbelievable customer care & sample policy.',
-    comment:
-      'Being able to try the 2ml sample before opening the main flacon gave me total confidence. Needless to say, I opened the main flacon immediately. Superb quality.',
-    date: '5 days ago',
-    productName: 'Oud Ambre (100ml)',
+    productName: 'Rayhaan Azul (100ml)',
     verified: true,
   },
 ];

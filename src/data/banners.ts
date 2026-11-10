@@ -7,8 +7,8 @@ export const BANNERS: BannerConfig[] = [
     title: 'A Signature Scent, Crafted with Soul',
     description:
       'A bold composition of rare woods, warm amber, and delicate florals, created to leave an unforgettable impression.',
-    image: '/images/products/desert_elegance_with_arabian_perfume-1793886616226.webp',
-    mobileImage: '/images/products/desert_elegance_with_arabian_perfume-1793886616226.webp',
+    image: '/images/banner-oud-collection.webp',
+    mobileImage: '/images/banner-oud-collection.webp',
     ctaText: 'Explore Collection',
     ctaLink: '/shop',
     placement: 'hero',
@@ -29,10 +29,10 @@ export const BANNERS: BannerConfig[] = [
   {
     id: 'banner-gift-sets',
     tagline: 'THE ART OF GIVING',
-    title: 'The Discovery Coffret',
+    title: 'The Discovery Presentation',
     description:
-      'Curated presentation sets of our finest extraits, crafted for the discerning connoisseur.',
-    image: '/images/products/discovery-coffret.webp',
+      'Curated authentic flacons and testers of our finest extraits, crafted for the discerning connoisseur.',
+    image: '/images/products/arabiyat-prestige-marwa-tester.webp',
     ctaText: 'Explore Gift Sets',
     ctaLink: '/shop?category=Gift+Sets',
     placement: 'gift-sets',

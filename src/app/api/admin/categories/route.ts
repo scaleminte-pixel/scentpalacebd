@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
         name: cleanName,
         slug: cleanSlug,
         description: description?.trim() || null,
-        image: image?.trim() || '/images/products/oud-ambre.jpg',
+        image: image?.trim() || '/images/products/rayhaan-azul.webp',
         sortOrder: parseInt(sortOrder, 10) || 0,
         isActive: true,
       },

@@ -36,14 +36,14 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
   const content = getContent('editorial', {
     headingLine1: 'Luxury,',
     headingLine2: 'No Compromise.',
-    signatureTitle: 'Our Signature Scents (18)',
+    signatureTitle: 'Our Signature Scents (43)',
     signatureSubtitle: 'Explore our collection of refined fragrances, inspired by tradition and crafted for modern elegance.',
   });
 
   const showcaseTiles = [
-    { name: 'OUD AMBRE', image: '/images/products/oud-ambre.webp', link: '/product/oud-ambre' },
-    { name: 'OUD ESSENCE', image: '/images/products/bleu-oud.webp', link: '/product/bleu-oud' },
-    { name: 'ROYAL SAFFRON', image: '/images/products/royal-saffron.webp', link: '/product/royal-saffron' },
+    { name: 'AFNAN 9PM', image: '/images/products/afnan-9pm.webp', link: '/product/afnan-9pm' },
+    { name: 'LATTAFA ASAD', image: '/images/products/lattafa-asad-elixir.webp', link: '/product/lattafa-asad-elixir' },
+    { name: 'HAWAS ICE', image: '/images/products/hawas-ice-freeze.webp', link: '/product/hawas-ice-freeze' },
   ];
 
   if (sec && !sec.isVisible) return null;
