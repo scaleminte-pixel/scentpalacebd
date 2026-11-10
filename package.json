@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next dev",
-    "build": "prisma db push && node scripts/seed-43-real-products.js && node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next build",
+    "build": "prisma db push && node scripts/ensure-safe-bootstrap.js && node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next build",
     "start": "node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next start",
     "test": "node scripts/verify-all-systems.js",
     "lint": "eslint",
     "postinstall": "prisma generate",
-    "seed": "node scripts/seed-43-real-products.js"
+    "seed": "node scripts/seed-43-real-products.js --force"
   },
   "prisma": {
     "seed": "node scripts/seed-43-real-products.js"

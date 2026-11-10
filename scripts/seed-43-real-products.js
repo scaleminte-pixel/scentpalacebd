@@ -828,6 +828,13 @@ const RAW_PRODUCTS = [
 async function seed() {
   console.log('--- Wiping old products & seeding 43 real perfumes ---');
 
+  const isForced = process.argv.includes('--force');
+  const existingProductCount = await prisma.product.count();
+  if (existingProductCount > 0 && !isForced) {
+    console.log(`[SAFEGUARD] Database already contains ${existingProductCount} products. Preserving existing catalog, orders, and content. Use 'npm run seed -- --force' if you explicitly want to re-seed.`);
+    return;
+  }
+
   // 1. Ensure All 4 Admin Demo Users Exist
   const salt = await bcrypt.genSalt(10);
   const admins = [
@@ -1028,25 +1035,8 @@ async function seed() {
 
   console.log('All 43 products seeded successfully!');
 
-  // 6. Clean up obsolete product images
-  const validSlugs = new Set(RAW_PRODUCTS.map((p) => `${p.slug}.webp`));
-  const productsDir = path.join(__dirname, '../public/images/products');
-  if (fs.existsSync(productsDir)) {
-    const existingFiles = fs.readdirSync(productsDir);
-    for (const f of existingFiles) {
-      if (!validSlugs.has(f)) {
-        try {
-          fs.unlinkSync(path.join(productsDir, f));
-          console.log(`Cleaned up obsolete image: ${f}`);
-        } catch (err) {
-          console.warn(`Could not delete ${f}:`, err.message);
-        }
-      }
-    }
-  }
-
-  // 7. Update WebsiteSection Imagery Fallbacks
-  console.log('Updating website sections with reliable imagery...');
+  // 6. Section Imagery Fallbacks (Preserve user uploads!)
+  console.log('Checking website section imagery...');
   const sectionUpdates = [
     {
       key: 'hero',
@@ -1085,14 +1075,19 @@ async function seed() {
       try {
         content = JSON.parse(sec.contentJson);
       } catch {}
-      Object.assign(content, item.updateData);
-      await prisma.websiteSection.update({
-        where: { sectionKey: item.key },
-        data: {
-          contentJson: JSON.stringify(content),
-        },
-      });
-      console.log(`Updated WebsiteSection: ${item.key}`);
+      // Only set fallback if NO image exists; preserve user-uploaded images!
+      if (!content.imageUrl && !content.bgImage) {
+        Object.assign(content, item.updateData);
+        await prisma.websiteSection.update({
+          where: { sectionKey: item.key },
+          data: {
+            contentJson: JSON.stringify(content),
+          },
+        });
+        console.log(`Set default imagery for empty section: ${item.key}`);
+      } else {
+        console.log(`Preserving existing custom imagery for section: ${item.key}`);
+      }
     }
   }
 
