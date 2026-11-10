@@ -35,12 +35,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# database (local SQLite files must never be committed)
-prisma/*.db
+# database temporary write-ahead logs
 prisma/*.db-journal
 prisma/*.db-shm
 prisma/*.db-wal
-*.db
 *.db-journal
 *.db-shm
 *.db-wal

@@ -1,4 +1,22 @@
 import { PrismaClient } from '@prisma/client';
+import path from 'path';
+import fs from 'fs';
+
+// Ensure SQLite database file is synchronized between root and prisma directory
+try {
+  const prismaDb = path.join(process.cwd(), 'prisma', 'dev.db');
+  const rootDb = path.join(process.cwd(), 'dev.db');
+
+  if (fs.existsSync(prismaDb) && !fs.existsSync(rootDb)) {
+    fs.copyFileSync(prismaDb, rootDb);
+  } else if (fs.existsSync(rootDb) && !fs.existsSync(prismaDb)) {
+    const prismaDir = path.join(process.cwd(), 'prisma');
+    if (!fs.existsSync(prismaDir)) fs.mkdirSync(prismaDir, { recursive: true });
+    fs.copyFileSync(rootDb, prismaDb);
+  }
+} catch {
+  // Ignore sync errors in restricted environments
+}
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
