@@ -188,7 +188,7 @@ export default function ContentImageUploader({
             )}
           </div>
           <p className="text-[10px] text-stone-400">
-            Paste absolute path (e.g. <code>/images/banner.jpg</code>) or CDN image URL.
+            Paste absolute path (e.g. <code>/images/banner-oud-collection.webp</code>) or CDN image URL.
           </p>
         </div>
       )}

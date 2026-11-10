@@ -58,7 +58,7 @@ export default function AdminCategoriesPage() {
     name: '',
     slug: '',
     description: '',
-    image: '/images/products/oud-ambre.jpg',
+    image: '/images/products/lattafa-blue-oud.webp',
     sortOrder: 1,
   });
 
@@ -223,7 +223,7 @@ export default function AdminCategoriesPage() {
       name: cat.name,
       slug: cat.slug,
       description: cat.description || '',
-      image: cat.image || '/images/products/oud-ambre.jpg',
+      image: cat.image || '/images/products/lattafa-blue-oud.webp',
       sortOrder: cat.sortOrder || 1,
       isActive: cat.isActive !== false,
     });
@@ -269,7 +269,7 @@ export default function AdminCategoriesPage() {
       name: '',
       slug: '',
       description: '',
-      image: '/images/products/oud-ambre.jpg',
+      image: '/images/products/lattafa-blue-oud.webp',
       sortOrder: nextOrder,
     });
     setAddModalOpen(true);
@@ -472,11 +472,11 @@ export default function AdminCategoriesPage() {
                   <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-stone-100 border border-stone-200 shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={cat.image || '/images/products/oud-ambre.jpg'}
+                      src={cat.image || '/images/products/lattafa-blue-oud.webp'}
                       alt={cat.name}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/images/products/oud-ambre.jpg';
+                        (e.target as HTMLImageElement).src = '/images/products/lattafa-blue-oud.webp';
                       }}
                     />
                   </div>
@@ -669,11 +669,11 @@ export default function AdminCategoriesPage() {
                   <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-stone-100 border border-stone-200 shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={editForm.image || '/images/products/oud-ambre.jpg'}
+                      src={editForm.image || '/images/products/lattafa-blue-oud.webp'}
                       alt="Preview"
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/images/products/oud-ambre.jpg';
+                        (e.target as HTMLImageElement).src = '/images/products/lattafa-blue-oud.webp';
                       }}
                     />
                   </div>
@@ -705,7 +705,7 @@ export default function AdminCategoriesPage() {
                       type="text"
                       value={editForm.image}
                       onChange={(e) => setEditForm({ ...editForm, image: e.target.value })}
-                      placeholder="/images/products/oud-ambre.jpg"
+                      placeholder="/images/products/lattafa-blue-oud.webp"
                       className="w-full p-1.5 text-[11px] border border-stone-200 rounded-lg bg-stone-50 font-mono"
                     />
                   </div>
@@ -859,7 +859,7 @@ export default function AdminCategoriesPage() {
                       alt="Preview"
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/images/products/oud-ambre.jpg';
+                        (e.target as HTMLImageElement).src = '/images/products/lattafa-blue-oud.webp';
                       }}
                     />
                   </div>
@@ -891,7 +891,7 @@ export default function AdminCategoriesPage() {
                       type="text"
                       value={addForm.image}
                       onChange={(e) => setAddForm({ ...addForm, image: e.target.value })}
-                      placeholder="/images/products/oud-ambre.jpg"
+                      placeholder="/images/products/lattafa-blue-oud.webp"
                       className="w-full p-1.5 text-[11px] border border-stone-200 rounded-lg bg-stone-50 font-mono"
                     />
                   </div>

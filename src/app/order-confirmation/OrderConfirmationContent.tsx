@@ -59,7 +59,7 @@ export const OrderConfirmationContent: React.FC = () => {
                 notes: o.customerNotes || o.shippingAddress?.notes || '',
               },
               items: o.items.map((it: any) => {
-                let img = '/images/bottle-bleu-oud.jpg';
+                let img = '/images/products/lattafa-blue-oud.webp';
                 if (it.productImage && typeof it.productImage === 'string' && it.productImage.startsWith('/')) {
                   img = it.productImage;
                 } else if (Array.isArray(it.product?.images) && it.product.images.length > 0) {
@@ -148,7 +148,7 @@ export const OrderConfirmationContent: React.FC = () => {
             name: 'Bleu Oud',
             size: '100ml',
             price: 16500,
-            image: '/images/bottle-bleu-oud.jpg',
+            image: '/images/products/lattafa-blue-oud.webp',
             quantity: 1,
           },
         ],
@@ -361,7 +361,7 @@ export const OrderConfirmationContent: React.FC = () => {
                   <div key={idx} className="flex items-center gap-4 py-2 border-b border-[#FAF7F2] last:border-b-0">
                     <div className="relative w-14 h-16 bg-[#FAF7F2] rounded-lg p-1 border border-[#EAE4DC] shrink-0">
                       <Image
-                        src={item.image || '/images/bottle-bleu-oud.jpg'}
+                        src={item.image || '/images/products/lattafa-blue-oud.webp'}
                         alt={item.name}
                         fill
                         className="object-contain p-1"

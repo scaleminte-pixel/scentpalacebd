@@ -15,12 +15,19 @@ export async function GET(req: NextRequest) {
       return NextResponse.redirect(`${siteUrl}/checkout?error=Missing+order+id`);
     }
 
-    const order = await prisma.order.findUnique({
-      where: { id: orderId },
+    const order = await prisma.order.findFirst({
+      where: {
+        OR: [{ id: orderId }, { orderNumber: orderId }],
+      },
     });
 
     if (!order) {
       return NextResponse.redirect(`${siteUrl}/checkout?error=Order+not+found`);
+    }
+
+    // Idempotency check: If order is already paid, redirect immediately to confirmation
+    if (order.paymentStatus === 'PAID') {
+      return NextResponse.redirect(`${siteUrl}/order-confirmation?orderNumber=${order.orderNumber}&orderId=${order.id}&paid=true`);
     }
 
     if (status === 'cancel' || status === 'failure') {
@@ -108,7 +115,7 @@ export async function GET(req: NextRequest) {
       });
     });
 
-    return NextResponse.redirect(`${siteUrl}/order-confirmation?orderId=${order.id}&paid=true`);
+    return NextResponse.redirect(`${siteUrl}/order-confirmation?orderNumber=${order.orderNumber}&orderId=${order.id}&paid=true`);
   } catch (error: any) {
     console.error('bKash callback processing failed:', error);
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';

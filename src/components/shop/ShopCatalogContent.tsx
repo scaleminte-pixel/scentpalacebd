@@ -44,7 +44,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all');
   const [selectedScent, setSelectedScent] = useState<string>(initialScent || 'all');
   const [selectedSize, setSelectedSize] = useState<string>('all');
-  const [priceRange, setPriceRange] = useState<number>(30000); // Max price in BDT
+  const [priceRange, setPriceRange] = useState<number>(8000); // Max price in BDT
   const [sortBy, setSortBy] = useState<string>(initialSort);
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
@@ -129,7 +129,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
     setSelectedCategory('all');
     setSelectedScent('all');
     setSelectedSize('all');
-    setPriceRange(30000);
+    setPriceRange(8000);
     setSortBy('featured');
     setSearchQuery('');
     router.replace('/shop', { scroll: false });
@@ -335,7 +335,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
         >
           <div className="text-xs text-neutral-600 font-medium">
             Showing <strong className="text-neutral-900">{filteredProducts.length}</strong> of{' '}
-            {PRODUCTS.length} fragrances
+            {catalogProducts.length} fragrances
           </div>
 
           <div className="flex items-center gap-3">
@@ -501,16 +501,16 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
               </div>
               <input
                 type="range"
-                min="8000"
-                max="30000"
-                step="1000"
+                min="1500"
+                max="8000"
+                step="100"
                 value={priceRange}
                 onChange={(e) => setPriceRange(Number(e.target.value))}
                 className="w-full accent-[#D45520] cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-neutral-400 mt-1 tabular-nums">
+                <span>{formatPrice(1500)}</span>
                 <span>{formatPrice(8000)}</span>
-                <span>{formatPrice(30000)}</span>
               </div>
             </div>
           </motion.aside>
@@ -688,13 +688,17 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                   </div>
                   <input
                     type="range"
-                    min="8000"
-                    max="30000"
-                    step="1000"
+                    min="1500"
+                    max="8000"
+                    step="100"
                     value={priceRange}
                     onChange={(e) => setPriceRange(Number(e.target.value))}
                     className="w-full accent-[#D45520]"
                   />
+                  <div className="flex justify-between text-[10px] text-neutral-400 mt-1 tabular-nums">
+                    <span>{formatPrice(1500)}</span>
+                    <span>{formatPrice(8000)}</span>
+                  </div>
                 </div>
               </div>
 

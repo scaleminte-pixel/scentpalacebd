@@ -61,7 +61,7 @@ export async function GET(
       const primaryImg =
         productImages[0] ||
         it.product?.primaryImage ||
-        '/images/products/oud-ambre.jpg';
+        '/images/products/lattafa-blue-oud.webp';
 
       return {
         ...it,

@@ -1096,13 +1096,78 @@ async function seed() {
     }
   }
 
-  // 8. Ensure root dev.db is an exact clone of prisma/dev.db
+  // 8. Seed Active Daily Deal
+  console.log('Seeding active Daily Deal...');
+  const dealProduct = await prisma.product.findUnique({
+    where: { slug: 'lattafa-blue-oud' },
+    include: { variants: true },
+  });
+
+  if (dealProduct && dealProduct.variants.length > 0) {
+    const variant = dealProduct.variants[0];
+    const now = new Date();
+    const startTime = new Date(now.getTime() - 2 * 60 * 60 * 1000); // 2 hours ago
+    const endTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days in future
+    const dealPrice = 1850;
+    const originalPrice = variant.sellingPrice;
+
+    const dailyDeal = await prisma.dailyDeal.create({
+      data: {
+        productId: dealProduct.id,
+        variantId: variant.id,
+        title: 'Daily Exclusive: Lattafa Blue Oud',
+        tagline: 'Deep ocean depths meeting mysterious smoky Cambodian agarwood at an exclusive rate.',
+        dealPrice,
+        originalPrice,
+        startTime,
+        endTime,
+        stockTotal: 15,
+        stockRemaining: 9,
+        isEnabled: true,
+      },
+    });
+    console.log(`Seeded active Daily Deal: "${dailyDeal.title}" for ৳${dailyDeal.dealPrice} (expires ${endTime.toISOString()})`);
+  }
+
+  // Ensure promotional coupons exist
+  await prisma.coupon.upsert({
+    where: { code: 'ROYAL15' },
+    update: { value: 15, minSpend: 2000, isActive: true },
+    create: {
+      code: 'ROYAL15',
+      type: 'PERCENTAGE',
+      value: 15,
+      minSpend: 2000,
+      isActive: true,
+      description: '15% privilege discount across royal perfume selections',
+    },
+  });
+
+  // 9. Enforce full WAL checkpoint and sync prisma/dev.db -> root dev.db
+  try {
+    await prisma.$queryRawUnsafe('PRAGMA wal_checkpoint(FULL);');
+    console.log('Executed PRAGMA wal_checkpoint(FULL); on SQLite database.');
+  } catch (err) {
+    console.warn('WAL checkpoint warning:', err.message);
+  }
+
   const prismaDb = path.join(__dirname, '../prisma/dev.db');
   const rootDb = path.join(__dirname, '../dev.db');
 
   if (fs.existsSync(prismaDb)) {
     fs.copyFileSync(prismaDb, rootDb);
-    console.log('Synchronized: prisma/dev.db -> root dev.db');
+    for (const ext of ['-wal', '-shm']) {
+      const pCompanion = `${prismaDb}${ext}`;
+      const rCompanion = `${rootDb}${ext}`;
+      if (fs.existsSync(pCompanion)) {
+        fs.copyFileSync(pCompanion, rCompanion);
+      } else if (fs.existsSync(rCompanion)) {
+        try {
+          fs.unlinkSync(rCompanion);
+        } catch {}
+      }
+    }
+    console.log('Synchronized: prisma/dev.db (+ WAL/SHM) -> root dev.db');
   }
 }
 

@@ -2,6 +2,13 @@ import { Coupon } from '@/types';
 
 export const COUPONS: Coupon[] = [
   {
+    code: 'ROYAL15',
+    type: 'percentage',
+    value: 15,
+    minSpend: 2000,
+    description: '15% privilege discount across royal perfume selections',
+  },
+  {
     code: 'WELCOME15',
     type: 'percentage',
     value: 15,

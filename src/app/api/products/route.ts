@@ -14,6 +14,15 @@ export async function GET(req: NextRequest) {
     const sort = searchParams.get('sort') || 'featured';
     const q = searchParams.get('q');
     const status = searchParams.get('status') || 'PUBLISHED';
+    const pageParam = searchParams.get('page');
+    const limitParam = searchParams.get('limit');
+    const minPriceParam = searchParams.get('minPrice');
+    const maxPriceParam = searchParams.get('maxPrice');
+
+    const page = pageParam ? Math.max(1, parseInt(pageParam, 10) || 1) : null;
+    const limit = limitParam ? Math.max(1, parseInt(limitParam, 10) || 12) : null;
+    const minPrice = minPriceParam ? parseFloat(minPriceParam) : null;
+    const maxPrice = maxPriceParam ? parseFloat(maxPriceParam) : null;
 
     const where: any = {};
     if (status !== 'all') {
@@ -65,11 +74,57 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    // Helper to get minimum variant price for each product
+    const getMinVariantPrice = (p: any): number => {
+      if (!p.variants || p.variants.length === 0) return 0;
+      return Math.min(...p.variants.map((v: any) => v.sellingPrice));
+    };
+
+    // Filter by minPrice / maxPrice if specified
+    let filtered = products;
+    if (minPrice !== null && !isNaN(minPrice)) {
+      filtered = filtered.filter((p) => {
+        const prices = p.variants?.map((v: any) => v.sellingPrice) || [];
+        return prices.some((price: number) => price >= minPrice);
+      });
+    }
+    if (maxPrice !== null && !isNaN(maxPrice)) {
+      filtered = filtered.filter((p) => {
+        const prices = p.variants?.map((v: any) => v.sellingPrice) || [];
+        return prices.some((price: number) => price <= maxPrice);
+      });
+    }
+
+    // Sort if price-low, price-high, or newest
+    if (sort === 'price-low') {
+      filtered.sort((a, b) => getMinVariantPrice(a) - getMinVariantPrice(b));
+    } else if (sort === 'price-high') {
+      filtered.sort((a, b) => getMinVariantPrice(b) - getMinVariantPrice(a));
+    } else if (sort === 'newest') {
+      filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    }
+
+    const total = filtered.length;
+
+    // Apply pagination if limit is specified
+    let paginated = filtered;
+    if (limit !== null) {
+      const currentPage = page || 1;
+      const skip = (currentPage - 1) * limit;
+      paginated = filtered.slice(skip, skip + limit);
+    }
+
     // Transform products into format compatible with existing frontend Product type
-    const transformed = products.map(transformDbProduct);
+    const transformed = paginated.map(transformDbProduct);
 
     return NextResponse.json(
-      { success: true, count: transformed.length, products: transformed },
+      {
+        success: true,
+        count: transformed.length,
+        total,
+        page: page || 1,
+        products: transformed,
+      },
       {
         headers: {
           'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',

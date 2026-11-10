@@ -322,7 +322,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                   const unitPrice = Number(item.unitPrice ?? item.price ?? 0);
                   const qty = Number(item.quantity ?? 1);
                   const totalPrice = Number(item.totalPrice ?? (unitPrice * qty));
-                  let itemImg = '/images/products/oud-ambre.jpg';
+                  let itemImg = '/images/products/lattafa-blue-oud.webp';
                   if (item.productImage && typeof item.productImage === 'string' && item.productImage.startsWith('/')) {
                     itemImg = item.productImage;
                   } else if (Array.isArray(item.product?.images) && item.product.images.length > 0) {
@@ -353,7 +353,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                           alt={item.productName || 'Perfume Flacon'}
                           className="w-12 h-12 rounded-lg object-cover bg-stone-100 border border-stone-200"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/images/products/oud-ambre.jpg';
+                            (e.target as HTMLImageElement).src = '/images/products/lattafa-blue-oud.webp';
                           }}
                         />
                         <div>

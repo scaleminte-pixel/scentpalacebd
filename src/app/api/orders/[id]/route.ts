@@ -51,7 +51,7 @@ export async function GET(
         }
       }
 
-      const primaryImg = productImages[0] || it.product?.primaryImage || '/images/bottle-bleu-oud.jpg';
+      const primaryImg = productImages[0] || it.product?.primaryImage || '/images/products/lattafa-blue-oud.webp';
 
       return {
         ...it,

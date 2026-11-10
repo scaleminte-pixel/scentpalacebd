@@ -530,7 +530,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                 Top Notes
               </h4>
               <p className="text-xs sm:text-sm font-semibold text-neutral-800 font-sans mb-3">
-                {product.notes.top.join('  •  ')}
+                {(product.notes?.top || []).join('  •  ')}
               </p>
               <p className="text-xs text-neutral-500 font-sans leading-relaxed">
                 The bright, luminous introduction that greets the senses upon initial atomization.
@@ -555,7 +555,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                 Heart Notes
               </h4>
               <p className="text-xs sm:text-sm font-semibold text-neutral-800 font-sans mb-3">
-                {product.notes.heart.join('  •  ')}
+                {(product.notes?.heart || []).join('  •  ')}
               </p>
               <p className="text-xs text-neutral-500 font-sans leading-relaxed">
                 The signature theme and true personality that defines the fragrance core.
@@ -580,7 +580,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                 Base Notes
               </h4>
               <p className="text-xs sm:text-sm font-semibold text-neutral-800 font-sans mb-3">
-                {product.notes.base.join('  •  ')}
+                {(product.notes?.base || []).join('  •  ')}
               </p>
               <p className="text-xs text-neutral-500 font-sans leading-relaxed">
                 The deep, sovereign woods, resins, and musks that anchor the eternal sillage.

@@ -90,7 +90,7 @@ export default function AdminContentPage() {
     ],
     promoButtonText: 'Claim 15% Privilege & Shop',
     promoFloatingPill: 'Special 15% Off Privilege',
-    promoImageUrl: '/images/products/royal-saffron.jpg',
+    promoImageUrl: '/images/products/lattafa-khamrah.webp',
 
     // Generic fallback for any other sections
     genericFields: {} as Record<string, any>,
@@ -157,7 +157,7 @@ export default function AdminContentPage() {
       badgeText: c.badgeText || 'LONG LASTING',
       heroButtonText: c.buttonText || c.ctaText || 'Discover Fragrance',
       heroButtonLink: c.buttonLink || c.ctaLink || '/shop',
-      heroImageUrl: c.imageUrl || c.bgImage || '/images/hero-model-desert.jpg',
+      heroImageUrl: c.imageUrl || c.bgImage || '/images/banner-oud-collection.webp',
 
       // Announcement
       announcementText: c.text || '',
@@ -198,7 +198,7 @@ export default function AdminContentPage() {
       ],
       promoButtonText: c.buttonText || 'Claim 15% Privilege & Shop',
       promoFloatingPill: c.floatingPillText || 'Special 15% Off Privilege',
-      promoImageUrl: c.imageUrl || c.image || '/images/products/royal-saffron.jpg',
+      promoImageUrl: c.imageUrl || c.image || '/images/products/lattafa-khamrah.webp',
 
       genericFields: { ...c },
     });

@@ -21,6 +21,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
   const { formatPrice } = useCurrency();
 
   const [mounted, setMounted] = useState(false);
+  const [dynamicDeal, setDynamicDeal] = useState<any>(null);
   const [timeLeft, setTimeLeft] = useState<{
     hours: number;
     minutes: number;
@@ -28,16 +29,39 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
     expired: boolean;
   }>({ hours: 18, minutes: 42, seconds: 19, expired: false });
 
-  const dealProduct = dealProductProp || PRODUCTS.find((p) => p.id === DAILY_DEAL.productId);
+  // Fetch dynamic active deal from database
+  useEffect(() => {
+    fetch(`/api/deals?t=${Date.now()}`, { cache: 'no-store' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.deal) {
+          setDynamicDeal(data.deal);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const dealTitle = dynamicDeal?.title || DAILY_DEAL.title;
+  const dealPrice = dynamicDeal?.dealPrice ?? DAILY_DEAL.dealPrice;
+  const originalPrice = dynamicDeal?.originalPrice ?? DAILY_DEAL.originalPrice;
+  const endTime = dynamicDeal?.endTime || DAILY_DEAL.endTime;
+  const isEnabled = dynamicDeal ? true : DAILY_DEAL.enabled;
+
+  const matchedProduct = dynamicDeal?.product
+    ? PRODUCTS.find((p) => p.slug === dynamicDeal.product.slug || p.id === dynamicDeal.productId)
+    : null;
+  const dealProduct = dealProductProp || matchedProduct || PRODUCTS.find((p) => p.id === DAILY_DEAL.productId);
   const dealVariant =
-    dealProduct?.variants.find((v) => v.id === DAILY_DEAL.variantId) || dealProduct?.variants?.[0];
+    (dynamicDeal?.variantId && dealProduct?.variants.find((v) => v.id === dynamicDeal.variantId)) ||
+    dealProduct?.variants.find((v) => v.id === DAILY_DEAL.variantId) ||
+    dealProduct?.variants?.[0];
 
   useEffect(() => {
     setMounted(true);
-    if (!DAILY_DEAL.enabled) return;
+    if (!isEnabled) return;
 
     const calculateTime = () => {
-      const difference = +new Date(DAILY_DEAL.endTime) - +new Date();
+      const difference = +new Date(endTime) - +new Date();
       if (difference <= 0) {
         setTimeLeft({ hours: 0, minutes: 0, seconds: 0, expired: true });
         return;
@@ -53,23 +77,23 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
     calculateTime();
     const interval = setInterval(calculateTime, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [endTime, isEnabled]);
 
-  if (!DAILY_DEAL.enabled || timeLeft.expired || !dealProduct || !dealVariant) {
+  if (!isEnabled || timeLeft.expired || !dealProduct || !dealVariant) {
     return null;
   }
 
   const handleShopDeal = () => {
     const dealPriceVariant = {
       ...dealVariant,
-      price: DAILY_DEAL.dealPrice,
+      price: dealPrice,
     };
     addItem(dealProduct, dealPriceVariant, 1);
   };
 
-  const discountPercent = Math.round(
-    ((DAILY_DEAL.originalPrice - DAILY_DEAL.dealPrice) / DAILY_DEAL.originalPrice) * 100
-  );
+  const discountPercent = originalPrice > dealPrice
+    ? Math.round(((originalPrice - dealPrice) / originalPrice) * 100)
+    : 15;
 
   return (
     <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
@@ -119,16 +143,16 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
               </span>
 
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-neutral-900 tracking-tight">
-                {DAILY_DEAL.title}
+                {dealTitle}
               </h2>
 
               {/* Pricing */}
               <div className="mt-5 flex items-baseline gap-4">
                 <span className="text-3xl sm:text-4xl font-semibold text-neutral-900 font-sans tabular-nums">
-                  {formatPrice(DAILY_DEAL.dealPrice)}
+                  {formatPrice(dealPrice)}
                 </span>
                 <span className="text-base text-neutral-400 line-through font-sans tabular-nums">
-                  {formatPrice(DAILY_DEAL.originalPrice)}
+                  {formatPrice(originalPrice)}
                 </span>
               </div>
 
@@ -175,7 +199,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
                   className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg active:scale-98 cursor-pointer"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span>Shop the Deal • {formatPrice(DAILY_DEAL.dealPrice)}</span>
+                  <span>Shop the Deal • {formatPrice(dealPrice)}</span>
                 </button>
 
                 <Link

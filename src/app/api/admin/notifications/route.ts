@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     // 1. Pending / Unfulfilled orders
     const pendingOrders = await prisma.order.findMany({
       where: {
-        fulfillmentStatus: { in: ['UNFULFILLED', 'PROCESSING'] },
+        fulfillmentStatus: { in: ['PENDING', 'UNFULFILLED', 'PROCESSING'] },
       },
       orderBy: { createdAt: 'desc' },
       take: 5,

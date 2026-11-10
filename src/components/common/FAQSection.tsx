@@ -90,12 +90,12 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
           </div>
 
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-neutral-900 tracking-tight leading-tight">
-            {title}
+            {displayTitle}
           </h2>
 
-          {subtitle && (
+          {displaySubtitle && (
             <p className="text-xs sm:text-sm text-neutral-500 mt-3 font-sans leading-relaxed">
-              {subtitle}
+              {displaySubtitle}
             </p>
           )}
         </div>

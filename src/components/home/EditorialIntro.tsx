@@ -250,7 +250,7 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
                 >
                   <div className="absolute inset-0 z-0 overflow-hidden">
                     <Image
-                      src={cat.image || '/images/products/oud-ambre.webp'}
+                      src={cat.image || '/images/products/lattafa-blue-oud.webp'}
                       alt={cat.name}
                       fill
                       className="object-cover group-hover:scale-[1.035] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"

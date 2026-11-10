@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "prisma db push && node scripts/seed-43-real-products.js && next build",
-    "start": "next start",
+    "dev": "node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next dev",
+    "build": "prisma db push && node scripts/seed-43-real-products.js && node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next build",
+    "start": "node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next start",
+    "test": "node scripts/verify-all-systems.js",
     "lint": "eslint",
     "postinstall": "prisma generate",
     "seed": "node scripts/seed-43-real-products.js"

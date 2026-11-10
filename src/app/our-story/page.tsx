@@ -56,7 +56,7 @@ export default function OurStoryPage() {
 
           <div className="md:col-span-6 relative aspect-4/5 rounded-3xl overflow-hidden shadow-xl border border-[#EAE4DC] bg-white">
             <Image
-              src="/images/cat-unisex.jpg"
+              src="/images/banner-oud-collection.webp"
               alt="Artisanal perfume blending"
               fill
               className="object-cover"

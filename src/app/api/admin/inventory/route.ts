@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
           productName: v.product.name,
           productSlug: v.product.slug,
           category: v.product.category?.name || 'Uncategorized',
-          coverImage: images[0] || '/images/products/placeholder.jpg',
+          coverImage: images[0] || '/images/products/lattafa-blue-oud.webp',
           sku: v.sku,
           size: v.size,
           purchaseCost: v.purchaseCost,

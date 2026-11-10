@@ -81,7 +81,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${product.name} | Rāwdah`,
       description: product.description,
-      images: [{ url: product.images[0] || '/images/products/oud-ambre.jpg' }],
+      images: [{ url: product.images[0] || '/images/products/lattafa-blue-oud.webp' }],
     },
   };
 }

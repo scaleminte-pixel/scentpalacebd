@@ -5,7 +5,7 @@ import { getAdminSession, canAccessModule } from "@/lib/auth";
 export async function GET(req: NextRequest) {
   try {
     const session = await getAdminSession(req);
-    if (!session || !canAccessModule(session.role, "Settings")) {
+    if (!session || !canAccessModule(session.role, "settings")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const session = await getAdminSession(req);
-    if (!session || !canAccessModule(session.role, "Settings")) {
+    if (!session || !canAccessModule(session.role, "settings")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

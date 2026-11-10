@@ -48,8 +48,8 @@ prisma/*.db-wal
 .env.development
 .env.test
 
-# vercel
-.vercel
+# teamwork
+.agents/
 
 # typescript
 *.tsbuildinfo

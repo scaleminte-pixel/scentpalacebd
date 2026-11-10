@@ -117,7 +117,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
               Popular Fragrance Searches
             </p>
             <div className="flex flex-wrap gap-2">
-              {['Bleu Oud', 'Oud Ambre', 'Taif Rose', 'Cambodian Oud', 'Amber & Spicy', 'Discovery Set'].map(
+              {['Lattafa', 'Blue Oud', 'Khamrah', 'Asad', 'Amber & Spicy', 'Oud & Woody'].map(
                 (term) => (
                   <button
                     key={term}

@@ -35,6 +35,6 @@ export const WELCOME_PROMO: WelcomePromoConfig = {
   minSpendBDT: 0,
   buttonText: 'Claim 15% Privilege & Shop',
   floatingPillText: 'Special 15% Off Privilege',
-  image: '/images/products/royal-saffron.webp',
+  image: '/images/products/rayhaan-azul.webp',
 };
 

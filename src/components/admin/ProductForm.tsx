@@ -77,7 +77,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
   const [isCatModalOpen, setIsCatModalOpen] = useState(false);
   const [newCatName, setNewCatName] = useState('');
   const [newCatDesc, setNewCatDesc] = useState('');
-  const [newCatImage, setNewCatImage] = useState('/images/products/oud-ambre.webp');
+  const [newCatImage, setNewCatImage] = useState('/images/products/lattafa-blue-oud.webp');
   const [catImageUploading, setCatImageUploading] = useState(false);
   const [catLoading, setCatLoading] = useState(false);
   const catFileInputRef = useRef<HTMLInputElement>(null);
@@ -98,8 +98,8 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
     }
     return [
       {
-        url: '/images/products/oud-ambre.webp',
-        alt: 'Oud Ambre 50ml Sovereign Extrait Flacon',
+        url: '/images/products/lattafa-blue-oud.webp',
+        alt: 'Lattafa Blue Oud 100ml Extrait Flacon',
       },
     ];
   });
@@ -1187,7 +1187,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 type="text"
                 value={imageUrlInput}
                 onChange={(e) => setImageUrlInput(e.target.value)}
-                placeholder="/images/products/oud-ambre.jpg"
+                placeholder="/images/products/lattafa-blue-oud.webp"
                 className="w-full p-2 bg-white border border-stone-200 rounded-lg text-xs font-mono"
               />
               <div className="flex gap-2">
@@ -1541,7 +1541,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                     type="text"
                     value={newCatImage}
                     onChange={(e) => setNewCatImage(e.target.value)}
-                    placeholder="Or paste image URL (e.g. /images/products/oud-ambre.jpg)"
+                    placeholder="Or paste image URL (e.g. /images/products/lattafa-blue-oud.webp)"
                     className="w-full p-2 border border-stone-200 rounded-xl bg-white font-mono text-[11px] text-stone-700 placeholder:text-stone-400"
                   />
                 </div>

@@ -4,110 +4,75 @@ import React, { useState } from 'react';
 import { Search, Package, Truck, CheckCircle, Clock, MapPin, Sparkles } from 'lucide-react';
 
 export default function TrackOrderPage() {
-  const [orderId, setOrderId] = useState('RDH-84291');
-  const [phone, setPhone] = useState('01711234567');
-  const [trackedOrder, setTrackedOrder] = useState<any>({
-    orderId: 'RDH-84291',
-    status: 'In Transit',
-    courier: 'Steadfast Courier (Express Air)',
-    trackingNumber: 'STEAD-982410',
-    estimatedDelivery: 'Tomorrow by 5:00 PM',
-    recipient: 'Tanvir Ahmed Chowdhury',
-    address: 'Gulshan-2, Dhaka',
-    steps: [
-      { name: 'Order Confirmed', date: 'Yesterday, 4:15 PM', completed: true },
-      { name: 'Quality Inspection & Wax Sealing', date: 'Yesterday, 6:30 PM', completed: true },
-      { name: 'Dispatched from Gulshan Atelier', date: 'Today, 9:00 AM', completed: true },
-      { name: 'Out for Delivery', date: 'Estimated Tomorrow Morning', completed: false },
-      { name: 'Delivered', date: 'Pending', completed: false },
-    ],
-  });
+  const [orderId, setOrderId] = useState('');
+  const [phone, setPhone] = useState('');
+  const [trackedOrder, setTrackedOrder] = useState<any>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTrack = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!orderId.trim()) return;
 
     const cleanId = orderId.trim().toUpperCase();
+    setIsLoading(true);
+    setErrorMessage(null);
+    setTrackedOrder(null);
 
     // 1. Try real database lookup
     try {
-      const res = await fetch(`/api/orders/${cleanId}`);
+      const res = await fetch(`/api/orders/${encodeURIComponent(cleanId)}`);
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.order) {
           const o = data.order;
           const status = o.fulfillmentStatus;
-          const isConfirmed = status !== 'PENDING';
+          const isConfirmed = status !== 'PENDING' && status !== 'CANCELLED';
           const isPacked = status === 'PACKED' || status === 'SHIPPED' || status === 'DELIVERED';
           const isShipped = status === 'SHIPPED' || status === 'DELIVERED';
           const isDelivered = status === 'DELIVERED';
+          const isCancelled = status === 'CANCELLED';
 
           setTrackedOrder({
             orderId: o.orderNumber,
-            status: status === 'DELIVERED' ? 'Delivered' : status === 'SHIPPED' ? 'In Transit with Courier' : status === 'PACKED' ? 'Packed in Atelier' : status,
+            rawStatus: status,
+            status: isCancelled
+              ? 'Cancelled'
+              : status === 'DELIVERED'
+              ? 'Delivered'
+              : status === 'SHIPPED'
+              ? 'In Transit with Courier'
+              : status === 'PACKED'
+              ? 'Packed in Atelier'
+              : status === 'CONFIRMED'
+              ? 'Order Confirmed'
+              : 'Order Received',
             courier: `${o.courierProvider || 'Steadfast Courier'} (Express Fragrance Delivery)`,
-            trackingNumber: o.courierTrackingNumber || 'STEAD-PENDING',
-            estimatedDelivery: isDelivered ? 'Delivered' : isShipped ? 'Tomorrow by 5:00 PM' : 'In 2 Business Days',
+            trackingNumber: o.courierTrackingNumber || 'Pending Courier Pickup',
+            estimatedDelivery: isDelivered ? 'Delivered' : isShipped ? 'Tomorrow by 5:00 PM' : '2–3 Business Days',
             recipient: o.customerName,
-            address: `${o.shippingAddress?.address || o.shippingAddress}, ${o.shippingAddress?.city || 'Dhaka'}`,
+            address: `${o.shippingAddress?.address || o.shippingAddress || 'Dhaka'}, ${o.shippingAddress?.city || 'Dhaka'}`,
+            total: o.total,
+            paymentStatus: o.paymentStatus,
+            items: o.items || [],
             steps: [
               { name: 'Order Received & Recorded', date: new Date(o.createdAt).toLocaleDateString(), completed: true },
-              { name: 'Call Verified & Confirmed', date: isConfirmed ? 'Verified' : 'Pending call', completed: isConfirmed },
+              { name: 'Call Verified & Confirmed', date: isConfirmed ? (o.confirmedAt ? new Date(o.confirmedAt).toLocaleDateString() : 'Verified') : isCancelled ? 'Cancelled' : 'Pending call', completed: isConfirmed },
               { name: 'Artisanal Wax Sealing & Packaging', date: isPacked ? 'Completed' : 'In atelier', completed: isPacked },
-              { name: 'Handed to Courier Logistics', date: isShipped ? (o.dispatchedAt ? new Date(o.dispatchedAt).toLocaleDateString() : 'Dispatched') : 'Awaiting dispatch', completed: isShipped },
+              { name: 'Handed to Courier Logistics', date: isShipped ? (o.shippedAt ? new Date(o.shippedAt).toLocaleDateString() : 'Dispatched') : 'Awaiting dispatch', completed: isShipped },
               { name: 'Delivered to Patron', date: isDelivered ? 'Received' : 'Pending delivery', completed: isDelivered },
             ],
           });
           return;
         }
       }
-    } catch (err) {
-      // Fallback
-    }
 
-    // 2. Check if we have this order in localStorage
-    try {
-      const stored = localStorage.getItem(`order_${orderId.trim().toUpperCase()}`);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        setTrackedOrder({
-          orderId: parsed.orderId,
-          status: 'Confirmed & In Preparation',
-          courier: 'Steadfast Courier',
-          trackingNumber: parsed.trackingNumber || 'STEAD-104928',
-          estimatedDelivery: parsed.estimatedDelivery || 'In 2 Business Days',
-          recipient: parsed.customer.name,
-          address: `${parsed.customer.address}, ${parsed.customer.city}`,
-          steps: [
-            { name: 'Order Confirmed', date: 'Just now', completed: true },
-            { name: 'Handcrafted Packaging & QC', date: 'In progress', completed: true },
-            { name: 'Dispatched with Courier', date: 'Pending pickup', completed: false },
-            { name: 'Out for Delivery', date: 'Estimated 2 Days', completed: false },
-          ],
-        });
-        return;
-      }
-    } catch (e) {
-      console.error(e);
+      setErrorMessage('Order not found. Please check your order number or phone number.');
+    } catch {
+      setErrorMessage('Order not found. Please check your order number or phone number.');
+    } finally {
+      setIsLoading(false);
     }
-
-    // Default simulated tracking
-    setTrackedOrder({
-      orderId: orderId.trim().toUpperCase(),
-      status: 'In Transit',
-      courier: 'Steadfast Courier',
-      trackingNumber: `STEAD-${Math.floor(100000 + Math.random() * 900000)}`,
-      estimatedDelivery: '2–3 Business Days',
-      recipient: 'Esteemed Patron',
-      address: 'Dhaka Metropolitan, Bangladesh',
-      steps: [
-        { name: 'Order Confirmed', date: 'Verified', completed: true },
-        { name: 'Handcrafted Packaging & QC', date: 'Completed', completed: true },
-        { name: 'Dispatched from Atelier', date: 'In transit', completed: true },
-        { name: 'Out for Delivery', date: 'Soon', completed: false },
-        { name: 'Delivered', date: 'Pending', completed: false },
-      ],
-    });
   };
 
   return (
@@ -157,14 +122,30 @@ export default function TrackOrderPage() {
             <div className="sm:col-span-2">
               <button
                 type="submit"
-                className="w-full py-3 px-4 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-colors flex items-center justify-center gap-1.5"
+                disabled={isLoading}
+                className="w-full py-3 px-4 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
               >
                 <Search className="w-4 h-4" />
-                <span>Track</span>
+                <span>{isLoading ? 'Tracking...' : 'Track'}</span>
               </button>
             </div>
           </form>
         </div>
+
+        {/* Error State */}
+        {errorMessage && (
+          <div className="bg-red-50/90 border border-red-200/80 rounded-3xl p-6 sm:p-8 text-center shadow-xs">
+            <div className="w-12 h-12 rounded-full bg-red-100 text-[#D45520] flex items-center justify-center mx-auto mb-3">
+              <Package className="w-6 h-6" />
+            </div>
+            <h3 className="font-serif text-lg font-medium text-neutral-900 mb-1">
+              Order Lookup Notice
+            </h3>
+            <p className="text-xs sm:text-sm text-neutral-600 max-w-md mx-auto">
+              {errorMessage}
+            </p>
+          </div>
+        )}
 
         {/* Live Result Details */}
         {trackedOrder && (

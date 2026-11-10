@@ -98,7 +98,7 @@ export async function PATCH(
     }
 
     if (image !== undefined) {
-      updateData.image = image?.trim() || '/images/cat-men.jpg';
+      updateData.image = image?.trim() || '/images/products/lattafa-asad-elixir.webp';
     }
 
     if (sortOrder !== undefined) {
