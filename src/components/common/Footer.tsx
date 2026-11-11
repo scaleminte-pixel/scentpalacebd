@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
   const [branding, setBranding] = useState<any>({
     storefrontLogoUrl: '',
     storefrontLogoDarkUrl: '',
-    storeName: 'Rāwdah Haute Parfumerie',
+    storeName: 'Scent Palace BD',
     storeAddress: 'Road 11, Block D, Banani / Gulshan-2, Dhaka 1213, Bangladesh',
   });
 
@@ -234,10 +234,10 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2.5 text-xs text-neutral-400 font-sans">
               <li>
                 <a
-                  href="mailto:concierge@rawdahperfumes.com"
+                  href="mailto:concierge@scentpalacebd.com"
                   className="hover:text-white transition-colors duration-200 truncate block"
                 >
-                  concierge@rawdahperfumes.com
+                  concierge@scentpalacebd.com
                 </a>
               </li>
               <li>
@@ -270,10 +270,10 @@ export const Footer: React.FC = () => {
           {/* Left: Physical Address + Copyright */}
           <div className="space-y-1 text-xs text-neutral-400 font-sans max-w-xl">
             <p>
-              {branding.storeAddress || 'Rāwdah Atelier HQ, Road 11, Block D, Gulshan-2, Dhaka 1212, Bangladesh.'}
+              {branding.storeAddress || 'Scent Palace BD Atelier HQ, Road 11, Block D, Gulshan-2, Dhaka 1212, Bangladesh.'}
             </p>
             <p className="text-neutral-500 text-[11px]">
-              © {currentYear} {branding.storeName || 'Rāwdah Haute Parfumerie'}. All rights reserved.
+              © {currentYear} {branding.storeName || 'Scent Palace BD'}. All rights reserved.
             </p>
           </div>
 
@@ -350,7 +350,11 @@ export const Footer: React.FC = () => {
             className="font-serif font-medium tracking-tight text-white/[0.06] sm:text-white/[0.08] block leading-none text-[13vw] sm:text-[10vw] md:text-[8.5vw] lg:text-[7.5vw] whitespace-nowrap"
             style={{ letterSpacing: '0.02em' }}
           >
-            {branding.storeName ? branding.storeName.split(' ')[0] : 'Rāwdah'}
+            {branding.storeName
+              ? branding.storeName.toLowerCase().includes('scent palace')
+                ? 'SCENT PALACE'
+                : branding.storeName.toUpperCase()
+              : 'SCENT PALACE'}
           </span>
           <span
             className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 lg:w-6 lg:h-6 rounded-full bg-[#D45520]/40 inline-block mb-[1.2vw] shrink-0"
@@ -361,9 +365,11 @@ export const Footer: React.FC = () => {
           className="text-[2.4vw] sm:text-[1.8vw] md:text-[1.3vw] lg:text-[1.05vw] uppercase tracking-[0.32em] font-sans font-medium text-white/[0.04] sm:text-white/[0.06] block mt-2 sm:mt-3 whitespace-nowrap"
           style={{ letterSpacing: '0.3em' }}
         >
-          {branding.storeName && branding.storeName.split(' ').length > 1
-            ? branding.storeName.split(' ').slice(1).join(' ')
-            : 'Haute Parfumerie'}
+          {branding.storeName && branding.storeName.toLowerCase().includes('scent palace')
+            ? 'HAUTE PARFUMERIE • BD'
+            : branding.storeName && branding.storeName.split(' ').length > 1
+            ? branding.storeName.split(' ').slice(1).join(' ').toUpperCase()
+            : 'HAUTE PARFUMERIE'}
         </span>
       </motion.div>
     </footer>

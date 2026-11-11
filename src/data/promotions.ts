@@ -26,7 +26,7 @@ export const WELCOME_PROMO: WelcomePromoConfig = {
   tagline: 'CELEBRATE YOUR SIGNATURE SCENT',
   title: 'Complimentary 15% Privilege',
   subtitle:
-    'Step into the sovereign world of Rāwdah Haute Parfumerie with an exclusive welcome privilege on your maiden flacon.',
+    'Step into the sovereign world of Scent Palace BD with an exclusive welcome privilege on your maiden flacon.',
   perks: [
     '15% instant reduction on any extrait or coffret',
     'Two complimentary 2ml luxury extrait samples included',

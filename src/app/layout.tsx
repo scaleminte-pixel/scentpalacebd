@@ -33,30 +33,36 @@ export const fetchCache = 'force-no-store';
 
 export async function generateMetadata(): Promise<Metadata> {
   let favicon = '/favicon.ico';
+  let storeName = 'Scent Palace BD';
   try {
-    const setting = await prisma.storeSetting.findUnique({
-      where: { key: 'faviconUrl' },
-    });
-    if (setting) {
-      const parsed = JSON.parse(setting.valueJson);
+    const [favSetting, nameSetting] = await Promise.all([
+      prisma.storeSetting.findUnique({ where: { key: 'faviconUrl' } }),
+      prisma.storeSetting.findUnique({ where: { key: 'storeName' } }),
+    ]);
+    if (favSetting) {
+      const parsed = JSON.parse(favSetting.valueJson);
       if (parsed) favicon = parsed;
+    }
+    if (nameSetting) {
+      const parsed = JSON.parse(nameSetting.valueJson);
+      if (parsed) storeName = parsed;
     }
   } catch (_) {}
 
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-    title: 'Rāwdah Haute Parfumerie | Artisanal Luxury Fragrances & Royal Ouds',
+    title: `${storeName} | Artisanal Luxury Fragrances & Royal Ouds`,
     description:
-      'Experience the sovereign world of Rāwdah Haute Parfumerie. Blended with rare Cambodian oud, Baltic amber, and Taif roses. Complimentary shipping across Bangladesh.',
+      `Experience the sovereign world of ${storeName}. Blended with rare Cambodian oud, Baltic amber, and Taif roses. Complimentary shipping across Bangladesh.`,
     keywords: [
       'luxury perfume',
       'oud',
       'attar',
-      'rawdah',
+      'scent palace bd',
+      'perfume bangladesh',
       'bleu oud',
       'oud ambre',
       'extrait de parfum',
-      'bangladesh perfume',
       'dhaka luxury fragrance',
     ],
     icons: {

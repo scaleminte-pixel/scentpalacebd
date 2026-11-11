@@ -203,7 +203,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-[#D45520]" />
                 <span className="text-xs font-bold uppercase tracking-wider text-neutral-800">
-                  Rāwdah Haute Parfumerie
+                  Scent Palace BD
                 </span>
               </div>
 

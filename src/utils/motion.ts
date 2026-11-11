@@ -1,5 +1,5 @@
 /**
- * Rāwdah Haute Parfumerie Shared Motion System
+ * Scent Palace BD Shared Motion System
  *
  * Designed for luxury editorial cadence:
  * - Shared ease curve: cubic-bezier(0.22, 1, 0.36, 1)

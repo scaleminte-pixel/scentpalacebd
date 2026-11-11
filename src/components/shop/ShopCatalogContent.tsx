@@ -220,7 +220,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                 transition={{ duration: 0.45, delay: 0.05, ease: LUXURY_EASE }}
                 className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D45520] block"
               >
-                Rāwdah Parfumerie Catalog
+                Scent Palace BD Catalog
               </motion.span>
               <motion.h1
                 initial={{ opacity: 0, y: 14 }}

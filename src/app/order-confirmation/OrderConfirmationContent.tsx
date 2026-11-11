@@ -479,7 +479,7 @@ export const OrderConfirmationContent: React.FC = () => {
               <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-[#EAE4DC] text-xs text-neutral-600 space-y-2">
                 <div className="flex items-center gap-2 text-neutral-900 font-semibold">
                   <Sparkles className="w-4 h-4 text-[#C5A059]" />
-                  <span>Maison Rāwdah Sample First Policy</span>
+                  <span>Scent Palace BD Sample First Policy</span>
                 </div>
                 <p className="text-[11px] leading-relaxed text-neutral-500">
                   Every shipment includes two complimentary 2ml sample extraits. Test them on your skin before unsealing your primary flacon.
@@ -499,13 +499,13 @@ export const OrderConfirmationContent: React.FC = () => {
         <div className="flex items-start justify-between pb-4 border-b-2 border-neutral-900">
           <div>
             <h1 className="font-serif text-2xl font-bold tracking-tight text-neutral-900">
-              RĀWDAH HAUTE PARFUMERIE
+              SCENT PALACE BD
             </h1>
             <p className="text-[11px] text-neutral-600 mt-0.5">
               Atelier: Road 11, Block D, Gulshan-2, Dhaka 1212, Bangladesh
             </p>
             <p className="text-[11px] text-neutral-600">
-              Concierge: +880 1711-000000 | concierge@rawdahperfumes.com
+              Concierge: +880 1711-000000 | concierge@scentpalacebd.com
             </p>
           </div>
 
@@ -581,7 +581,7 @@ export const OrderConfirmationContent: React.FC = () => {
                   <td className="py-2.5 px-2 text-center text-neutral-500">{idx + 1}</td>
                   <td className="py-2.5 px-2">
                     <strong className="text-neutral-900 font-medium block">{it.name}</strong>
-                    <span className="text-[10px] text-neutral-500">Maison Rāwdah Extrait de Parfum</span>
+                    <span className="text-[10px] text-neutral-500">Scent Palace BD Extrait de Parfum</span>
                   </td>
                   <td className="py-2.5 px-2 font-medium text-neutral-700">{it.size}</td>
                   <td className="py-2.5 px-2 text-right text-neutral-800">{formatPrice(it.price)}</td>
@@ -631,7 +631,7 @@ export const OrderConfirmationContent: React.FC = () => {
             <p className="font-mono text-[9px]">DOC-REF: {order.orderId}</p>
           </div>
           <p className="text-center pt-2 text-neutral-400">
-            Thank you for patronizing Rāwdah Haute Parfumerie • Computer Generated Tax Invoice • Gulshan-2, Dhaka
+            Thank you for patronizing Scent Palace BD • Computer Generated Tax Invoice • Gulshan-2, Dhaka
           </p>
         </div>
       </div>

@@ -17,9 +17,9 @@ export async function GET() {
       }
     }
 
-    const storeName = settingsMap["storeName"] || "Rāwdah Haute Parfumerie";
+    const storeName = settingsMap["storeName"] || "Scent Palace BD";
     const storeAddress = settingsMap["storeAddress"] || "Road 11, Block D, Banani / Gulshan-2, Dhaka 1213, Bangladesh";
-    const storeEmail = settingsMap["storeEmail"] || "concierge@rawdahperfumes.com";
+    const storeEmail = settingsMap["storeEmail"] || "concierge@scentpalacebd.com";
     const storePhone = settingsMap["storePhone"] || "+880 1711-000000";
 
     return NextResponse.json(
@@ -28,7 +28,7 @@ export async function GET() {
         storefrontLogoDarkUrl: settingsMap["storefrontLogoDarkUrl"] || "",
         faviconUrl: settingsMap["faviconUrl"] || "",
         adminLogoUrl: settingsMap["adminLogoUrl"] || "",
-        adminBrandTitle: settingsMap["adminBrandTitle"] || storeName || "Rāwdah Atelier",
+        adminBrandTitle: settingsMap["adminBrandTitle"] || storeName || "Scent Palace BD",
         adminBrandSubtitle: settingsMap["adminBrandSubtitle"] || "Admin Console",
         adminHideText: settingsMap["adminHideText"] === true || settingsMap["adminHideText"] === "true",
         storeName,
@@ -50,10 +50,10 @@ export async function GET() {
         storefrontLogoDarkUrl: "",
         faviconUrl: "",
         adminLogoUrl: "",
-        adminBrandTitle: "Rāwdah Atelier",
+        adminBrandTitle: "Scent Palace BD",
         adminBrandSubtitle: "Admin Console",
         adminHideText: false,
-        storeName: "Rāwdah Haute Parfumerie",
+        storeName: "Scent Palace BD",
         storeAddress: "Road 11, Block D, Banani / Gulshan-2, Dhaka 1213, Bangladesh",
       },
       { status: 200 }

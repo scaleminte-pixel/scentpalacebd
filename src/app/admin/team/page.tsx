@@ -247,7 +247,7 @@ export default function AdminTeamPage() {
                 <label className="block text-stone-600 font-medium mb-1">Official Email</label>
                 <input
                   type="email"
-                  placeholder="tariq@rawdahperfumes.com"
+                  placeholder="tariq@scentpalacebd.com"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required

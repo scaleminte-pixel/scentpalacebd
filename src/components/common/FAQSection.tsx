@@ -17,7 +17,7 @@ interface FAQSectionProps {
 
 const DEFAULT_FAQS: FAQItem[] = [
   {
-    q: 'How long do Rāwdah perfumes last on skin and clothes?',
+    q: 'How long do Scent Palace BD perfumes last on skin and clothes?',
     a: 'Because our formulations are pure Extrait de Parfum (25% – 30% oil concentration), they easily last 14 to 18+ hours on skin and multiple days on clothing. You do not need to re-spray throughout the day.',
   },
   {

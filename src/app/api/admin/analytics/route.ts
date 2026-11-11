@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
 
     // Top landing pages
     const topPages = [
-      { path: "/", title: "Maison Rāwdah — Haute Parfumerie Home", views: 2450, bounceRate: "28%" },
+      { path: "/", title: "Scent Palace BD — Haute Parfumerie Home", views: 2450, bounceRate: "28%" },
       { path: "/product/oud-ambre", title: "Oud Ambré — Sovereign Sillage", views: 1120, bounceRate: "19%" },
       { path: "/shop", title: "Private Collection — All Fragrances", views: 980, bounceRate: "22%" },
       { path: "/product/royal-saffron", title: "Royal Saffron Extrait", views: 640, bounceRate: "18%" },

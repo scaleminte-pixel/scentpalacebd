@@ -9,14 +9,14 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const { login } = useAdminAuth();
 
-  const [email, setEmail] = useState('owner@rawdahperfumes.com');
+  const [email, setEmail] = useState('owner@scentpalacebd.com');
   const [password, setPassword] = useState('RawdahOwner2026!');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [branding, setBranding] = useState({
     adminLogoUrl: '',
-    adminBrandTitle: 'Maison Rāwdah',
-    adminBrandSubtitle: 'Atelier Workspace',
+    adminBrandTitle: 'Scent Palace BD',
+    adminBrandSubtitle: 'Commerce & Atelier Portal',
   });
 
   useEffect(() => {
@@ -27,8 +27,8 @@ export default function AdminLoginPage() {
           if (data) {
             setBranding({
               adminLogoUrl: data.adminLogoUrl || '',
-              adminBrandTitle: data.adminBrandTitle || data.storeName || 'Maison Rāwdah',
-              adminBrandSubtitle: data.adminBrandSubtitle || 'Atelier Workspace',
+              adminBrandTitle: data.adminBrandTitle || data.storeName || 'Scent Palace BD',
+              adminBrandSubtitle: data.adminBrandSubtitle || 'Commerce & Atelier Portal',
             });
           }
         })
@@ -42,6 +42,12 @@ export default function AdminLoginPage() {
       window.removeEventListener('storage', fetchLogo);
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.title = `${branding.adminBrandTitle || 'Scent Palace BD'} — Admin Login`;
+    }
+  }, [branding.adminBrandTitle]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,7 +90,7 @@ export default function AdminLoginPage() {
             </div>
           ) : (
             <div className="w-12 h-12 rounded-2xl bg-[#141312] text-[#FAF7F2] flex items-center justify-center mx-auto font-bold text-2xl mb-4 shadow-md">
-              {(branding.adminBrandTitle || 'R').charAt(0)}
+              {(branding.adminBrandTitle || 'S').charAt(0)}
             </div>
           )}
           <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#D45520] block mb-1">
@@ -118,7 +124,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#D4CFCE] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#D45520]"
-                placeholder="admin@rawdahperfumes.com"
+                placeholder="admin@scentpalacebd.com"
               />
             </div>
           </div>
@@ -169,7 +175,7 @@ export default function AdminLoginPage() {
           <div className="grid grid-cols-2 gap-2 text-[11px]">
             <button
               type="button"
-              onClick={() => prefillAccount('owner@rawdahperfumes.com', 'RawdahOwner2026!')}
+              onClick={() => prefillAccount('owner@scentpalacebd.com', 'RawdahOwner2026!')}
               className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-left transition-colors"
             >
               <div className="font-bold text-neutral-900">Owner</div>
@@ -177,7 +183,7 @@ export default function AdminLoginPage() {
             </button>
             <button
               type="button"
-              onClick={() => prefillAccount('manager@rawdahperfumes.com', 'RawdahManager2026!')}
+              onClick={() => prefillAccount('manager@scentpalacebd.com', 'RawdahManager2026!')}
               className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-left transition-colors"
             >
               <div className="font-bold text-neutral-900">Manager</div>
@@ -185,7 +191,7 @@ export default function AdminLoginPage() {
             </button>
             <button
               type="button"
-              onClick={() => prefillAccount('orderstaff@rawdahperfumes.com', 'RawdahStaff2026!')}
+              onClick={() => prefillAccount('orderstaff@scentpalacebd.com', 'RawdahStaff2026!')}
               className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-left transition-colors"
             >
               <div className="font-bold text-neutral-900">Order Staff</div>
@@ -193,7 +199,7 @@ export default function AdminLoginPage() {
             </button>
             <button
               type="button"
-              onClick={() => prefillAccount('accountant@rawdahperfumes.com', 'RawdahAccounts2026!')}
+              onClick={() => prefillAccount('accountant@scentpalacebd.com', 'RawdahAccounts2026!')}
               className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-left transition-colors"
             >
               <div className="font-bold text-neutral-900">Accountant</div>

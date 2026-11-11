@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import { OrderConfirmationContent } from './OrderConfirmationContent';
 
 export const metadata: Metadata = {
-  title: 'Order Confirmation | Rāwdah Haute Parfumerie',
-  description: 'Thank you for your order with Rāwdah Haute Parfumerie.',
+  title: 'Order Confirmation | Scent Palace BD',
+  description: 'Thank you for your order with Scent Palace BD.',
 };
 
 export default function OrderConfirmationPage() {

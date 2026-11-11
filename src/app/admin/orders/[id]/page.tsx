@@ -279,11 +279,11 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           <div id="printable-invoice" className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 sm:p-8 space-y-6">
             <div className="flex justify-between items-start border-b border-stone-200 pb-6">
               <div>
-                <span className="text-xl tracking-wider text-stone-900 block font-bold">RĀWDAH</span>
+                <span className="text-xl tracking-wider text-stone-900 block font-bold">SCENT PALACE BD</span>
                 <span className="text-[10px] tracking-widest text-stone-400 uppercase">Haute Parfumerie Atelier</span>
                 <p className="text-xs text-stone-500 mt-2">
                   Road 11, Block D, Gulshan-2, Dhaka 1212<br />
-                  concierge@rawdahperfumes.com | +880 1711-000000
+                  concierge@scentpalacebd.com | +880 1711-000000
                 </p>
               </div>
               <div className="text-right">
@@ -538,7 +538,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                 <div>
                   <span className="font-semibold text-stone-900 block">{order.customerName}</span>
                   <span className="text-xs text-stone-500">
-                    {order.customer?.totalOrders ? `${order.customer.totalOrders} total orders with Rāwdah` : 'First-time client'}
+                    {order.customer?.totalOrders ? `${order.customer.totalOrders} total orders with Scent Palace BD` : 'First-time client'}
                   </span>
                 </div>
               </div>

@@ -71,15 +71,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!product) {
     return {
-      title: 'Fragrance Not Found | Rāwdah Haute Parfumerie',
+      title: 'Fragrance Not Found | Scent Palace BD',
     };
   }
 
   return {
-    title: `${product.name} — ${product.concentration} | Rāwdah Haute Parfumerie`,
+    title: `${product.name} — ${product.concentration} | Scent Palace BD`,
     description: product.description,
     openGraph: {
-      title: `${product.name} | Rāwdah`,
+      title: `${product.name} | Scent Palace BD`,
       description: product.description,
       images: [{ url: product.images[0] || '/images/products/lattafa-blue-oud.webp' }],
     },

@@ -52,7 +52,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   const [cacheClearSuccess, setCacheClearSuccess] = useState(false);
   const [branding, setBranding] = useState({
     adminLogoUrl: '',
-    adminBrandTitle: 'Rāwdah Atelier',
+    adminBrandTitle: 'Scent Palace BD',
     adminBrandSubtitle: 'Admin Console',
     adminHideText: false,
   });
@@ -66,7 +66,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           if (data) {
             setBranding({
               adminLogoUrl: data.adminLogoUrl || '',
-              adminBrandTitle: data.adminBrandTitle || data.storeName || 'Rāwdah Atelier',
+              adminBrandTitle: data.adminBrandTitle || data.storeName || 'Scent Palace BD',
               adminBrandSubtitle: data.adminBrandSubtitle || 'Admin Console',
               adminHideText: data.adminHideText === true || data.adminHideText === 'true',
             });
@@ -82,6 +82,16 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       window.removeEventListener('branding_updated', fetchBranding);
     };
   }, []);
+
+  // Synchronize browser tab title for all admin routes
+  React.useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const title = branding.adminBrandTitle
+        ? `${branding.adminBrandTitle} — Admin Console`
+        : 'Scent Palace BD — Admin Console';
+      document.title = title;
+    }
+  }, [branding.adminBrandTitle]);
 
   // Fetch notifications on mount
   React.useEffect(() => {
@@ -123,7 +133,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center admin-shell">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-3 border-[#D45520] border-t-transparent rounded-full animate-spin" />
-          <span className="text-stone-700 text-sm font-semibold tracking-tight">Authenticating Rāwdah Workspace...</span>
+          <span className="text-stone-700 text-sm font-semibold tracking-tight">Authenticating Scent Palace BD Workspace...</span>
         </div>
       </div>
     );
@@ -202,7 +212,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
               />
             ) : (
               <div className="w-8 h-8 rounded-lg bg-[#141312] text-[#FAF7F2] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-                {(branding.adminBrandTitle || 'R').charAt(0)}
+                {(branding.adminBrandTitle || 'S').charAt(0)}
               </div>
             )}
             {!isCollapsed && (!branding.adminHideText || !branding.adminLogoUrl) && (

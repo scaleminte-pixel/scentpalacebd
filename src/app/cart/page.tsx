@@ -250,7 +250,7 @@ export default function CartPage() {
                         setCouponCode(e.target.value);
                         setCouponMsg(null);
                       }}
-                      placeholder="Try: LUXURY10 or RAWDAH500"
+                      placeholder="Try: LUXURY10 or SCENT500"
                       className="flex-1 px-3 py-2 text-xs border border-[#D4CFCE] rounded-lg uppercase tracking-wider focus:outline-none focus:border-[#D45520]"
                     />
                     <button

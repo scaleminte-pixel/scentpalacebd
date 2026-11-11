@@ -38,7 +38,7 @@ export const Hero: React.FC = () => {
       >
         <Image
           src={heroImage}
-          alt="Rāwdah Haute Parfumerie Campaign Model"
+          alt="Scent Palace BD Campaign Model"
           fill
           priority
           className="object-cover object-center md:object-[center_22%] select-none scale-100"

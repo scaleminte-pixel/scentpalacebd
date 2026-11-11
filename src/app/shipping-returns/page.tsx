@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { Truck, ShieldCheck, RotateCcw, Package, Clock, Check } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Shipping & Returns Policy | Rāwdah Haute Parfumerie',
+  title: 'Shipping & Returns Policy | Scent Palace BD',
   description:
     'Details on complimentary express delivery across Bangladesh, same-day delivery in Dhaka, and our Sample First returns guarantee.',
 };

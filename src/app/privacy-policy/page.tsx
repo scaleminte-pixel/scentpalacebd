@@ -2,7 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Rāwdah Haute Parfumerie',
+  title: 'Privacy Policy | Scent Palace BD',
   description:
     'Our commitment to privacy, data encryption, and discreet client management.',
 };
@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
               1. Our Commitment to Client Confidentiality
             </h2>
             <p>
-              At Rāwdah Haute Parfumerie, discretion is paramount. We treat all personal, payment, and delivery information with the strictest security protocols. We never sell, rent, or lease client details to third-party marketing entities.
+              At Scent Palace BD, discretion is paramount. We treat all personal, payment, and delivery information with the strictest security protocols. We never sell, rent, or lease client details to third-party marketing entities.
             </p>
           </section>
 
@@ -47,7 +47,7 @@ export default function PrivacyPolicyPage() {
               3. Payment Security & Encryption
             </h2>
             <p>
-              All online digital transactions (Cards, bKash, Nagad) are processed through 256-bit SSL encrypted PCI-DSS compliant financial gateways. Rāwdah does not store raw credit card credentials or mobile banking PINs on its servers.
+              All online digital transactions (Cards, bKash, Nagad) are processed through 256-bit SSL encrypted PCI-DSS compliant financial gateways. Scent Palace BD does not store raw credit card credentials or mobile banking PINs on its servers.
             </p>
           </section>
 
@@ -56,7 +56,7 @@ export default function PrivacyPolicyPage() {
               4. Contact Us Regarding Your Data
             </h2>
             <p>
-              If you have any questions or wish to update or delete your profile from our private clientele records, please contact our Data Protection Officer at <strong>privacy@rawdahperfumes.com</strong>.
+              If you have any questions or wish to update or delete your profile from our private clientele records, please contact our Data Protection Officer at <strong>privacy@scentpalacebd.com</strong>.
             </p>
           </section>
         </div>

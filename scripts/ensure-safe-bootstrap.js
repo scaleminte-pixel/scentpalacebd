@@ -133,10 +133,12 @@ async function ensureSafeBootstrap() {
 
     await prisma.adminUser.createMany({
       data: [
+        { email: 'owner@scentpalacebd.com', name: 'Tanvir Ahmed Chowdhury', role: 'OWNER', passwordHash: passOwner, isActive: true },
+        { email: 'admin@scentpalacebd.com', name: 'Scent Palace Administrator', role: 'OWNER', passwordHash: passOwner, isActive: true },
         { email: 'owner@rawdahperfumes.com', name: 'Tanvir Ahmed Chowdhury', role: 'OWNER', passwordHash: passOwner, isActive: true },
-        { email: 'manager@rawdahperfumes.com', name: 'Nusrat Jahan', role: 'MANAGER', passwordHash: passManager, isActive: true },
-        { email: 'orderstaff@rawdahperfumes.com', name: 'Rakib Hasan', role: 'ORDER_STAFF', passwordHash: passStaff, isActive: true },
-        { email: 'accountant@rawdahperfumes.com', name: 'Mahmudul Karim', role: 'ACCOUNTANT', passwordHash: passAccountant, isActive: true },
+        { email: 'manager@scentpalacebd.com', name: 'Nusrat Jahan', role: 'MANAGER', passwordHash: passManager, isActive: true },
+        { email: 'orderstaff@scentpalacebd.com', name: 'Rakib Hasan', role: 'ORDER_STAFF', passwordHash: passStaff, isActive: true },
+        { email: 'accountant@scentpalacebd.com', name: 'Mahmudul Karim', role: 'ACCOUNTANT', passwordHash: passAccountant, isActive: true },
       ],
     });
     console.log('Admin users seeded successfully.');

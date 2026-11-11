@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Our Story & Heritage | Rāwdah Haute Parfumerie',
+  title: 'Our Story & Heritage | Scent Palace BD',
   description:
-    'Discover the philosophy, artisanal sourcing, and master perfumers behind Rāwdah Haute Parfumerie in Dhaka and Dubai.',
+    'Discover the philosophy, artisanal sourcing, and master perfumers behind Scent Palace BD in Dhaka and Dubai.',
 };
 
 export default function OurStoryPage() {
@@ -17,7 +17,7 @@ export default function OurStoryPage() {
       <section className="relative w-full h-[55vh] min-h-[400px] flex items-center justify-center bg-neutral-950 text-white overflow-hidden">
         <Image
           src="/images/banner-oud-collection.jpg"
-          alt="Rāwdah Heritage Atelier"
+          alt="Scent Palace BD Heritage Atelier"
           fill
           priority
           className="object-cover object-center opacity-40 scale-105"
@@ -47,7 +47,7 @@ export default function OurStoryPage() {
               Crafted with Soul, Bottled Without Compromise.
             </h2>
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
-              Rāwdah was founded on a singular conviction: that true luxury perfume is not merely a cosmetic accessory, but an intimate emotional sanctuary. In Arabic, <em>Rāwdah</em> signifies a celestial garden of eternal fragrance and tranquil beauty.
+              Scent Palace BD was founded on a singular conviction: that true luxury perfume is not merely a cosmetic accessory, but an intimate emotional sanctuary. A palace of exquisite, timeless fragrances designed to elevate daily life into an art.
             </p>
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
               Frustrated by mass-market formulations that trade pure botanical essences for fleeting synthetic top notes, our founder set out on a three-year pilgrimage through the agarwood jungles of Pursat, Cambodia, the high rose terraces of Taif, and the historic copper distilleries of Grasse, France.
@@ -75,7 +75,7 @@ export default function OurStoryPage() {
               Extrait Concentration
             </h3>
             <p className="text-xs text-neutral-600 leading-relaxed font-sans">
-              Every Rāwdah creation is composed at an exceptional 25% to 30% pure perfume oil concentration, ensuring sovereign projection and over 14 hours of persistent sillage.
+              Every Scent Palace BD creation is composed at an exceptional 25% to 30% pure perfume oil concentration, ensuring sovereign projection and over 14 hours of persistent sillage.
             </p>
           </div>
 

@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 async function run() {
   const faqItems = [
     {
-      q: 'How long do Rāwdah perfumes last on skin and clothes?',
+      q: 'How long do Scent Palace BD perfumes last on skin and clothes?',
       a: 'Because our formulations are pure Extrait de Parfum (25% – 30% oil concentration), they easily last 14 to 18+ hours on skin and multiple days on clothing. You do not need to re-spray throughout the day.'
     },
     {
@@ -63,7 +63,7 @@ async function run() {
         couponCode: 'WELCOME15',
         tagline: 'CELEBRATE YOUR SIGNATURE SCENT',
         title: 'Complimentary 15% Privilege',
-        subtitle: 'Step into the sovereign world of Rāwdah Haute Parfumerie with an exclusive welcome privilege on your maiden flacon.',
+        subtitle: 'Step into the sovereign world of Scent Palace BD with an exclusive welcome privilege on your maiden flacon.',
         perks: [
           '15% instant reduction on any extrait or coffret',
           'Two complimentary 2ml luxury extrait samples included',
@@ -88,7 +88,7 @@ async function run() {
         couponCode: 'WELCOME15',
         tagline: 'CELEBRATE YOUR SIGNATURE SCENT',
         title: 'Complimentary 15% Privilege',
-        subtitle: 'Step into the sovereign world of Rāwdah Haute Parfumerie with an exclusive welcome privilege on your maiden flacon.',
+        subtitle: 'Step into the sovereign world of Scent Palace BD with an exclusive welcome privilege on your maiden flacon.',
         perks: [
           '15% instant reduction on any extrait or coffret',
           'Two complimentary 2ml luxury extrait samples included',

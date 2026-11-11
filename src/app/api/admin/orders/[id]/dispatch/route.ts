@@ -39,7 +39,7 @@ export async function POST(
       recipientPhone: order.customerPhone,
       recipientAddress: `${addr.address || ''}, ${addr.city || 'Dhaka'}`,
       codAmount,
-      note: 'Rāwdah Haute Parfumerie Luxury Fragrance',
+      note: 'Scent Palace BD Luxury Fragrance',
     });
 
     // Commit stock dispatch & update order status to SHIPPED

@@ -23,6 +23,13 @@ export const COUPONS: Coupon[] = [
     description: '10% off your entire luxury purchase',
   },
   {
+    code: 'SCENT500',
+    type: 'fixed',
+    value: 500,
+    minSpend: 5000,
+    description: '৳500 off on orders over ৳5,000',
+  },
+  {
     code: 'RAWDAH500',
     type: 'fixed',
     value: 500,

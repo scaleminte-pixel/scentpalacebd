@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
         return new NextResponse(csvContent, {
           headers: {
             "Content-Type": "text/csv; charset=utf-8",
-            "Content-Disposition": `attachment; filename="rawdah-sales-report-${Date.now()}.csv"`,
+            "Content-Disposition": `attachment; filename="scentpalace-sales-report-${Date.now()}.csv"`,
           },
         });
       }
@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
         return new NextResponse(csvContent, {
           headers: {
             "Content-Type": "text/csv; charset=utf-8",
-            "Content-Disposition": `attachment; filename="rawdah-inventory-valuation-${Date.now()}.csv"`,
+            "Content-Disposition": `attachment; filename="scentpalace-inventory-valuation-${Date.now()}.csv"`,
           },
         });
       }

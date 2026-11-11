@@ -236,7 +236,7 @@ export async function POST(req: NextRequest) {
         customer = await tx.customer.create({
           data: {
             name: customerName.trim(),
-            email: customerEmail ? customerEmail.trim().toLowerCase() : `${customerPhone.trim()}@guest.rawdah.com`,
+            email: customerEmail ? customerEmail.trim().toLowerCase() : `${customerPhone.trim()}@guest.scentpalacebd.com`,
             phone: customerPhone.trim(),
             address: streetAddress.trim(),
             city: city ? city.trim() : 'Dhaka',

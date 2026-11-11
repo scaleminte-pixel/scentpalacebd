@@ -280,7 +280,7 @@ export default function CheckoutPage() {
         setSubmissionError(data.error || 'Failed to complete order. Please verify your details.');
       }
     } catch (err: any) {
-      setSubmissionError(err.message || 'Network error occurred while connecting to Rāwdah Atelier.');
+      setSubmissionError(err.message || 'Network error occurred while connecting to Scent Palace BD.');
     } finally {
       if (!isOrderPlaced) {
         setIsSubmitting(false);
@@ -695,7 +695,7 @@ export default function CheckoutPage() {
             </div>
 
             <p className="text-[11px] text-center text-neutral-400 font-sans">
-              By placing this order, you agree to Rāwdah Haute Parfumerie&apos;s Terms of Service and Sample First Policy.
+              By placing this order, you agree to Scent Palace BD&apos;s Terms of Service and Sample First Policy.
             </p>
           </div>
         </form>

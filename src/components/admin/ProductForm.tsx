@@ -87,13 +87,13 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
     if (initialData?.imageObjects && Array.isArray(initialData.imageObjects) && initialData.imageObjects.length > 0) {
       return initialData.imageObjects.map((img: any) => ({
         url: typeof img === 'string' ? img : img.url,
-        alt: img.alt || initialData.name || 'Rāwdah Luxury Fragrance',
+        alt: img.alt || initialData.name || 'Scent Palace BD Luxury Fragrance',
       }));
     }
     if (initialData?.images && Array.isArray(initialData.images) && initialData.images.length > 0) {
       return initialData.images.map((img: any) => ({
         url: typeof img === 'string' ? img : img.url,
-        alt: initialData.name || 'Rāwdah Luxury Fragrance',
+        alt: initialData.name || 'Scent Palace BD Luxury Fragrance',
       }));
     }
     return [
@@ -238,7 +238,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
       if (data.success) {
         const newImgItem: ProductImageItem = {
           url: data.url,
-          alt: `${name || 'Rāwdah Fragrance'} - ${data.alt}`,
+          alt: `${name || 'Scent Palace BD Fragrance'} - ${data.alt}`,
         };
 
         if (replaceIndexRef.current !== null) {
@@ -264,7 +264,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
         ...images,
         {
           url: imageUrlInput.trim(),
-          alt: imageAltInput.trim() || `${name || 'Rāwdah Fragrance'} Flacon`,
+          alt: imageAltInput.trim() || `${name || 'Scent Palace BD Fragrance'} Flacon`,
         },
       ]);
       setImageUrlInput('');
@@ -651,7 +651,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 rows={3}
                 value={story}
                 onChange={(e) => setStory(e.target.value)}
-                placeholder="Distilled under the desert stars, this fragrance represents the crown jewel of Rāwdah Haute Parfumerie..."
+                placeholder="Distilled under the desert stars, this fragrance represents the crown jewel of Scent Palace BD..."
                 className="w-full p-3 rounded-xl border border-stone-200 text-xs text-stone-800 leading-relaxed bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
               />
             </div>
@@ -719,7 +719,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
             </div>
           </div>
 
-          {/* Card 3: Perfume Olfactory Pyramid (Scent Notes - Rāwdah Signature) */}
+          {/* Card 3: Perfume Olfactory Pyramid (Scent Notes - Scent Palace BD Signature) */}
           <div className="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200 shadow-xs space-y-4">
             <h3 className="text-base font-bold text-stone-900 border-b border-stone-100 pb-2">
               Olfactory Pyramid & Scent Notes
@@ -911,7 +911,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                     onChange={(e) => setIsOnlineSelling(e.target.checked)}
                     className="accent-[#D45520] w-4 h-4 rounded"
                   />
-                  <span>Online Store (rawdahperfumes.com)</span>
+                  <span>Online Store (scentpalacebd.com)</span>
                 </label>
 
                 <label className="inline-flex items-center gap-2 cursor-pointer">
@@ -1579,7 +1579,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
         onSelect={(url) => {
           const newImgItem = {
             url,
-            alt: `${name || 'Rawdah Fragrance'} Flacon`,
+            alt: `${name || 'Scent Palace BD Fragrance'} Flacon`,
           };
           if (replaceIndexRef.current !== null) {
             const updated = [...images];

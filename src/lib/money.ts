@@ -1,5 +1,5 @@
 /**
- * Precise currency and financial calculations for Rāwdah Haute Parfumerie.
+ * Precise currency and financial calculations for Scent Palace BD.
  * Money is computed in exact integer Poisha (1 BDT = 100 Poisha) to eliminate
  * floating-point rounding errors across ledgers, invoices, and payouts.
  */

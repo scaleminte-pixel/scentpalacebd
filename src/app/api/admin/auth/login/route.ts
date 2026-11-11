@@ -11,9 +11,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Email and password are required' }, { status: 400 });
     }
 
-    const user = await prisma.adminUser.findUnique({
-      where: { email: email.trim().toLowerCase() },
+    const normalizedEmail = email.trim().toLowerCase();
+    let user = await prisma.adminUser.findUnique({
+      where: { email: normalizedEmail },
     });
+
+    if (!user && normalizedEmail.includes('@scentpalacebd.com')) {
+      user = await prisma.adminUser.findUnique({
+        where: { email: normalizedEmail.replace('@scentpalacebd.com', '@rawdahperfumes.com') },
+      });
+    } else if (!user && normalizedEmail.includes('@rawdahperfumes.com')) {
+      user = await prisma.adminUser.findUnique({
+        where: { email: normalizedEmail.replace('@rawdahperfumes.com', '@scentpalacebd.com') },
+      });
+    }
 
     if (!user || !user.isActive) {
       return NextResponse.json({ success: false, error: 'Invalid credentials or inactive account' }, { status: 401 });

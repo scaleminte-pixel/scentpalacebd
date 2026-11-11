@@ -16,7 +16,7 @@ export const RawdahLogo: React.FC<LogoProps> = ({
 }) => {
   const isLight = variant === 'light';
   const [logoUrl, setLogoUrl] = useState<string>('');
-  const [storeName, setStoreName] = useState<string>('Rawdah Haute Parfumerie');
+  const [storeName, setStoreName] = useState<string>('Scent Palace BD');
 
   useEffect(() => {
     const fetchLogo = () => {
@@ -77,7 +77,11 @@ export const RawdahLogo: React.FC<LogoProps> = ({
           }`}
           style={{ letterSpacing: '0.02em' }}
         >
-          {storeName ? storeName.split(' ')[0] : 'Rawdah'}
+          {storeName
+            ? storeName.toLowerCase().includes('scent palace')
+              ? 'Scent Palace'
+              : storeName.split(' ')[0]
+            : 'Scent Palace'}
         </span>
         <span
           className={`w-1.5 h-1.5 rounded-full ${
@@ -91,7 +95,9 @@ export const RawdahLogo: React.FC<LogoProps> = ({
             isLight ? 'text-neutral-300' : 'text-neutral-500'
           }`}
         >
-          {storeName && storeName.split(' ').length > 1
+          {storeName && storeName.toLowerCase().includes('scent palace')
+            ? 'Haute Parfumerie • BD'
+            : storeName && storeName.split(' ').length > 1
             ? storeName.split(' ').slice(1).join(' ')
             : 'Haute Parfumerie'}
         </span>

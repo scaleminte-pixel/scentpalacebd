@@ -82,7 +82,7 @@ export default function AdminContentPage() {
     couponCode: 'WELCOME15',
     promoTagline: 'CELEBRATE YOUR SIGNATURE SCENT',
     promoTitle: 'Complimentary 15% Privilege',
-    promoSubtitle: 'Step into the sovereign world of Rāwdah Haute Parfumerie with an exclusive welcome privilege.',
+    promoSubtitle: 'Step into the sovereign world of Scent Palace BD with an exclusive welcome privilege.',
     promoPerks: [
       '15% instant reduction on any extrait or coffret',
       'Two complimentary 2ml luxury extrait samples included',
@@ -783,7 +783,7 @@ export default function AdminContentPage() {
                         type="text"
                         value={form.highlightCode}
                         onChange={(e) => setForm({ ...form, highlightCode: e.target.value })}
-                        placeholder="e.g. ROYAL15 or RAWDAH10"
+                        placeholder="e.g. ROYAL15 or SCENT10"
                         className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white font-mono"
                       />
                     </div>

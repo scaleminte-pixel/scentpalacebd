@@ -25,8 +25,8 @@ export async function GET(req: NextRequest) {
     }
 
     const response = {
-      storeName: settingsMap["storeName"] || "Rāwdah Haute Parfumerie",
-      storeEmail: settingsMap["storeEmail"] || "concierge@rawdahperfumes.com",
+      storeName: settingsMap["storeName"] || "Scent Palace BD",
+      storeEmail: settingsMap["storeEmail"] || "concierge@scentpalacebd.com",
       storePhone: settingsMap["storePhone"] || "+880 1711-000000",
       storeAddress: settingsMap["storeAddress"] || "Road 11, Block D, Banani / Gulshan-2, Dhaka 1213, Bangladesh",
       currency: "BDT",
@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
       shippingFeeDhaka: settingsMap["shippingFeeDhaka"] ?? 80,
       shippingFeeOutside: settingsMap["shippingFeeOutside"] ?? 150,
       freeShippingThreshold: settingsMap["freeShippingThreshold"] ?? 5000,
-      orderNotificationEmail: settingsMap["orderNotificationEmail"] || "orders@rawdahperfumes.com",
+      orderNotificationEmail: settingsMap["orderNotificationEmail"] || "orders@scentpalacebd.com",
       lowStockThresholdDefault: settingsMap["lowStockThresholdDefault"] ?? 10,
       bkashMerchantNumber: settingsMap["bkashMerchantNumber"] || "01711000000",
       allowGuestCheckout: settingsMap["allowGuestCheckout"] ?? true,
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
       storefrontLogoDarkUrl: settingsMap["storefrontLogoDarkUrl"] || "",
       faviconUrl: settingsMap["faviconUrl"] || "",
       adminLogoUrl: settingsMap["adminLogoUrl"] || "",
-      adminBrandTitle: settingsMap["adminBrandTitle"] || settingsMap["storeName"] || "Rāwdah Atelier",
+      adminBrandTitle: settingsMap["adminBrandTitle"] || settingsMap["storeName"] || "Scent Palace BD",
       adminBrandSubtitle: settingsMap["adminBrandSubtitle"] || "Admin Console",
       adminHideText: settingsMap["adminHideText"] === true || settingsMap["adminHideText"] === "true",
     };
@@ -64,6 +64,10 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
+
+    if (body.storeName && (!body.adminBrandTitle || body.adminBrandTitle === 'Rāwdah Atelier')) {
+      body.adminBrandTitle = body.storeName;
+    }
 
     const keysToSave = [
       { key: "storeName", group: "GENERAL" },

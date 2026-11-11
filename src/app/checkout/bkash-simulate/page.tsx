@@ -50,7 +50,7 @@ function BkashSimulationContent() {
         <div className="bg-[#F9F9F9] border-b border-neutral-200 p-4 flex items-center justify-between text-xs">
           <div>
             <span className="text-neutral-500">Merchant:</span>{' '}
-            <strong className="text-neutral-900 font-semibold">Rāwdah Haute Parfumerie</strong>
+            <strong className="text-neutral-900 font-semibold">Scent Palace BD</strong>
           </div>
           <div>
             <span className="text-neutral-500">Invoice:</span>{' '}

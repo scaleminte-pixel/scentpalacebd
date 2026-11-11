@@ -100,7 +100,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-neutral-900">Concierge Email</h4>
-                  <p className="text-neutral-500 mt-0.5">concierge@rawdahperfumes.com</p>
+                  <p className="text-neutral-500 mt-0.5">concierge@scentpalacebd.com</p>
                 </div>
               </div>
 
@@ -120,7 +120,7 @@ export default function ContactPage() {
             {/* Direct WhatsApp Concierge Button */}
             <div className="pt-4 border-t border-[#EAE4DC]">
               <a
-                href="https://wa.me/8801711000000?text=Hello%20Rawdah%2C%20I%20would%20like%20to%20inquire%20about%20your%20perfumes."
+                href="https://wa.me/8801711000000?text=Hello%20Scent%20Palace%20BD%2C%20I%20would%20like%20to%20inquire%20about%20your%20perfumes."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3.5 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
@@ -149,7 +149,7 @@ export default function ContactPage() {
                   Message Dispatched
                 </h3>
                 <p className="text-xs text-neutral-600 max-w-sm mx-auto">
-                  Thank you for reaching out. A Rāwdah fragrance concierge has received your request and will contact you promptly.
+                  Thank you for reaching out. A Scent Palace BD fragrance concierge has received your request and will contact you promptly.
                 </p>
               </div>
             ) : (

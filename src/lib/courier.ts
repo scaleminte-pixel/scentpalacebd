@@ -46,7 +46,7 @@ export async function bookCourierParcel(req: ConsignmentRequest): Promise<Consig
           recipient_phone: req.recipientPhone,
           recipient_address: req.recipientAddress,
           cod_amount: req.codAmount,
-          note: req.note || 'Rāwdah Haute Parfumerie Luxury Flacon - Handle with care',
+          note: req.note || 'Scent Palace BD Luxury Flacon - Handle with care',
         }),
       });
 

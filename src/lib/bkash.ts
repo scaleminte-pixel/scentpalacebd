@@ -111,7 +111,7 @@ export async function createBkashPaymentSession(
     paymentID,
     createTime: new Date().toISOString(),
     orgLogo: '/images/payments/bkash-logo.png',
-    orgName: 'Rāwdah Haute Parfumerie',
+    orgName: 'Scent Palace BD',
     transactionStatus: 'Initiated',
     amount: amount.toFixed(2),
     currency: 'BDT',

@@ -8,7 +8,7 @@ export const revalidate = 0;
 export const fetchCache = 'force-no-store';
 
 export const metadata: Metadata = {
-  title: 'Luxury Fragrance Catalog & Collections | Rāwdah Haute Parfumerie',
+  title: 'Luxury Fragrance Catalog & Collections | Scent Palace BD',
   description:
     'Browse our complete masterwork fragrance collection. Filter by olfactive family (Oud & Woody, Amber, Floral, Citrus), gender, size, and price. Delivered across Bangladesh.',
 };

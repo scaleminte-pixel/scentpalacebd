@@ -18,14 +18,14 @@ import {
 
 export default function AdminSettingsPage() {
   const [form, setForm] = useState<any>({
-    storeName: 'Rāwdah Haute Parfumerie',
-    storeEmail: 'concierge@rawdahperfumes.com',
+    storeName: 'Scent Palace BD',
+    storeEmail: 'concierge@scentpalacebd.com',
     storePhone: '+880 1711-000000',
     storeAddress: 'Road 11, Block D, Banani / Gulshan-2, Dhaka 1213, Bangladesh',
     shippingFeeDhaka: 80,
     shippingFeeOutside: 150,
     freeShippingThreshold: 5000,
-    orderNotificationEmail: 'orders@rawdahperfumes.com',
+    orderNotificationEmail: 'orders@scentpalacebd.com',
     lowStockThresholdDefault: 10,
     bkashMerchantNumber: '01711000000',
     allowGuestCheckout: true,
@@ -33,7 +33,7 @@ export default function AdminSettingsPage() {
     storefrontLogoDarkUrl: '',
     faviconUrl: '',
     adminLogoUrl: '',
-    adminBrandTitle: 'Rāwdah Atelier',
+    adminBrandTitle: 'Scent Palace BD',
     adminBrandSubtitle: 'Admin Console',
     adminHideText: false,
   });
@@ -250,7 +250,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={form.adminBrandTitle || ''}
                 onChange={(e) => setForm({ ...form, adminBrandTitle: e.target.value })}
-                placeholder={form.storeName || 'Rāwdah Atelier'}
+                placeholder={form.storeName || 'Scent Palace BD'}
                 className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
               />
               <span className="text-[10px] text-stone-500 mt-1 block">

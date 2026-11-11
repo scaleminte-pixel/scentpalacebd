@@ -8,11 +8,11 @@ import { LUXURY_EASE, viewportOnce } from '@/utils/motion';
 
 export const InstagramSection: React.FC = () => {
   const instaPosts = [
-    { id: 1, image: '/images/insta-1.webp', tag: '@rawdah.fragrance' },
-    { id: 2, image: '/images/insta-2.webp', tag: '@rawdah.fragrance' },
-    { id: 3, image: '/images/insta-3.webp', tag: '@rawdah.fragrance' },
-    { id: 4, image: '/images/insta-4.webp', tag: '@rawdah.fragrance' },
-    { id: 5, image: '/images/insta-5.webp', tag: '@rawdah.fragrance' },
+    { id: 1, image: '/images/insta-1.webp', tag: '@scentpalace.bd' },
+    { id: 2, image: '/images/insta-2.webp', tag: '@scentpalace.bd' },
+    { id: 3, image: '/images/insta-3.webp', tag: '@scentpalace.bd' },
+    { id: 4, image: '/images/insta-4.webp', tag: '@scentpalace.bd' },
+    { id: 5, image: '/images/insta-5.webp', tag: '@scentpalace.bd' },
   ];
 
   return (
