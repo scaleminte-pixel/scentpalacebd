@@ -33,6 +33,9 @@ export default function AdminSettingsPage() {
     storefrontLogoDarkUrl: '',
     faviconUrl: '',
     adminLogoUrl: '',
+    adminBrandTitle: 'Rāwdah Atelier',
+    adminBrandSubtitle: 'Admin Console',
+    adminHideText: false,
   });
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -45,6 +48,9 @@ export default function AdminSettingsPage() {
       const fd = new FormData();
       fd.append('file', file);
       fd.append('folder', 'branding');
+      if (fieldKey === 'faviconUrl') {
+        fd.append('isFavicon', 'true');
+      }
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
       const data = await res.json();
       if (data.success && data.url) {
@@ -232,6 +238,56 @@ export default function AdminSettingsPage() {
               previewBg="bg-white"
               small
             />
+          </div>
+
+          {/* Admin Panel Text Customization */}
+          <div className="pt-4 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label className="block text-stone-700 font-bold mb-1">
+                Admin Brand Name / Title
+              </label>
+              <input
+                type="text"
+                value={form.adminBrandTitle || ''}
+                onChange={(e) => setForm({ ...form, adminBrandTitle: e.target.value })}
+                placeholder={form.storeName || 'Rāwdah Atelier'}
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+              />
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                Shown in Admin Sidebar and Login Screen (e.g. your store or company name).
+              </span>
+            </div>
+            <div>
+              <label className="block text-stone-700 font-bold mb-1">
+                Admin Brand Subtitle
+              </label>
+              <input
+                type="text"
+                value={form.adminBrandSubtitle || ''}
+                onChange={(e) => setForm({ ...form, adminBrandSubtitle: e.target.value })}
+                placeholder="Admin Console"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+              />
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                Sub-heading under brand name (e.g. &quot;Admin Console&quot; or &quot;Management Portal&quot;).
+              </span>
+            </div>
+          </div>
+
+          {/* Toggle: Hide text when logo is uploaded */}
+          <div className="pt-2">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-stone-800">
+              <input
+                type="checkbox"
+                checked={form.adminHideText || false}
+                onChange={(e) => setForm({ ...form, adminHideText: e.target.checked })}
+                className="w-4 h-4 rounded-md text-[#D45520] border-stone-300 focus:ring-[#D45520]"
+              />
+              <span>Display Logo Only in Admin Sidebar (Hide brand text when admin logo is uploaded)</span>
+            </label>
+            <p className="text-[10px] text-stone-500 mt-0.5 ml-6">
+              Enable this if your uploaded logo already includes your brand name/text to avoid redundant text.
+            </p>
           </div>
         </div>
 

@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
 
     // Support custom upload folder (e.g., 'branding' for logo/favicon)
     const folder = (formData.get('folder') as string) || 'products';
+    const isFavicon = (formData.get('isFavicon') as string) === 'true';
     const safeFolder = folder.replace(/[^a-zA-Z0-9_-]/g, '');
 
     // Generate safe base name
@@ -54,35 +55,65 @@ export async function POST(req: NextRequest) {
     const rawExt = path.extname(rawName);
     const baseName = path.basename(rawName, rawExt).replace(/_+/g, '_').substring(0, 40);
 
-    // Convert and compress to modern WebP using Sharp
     const timestamp = Date.now();
-    const outputFileName = `${baseName}-${timestamp}.webp`;
     const uploadDir = path.join(process.cwd(), 'public', 'images', safeFolder);
 
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
+    let outputFileName = `${baseName}-${timestamp}.webp`;
+    let optimizedBuffer: Buffer;
+    let format = 'webp';
+
+    if (isFavicon) {
+      outputFileName = `${baseName}-${timestamp}.png`;
+      format = 'png';
+      // High-res crisp PNG favicon
+      optimizedBuffer = await sharp(inputBuffer)
+        .rotate()
+        .resize({
+          width: 128,
+          height: 128,
+          fit: 'contain',
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
+        })
+        .png({ quality: 100 })
+        .toBuffer();
+
+      // Also automatically update disk favicon.ico files for direct browser root requests
+      try {
+        const ico64 = await sharp(inputBuffer)
+          .rotate()
+          .resize({ width: 64, height: 64, fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+          .png()
+          .toBuffer();
+        await fs.promises.writeFile(path.join(process.cwd(), 'public', 'favicon.ico'), ico64);
+        const appIcoPath = path.join(process.cwd(), 'src', 'app', 'favicon.ico');
+        if (fs.existsSync(path.dirname(appIcoPath))) {
+          await fs.promises.writeFile(appIcoPath, ico64);
+        }
+      } catch (icoErr) {
+        console.warn('Non-fatal favicon.ico disk sync warning:', icoErr);
+      }
+    } else {
+      // High quality luxury optimization for general images
+      optimizedBuffer = await sharp(inputBuffer)
+        .rotate()
+        .resize({
+          width: 1600,
+          height: 1600,
+          fit: 'inside',
+          withoutEnlargement: true,
+        })
+        .webp({
+          quality: 82,
+          effort: 4,
+        })
+        .toBuffer();
+    }
+
     const outputPath = path.join(uploadDir, outputFileName);
-
-    // High quality luxury optimization:
-    // 1. auto-rotate according to EXIF
-    // 2. resize down if larger than 1600px
-    // 3. convert to WebP with 82 quality (crystal clear flacons, tiny byte footprint)
-    const optimizedBuffer = await sharp(inputBuffer)
-      .rotate()
-      .resize({
-        width: 1600,
-        height: 1600,
-        fit: 'inside',
-        withoutEnlargement: true,
-      })
-      .webp({
-        quality: 82,
-        effort: 4,
-      })
-      .toBuffer();
-
     await fs.promises.writeFile(outputPath, optimizedBuffer);
 
     const optimizedSize = optimizedBuffer.length;
@@ -110,8 +141,8 @@ export async function POST(req: NextRequest) {
         width: metadata.width || 0,
         height: metadata.height || 0,
       },
-      format: 'webp',
-      message: `Image converted to WebP successfully. Saved ${savedPercent}% (${formatBytes(originalSize)} → ${formatBytes(optimizedSize)})`,
+      format,
+      message: `Image processed successfully. Saved ${savedPercent}% (${formatBytes(originalSize)} → ${formatBytes(optimizedSize)})`,
     });
   } catch (error: any) {
     console.error('Image upload & conversion error:', error);

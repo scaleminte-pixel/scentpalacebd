@@ -60,7 +60,10 @@ export async function generateMetadata(): Promise<Metadata> {
       'dhaka luxury fragrance',
     ],
     icons: {
-      icon: favicon,
+      icon: [
+        { url: favicon, type: favicon.endsWith('.png') ? 'image/png' : 'image/x-icon' },
+        { url: '/favicon.ico' },
+      ],
       shortcut: favicon,
       apple: favicon,
     },

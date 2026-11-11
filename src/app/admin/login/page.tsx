@@ -13,15 +13,24 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('RawdahOwner2026!');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [adminLogoUrl, setAdminLogoUrl] = useState('');
+  const [branding, setBranding] = useState({
+    adminLogoUrl: '',
+    adminBrandTitle: 'Maison Rāwdah',
+    adminBrandSubtitle: 'Atelier Workspace',
+  });
 
   useEffect(() => {
     const fetchLogo = () => {
       fetch('/api/branding')
         .then((r) => r.json())
         .then((data) => {
-          if (data.adminLogoUrl) setAdminLogoUrl(data.adminLogoUrl);
-          else setAdminLogoUrl('');
+          if (data) {
+            setBranding({
+              adminLogoUrl: data.adminLogoUrl || '',
+              adminBrandTitle: data.adminBrandTitle || data.storeName || 'Maison Rāwdah',
+              adminBrandSubtitle: data.adminBrandSubtitle || 'Atelier Workspace',
+            });
+          }
         })
         .catch(() => {});
     };
@@ -69,20 +78,20 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md bg-white rounded-3xl border border-[#EAE4DC] shadow-xl p-8 sm:p-10">
         {/* Brand Crest */}
         <div className="text-center mb-8">
-          {adminLogoUrl ? (
+          {branding.adminLogoUrl ? (
             <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-4 shadow-md flex items-center justify-center bg-white border border-stone-200">
-              <img src={adminLogoUrl} alt="Admin Logo" className="w-12 h-12 object-contain" />
+              <img src={branding.adminLogoUrl} alt={branding.adminBrandTitle} className="w-12 h-12 object-contain" />
             </div>
           ) : (
             <div className="w-12 h-12 rounded-2xl bg-[#141312] text-[#FAF7F2] flex items-center justify-center mx-auto font-bold text-2xl mb-4 shadow-md">
-              R
+              {(branding.adminBrandTitle || 'R').charAt(0)}
             </div>
           )}
           <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#D45520] block mb-1">
-            Maison Rāwdah
+            {branding.adminBrandTitle}
           </span>
           <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">
-            Atelier Workspace
+            {branding.adminBrandSubtitle}
           </h1>
           <p className="text-xs text-neutral-600 mt-1.5 font-medium">
             Administrative access & commerce control portal

@@ -50,16 +50,27 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   const [unreadCount, setUnreadCount] = useState(2);
   const [isClearingCache, setIsClearingCache] = useState(false);
   const [cacheClearSuccess, setCacheClearSuccess] = useState(false);
-  const [adminLogoUrl, setAdminLogoUrl] = useState('');
+  const [branding, setBranding] = useState({
+    adminLogoUrl: '',
+    adminBrandTitle: 'Rāwdah Atelier',
+    adminBrandSubtitle: 'Admin Console',
+    adminHideText: false,
+  });
 
-  // Fetch branding logo on mount and listen to updates
+  // Fetch branding on mount and listen to updates
   React.useEffect(() => {
     const fetchBranding = () => {
       fetch('/api/branding')
         .then((res) => res.json())
         .then((data) => {
-          if (data.adminLogoUrl) setAdminLogoUrl(data.adminLogoUrl);
-          else setAdminLogoUrl('');
+          if (data) {
+            setBranding({
+              adminLogoUrl: data.adminLogoUrl || '',
+              adminBrandTitle: data.adminBrandTitle || data.storeName || 'Rāwdah Atelier',
+              adminBrandSubtitle: data.adminBrandSubtitle || 'Admin Console',
+              adminHideText: data.adminHideText === true || data.adminHideText === 'true',
+            });
+          }
         })
         .catch(() => {});
     };
@@ -179,24 +190,28 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         {/* Brand Header */}
         <div className="h-16 px-5 border-b border-[#EAE4DC] flex items-center justify-between">
           <Link href="/admin" className="flex items-center gap-2.5 overflow-hidden">
-            {adminLogoUrl ? (
+            {branding.adminLogoUrl ? (
               <img
-                src={adminLogoUrl}
-                alt="Admin Logo"
-                className="w-8 h-8 rounded-lg object-contain bg-white border border-stone-200 shrink-0 p-0.5 shadow-xs"
+                src={branding.adminLogoUrl}
+                alt={branding.adminBrandTitle}
+                className={
+                  branding.adminHideText && !isCollapsed
+                    ? 'h-9 w-auto max-w-[160px] object-contain shrink-0'
+                    : 'w-8 h-8 rounded-lg object-contain bg-white border border-stone-200 shrink-0 p-0.5 shadow-xs'
+                }
               />
             ) : (
               <div className="w-8 h-8 rounded-lg bg-[#141312] text-[#FAF7F2] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-                R
+                {(branding.adminBrandTitle || 'R').charAt(0)}
               </div>
             )}
-            {!isCollapsed && (
+            {!isCollapsed && (!branding.adminHideText || !branding.adminLogoUrl) && (
               <div className="truncate">
                 <span className="font-bold text-sm tracking-tight text-neutral-900 block leading-tight">
-                  Rāwdah Atelier
+                  {branding.adminBrandTitle}
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#D45520] block">
-                  Admin Console
+                  {branding.adminBrandSubtitle}
                 </span>
               </div>
             )}
@@ -447,18 +462,20 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           <div className="relative w-4/5 max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 border-r border-[#EAE4DC]">
             <div className="h-16 px-6 border-b border-[#EAE4DC] flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                {adminLogoUrl ? (
+                {branding.adminLogoUrl ? (
                   <img
-                    src={adminLogoUrl}
-                    alt="Admin Logo"
+                    src={branding.adminLogoUrl}
+                    alt={branding.adminBrandTitle}
                     className="w-7 h-7 rounded-md object-contain bg-white border border-stone-200 shrink-0 p-0.5"
                   />
                 ) : (
                   <div className="w-7 h-7 rounded-md bg-[#141312] text-[#FAF7F2] flex items-center justify-center font-bold text-xs shrink-0">
-                    R
+                    {(branding.adminBrandTitle || 'R').charAt(0)}
                   </div>
                 )}
-                <span className="font-bold text-base text-neutral-900 tracking-tight">Rāwdah Atelier</span>
+                <span className="font-bold text-base text-neutral-900 tracking-tight">
+                  {branding.adminBrandTitle}
+                </span>
               </div>
               <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-neutral-400">
                 <X className="w-5 h-5" />

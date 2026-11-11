@@ -1,16 +1,63 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import { LUXURY_EASE, viewportOnce } from '@/utils/motion';
+import { RawdahLogo } from './RawdahLogo';
 
 export const Footer: React.FC = () => {
   const currentYear = 2026;
+  const [branding, setBranding] = useState<any>({
+    storefrontLogoUrl: '',
+    storefrontLogoDarkUrl: '',
+    storeName: 'Rāwdah Haute Parfumerie',
+    storeAddress: 'Road 11, Block D, Banani / Gulshan-2, Dhaka 1213, Bangladesh',
+  });
+
+  useEffect(() => {
+    const loadBranding = () => {
+      fetch('/api/branding')
+        .then((r) => r.json())
+        .then((data) => {
+          if (data) setBranding(data);
+        })
+        .catch(() => {});
+    };
+    loadBranding();
+    window.addEventListener('branding_updated', loadBranding);
+    window.addEventListener('storage', loadBranding);
+    return () => {
+      window.removeEventListener('branding_updated', loadBranding);
+      window.removeEventListener('storage', loadBranding);
+    };
+  }, []);
+
+  const footerLogo = branding.storefrontLogoDarkUrl || branding.storefrontLogoUrl;
 
   return (
     <footer className="no-print relative bg-[#141312] text-[#E0DDD7] border-t border-neutral-800 pt-16 sm:pt-20 pb-6 px-4 sm:px-6 lg:px-8 overflow-hidden print:hidden">
       <div className="max-w-7xl mx-auto relative z-10">
+        {/* =====================================================================
+            BRAND HEADER WITH LOGO & STATEMENT
+           ===================================================================== */}
+        <div className="pb-10 border-b border-neutral-800/80 mb-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <Link href="/" className="inline-flex items-center gap-3 group" aria-label="Footer Home">
+            {footerLogo ? (
+              <img
+                src={footerLogo}
+                alt={branding.storeName || 'Store Logo'}
+                className="h-9 sm:h-11 w-auto object-contain max-w-[200px]"
+              />
+            ) : (
+              <RawdahLogo variant="light" showSubtitle={true} />
+            )}
+          </Link>
+          <p className="text-xs text-neutral-400 font-sans max-w-md sm:text-right leading-relaxed">
+            Artisanal luxury fragrances, rare royal ouds, and bespoke extrait formulations. Crafted for modern elegance.
+          </p>
+        </div>
+
         {/* =====================================================================
             TOP SECTION: 5-COLUMN NAVIGATION GRID (REVEALED IN SMALL GROUPS)
            ===================================================================== */}
@@ -223,10 +270,10 @@ export const Footer: React.FC = () => {
           {/* Left: Physical Address + Copyright */}
           <div className="space-y-1 text-xs text-neutral-400 font-sans max-w-xl">
             <p>
-              Rāwdah Atelier HQ, Road 11, Block D, Gulshan-2, Dhaka 1212, Bangladesh.
+              {branding.storeAddress || 'Rāwdah Atelier HQ, Road 11, Block D, Gulshan-2, Dhaka 1212, Bangladesh.'}
             </p>
             <p className="text-neutral-500 text-[11px]">
-              © {currentYear} Rāwdah Haute Parfumerie. All rights reserved.
+              © {currentYear} {branding.storeName || 'Rāwdah Haute Parfumerie'}. All rights reserved.
             </p>
           </div>
 
@@ -303,7 +350,7 @@ export const Footer: React.FC = () => {
             className="font-serif font-medium tracking-tight text-white/[0.06] sm:text-white/[0.08] block leading-none text-[13vw] sm:text-[10vw] md:text-[8.5vw] lg:text-[7.5vw] whitespace-nowrap"
             style={{ letterSpacing: '0.02em' }}
           >
-            Rāwdah
+            {branding.storeName ? branding.storeName.split(' ')[0] : 'Rāwdah'}
           </span>
           <span
             className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 lg:w-6 lg:h-6 rounded-full bg-[#D45520]/40 inline-block mb-[1.2vw] shrink-0"
@@ -314,7 +361,9 @@ export const Footer: React.FC = () => {
           className="text-[2.4vw] sm:text-[1.8vw] md:text-[1.3vw] lg:text-[1.05vw] uppercase tracking-[0.32em] font-sans font-medium text-white/[0.04] sm:text-white/[0.06] block mt-2 sm:mt-3 whitespace-nowrap"
           style={{ letterSpacing: '0.3em' }}
         >
-          Haute Parfumerie
+          {branding.storeName && branding.storeName.split(' ').length > 1
+            ? branding.storeName.split(' ').slice(1).join(' ')
+            : 'Haute Parfumerie'}
         </span>
       </motion.div>
     </footer>

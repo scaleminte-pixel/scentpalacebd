@@ -44,6 +44,9 @@ export async function GET(req: NextRequest) {
       storefrontLogoDarkUrl: settingsMap["storefrontLogoDarkUrl"] || "",
       faviconUrl: settingsMap["faviconUrl"] || "",
       adminLogoUrl: settingsMap["adminLogoUrl"] || "",
+      adminBrandTitle: settingsMap["adminBrandTitle"] || settingsMap["storeName"] || "Rāwdah Atelier",
+      adminBrandSubtitle: settingsMap["adminBrandSubtitle"] || "Admin Console",
+      adminHideText: settingsMap["adminHideText"] === true || settingsMap["adminHideText"] === "true",
     };
 
     return NextResponse.json(response);
@@ -80,6 +83,9 @@ export async function POST(req: NextRequest) {
       { key: "storefrontLogoDarkUrl", group: "BRANDING" },
       { key: "faviconUrl", group: "BRANDING" },
       { key: "adminLogoUrl", group: "BRANDING" },
+      { key: "adminBrandTitle", group: "BRANDING" },
+      { key: "adminBrandSubtitle", group: "BRANDING" },
+      { key: "adminHideText", group: "BRANDING" },
     ];
 
     for (const item of keysToSave) {
