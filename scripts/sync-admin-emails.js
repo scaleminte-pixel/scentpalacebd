@@ -6,8 +6,10 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Syncing admin user accounts for Scent Palace BD...');
   const salt = await bcrypt.genSalt(10);
-  const passOwner = await bcrypt.hash('RawdahOwner2026!', salt);
-  const passManager = await bcrypt.hash('RawdahManager2026!', salt);
+  const __pw = () => require('crypto').randomBytes(12).toString('base64url');
+  const ownerPw = __pw(), managerPw = __pw();
+  const passOwner = await bcrypt.hash(ownerPw, salt);
+  const passManager = await bcrypt.hash(managerPw, salt);
 
   const newAdmins = [
     { email: 'owner@scentpalacebd.com', name: 'Scent Palace Owner', role: 'OWNER', passwordHash: passOwner, isActive: true },
@@ -19,7 +21,7 @@ async function main() {
     const existing = await prisma.adminUser.findUnique({ where: { email: adm.email } });
     if (!existing) {
       await prisma.adminUser.create({ data: adm });
-      console.log(`Created admin user: ${adm.email}`);
+      console.log(`Created admin user: ${adm.email}  temporary password: ${adm.role === 'MANAGER' ? managerPw : ownerPw}`);
     } else {
       console.log(`Admin user already exists: ${adm.email}`);
     }

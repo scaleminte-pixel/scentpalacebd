@@ -1,3 +1,4 @@
+const __genPw = () => require('crypto').randomBytes(12).toString('base64url');
 const { PrismaClient } = require('@prisma/client');
 const fs = require('fs');
 const path = require('path');
@@ -841,28 +842,28 @@ async function seed() {
     {
       name: 'Tanvir Ahmed Chowdhury',
       email: 'owner@rawdahperfumes.com',
-      password: 'RawdahOwner2026!',
+      password: __genPw(),
       role: 'OWNER',
       phone: '+880 1711-000001',
     },
     {
       name: 'Sadia Karim',
       email: 'manager@rawdahperfumes.com',
-      password: 'RawdahManager2026!',
+      password: __genPw(),
       role: 'MANAGER',
       phone: '+880 1711-000002',
     },
     {
       name: 'Nafis Hasan',
       email: 'orderstaff@rawdahperfumes.com',
-      password: 'RawdahStaff2026!',
+      password: __genPw(),
       role: 'ORDER_STAFF',
       phone: '+880 1711-000003',
     },
     {
       name: 'Farhana Yasmin',
       email: 'accountant@rawdahperfumes.com',
-      password: 'RawdahAccounts2026!',
+      password: __genPw(),
       role: 'ACCOUNTANT',
       phone: '+880 1711-000004',
     },
@@ -874,7 +875,6 @@ async function seed() {
       where: { email: admin.email },
       update: {
         name: admin.name,
-        passwordHash,
         role: admin.role,
         phone: admin.phone,
         isActive: true,

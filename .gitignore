@@ -58,3 +58,13 @@ backups/
 
 # per-server admin session secret (auto-generated)
 prisma/.session-secret
+
+# ---- Never commit: databases, secrets, local-only files ----
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+.env
+.env.*
+!.env.example
+launch-upload/

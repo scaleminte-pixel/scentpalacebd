@@ -180,7 +180,7 @@ async function runSuite() {
   const adminLoginRes = await req('/api/admin/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: 'RawdahOwner2026!' }),
+    body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: process.env.TEST_ADMIN_PASSWORD }),
   });
   if (adminLoginRes.ok && adminLoginRes.isJson && adminLoginRes.data.success) {
     const rawCookie = adminLoginRes.headers.get('set-cookie');
@@ -499,7 +499,7 @@ async function runSuite() {
     const { status, ok, data } = await req('/api/admin/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: 'RawdahOwner2026!' }),
+      body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: process.env.TEST_ADMIN_PASSWORD }),
     });
     assert.strictEqual(status, 200);
     assert.ok(ok);
@@ -511,7 +511,7 @@ async function runSuite() {
     const { res } = await req('/api/admin/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: 'RawdahOwner2026!' }),
+      body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: process.env.TEST_ADMIN_PASSWORD }),
     });
     const setCookie = res?.headers.get('set-cookie');
     assert.ok(setCookie && setCookie.includes('rawdah_admin_token='));
@@ -1110,7 +1110,7 @@ async function runSuite() {
 
   await test('Tier 2', 'F7: Boundaries', 'T2.7.5: Expired session timestamp in cookie returns HTTP 401', async () => {
     const expiredPayload = Buffer.from(JSON.stringify({ id: 'cmw39a0d60000o0pkds0mwx94', role: 'OWNER', exp: Date.now() - 60000 })).toString('base64url');
-    const secret = 'rawdah_luxury_haute_parfumerie_secret_key_2026_dhaka';
+    const secret = process.env.TEST_SESSION_SECRET || '';
     const sig = Buffer.from(secret + expiredPayload).toString('base64url').substring(0, 32);
     const expiredToken = `${expiredPayload}.${sig}`;
     const { status } = await req('/api/admin/dashboard', { headers: { Cookie: `rawdah_admin_token=${expiredToken}` } });

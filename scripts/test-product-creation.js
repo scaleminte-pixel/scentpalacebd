@@ -5,7 +5,7 @@ async function testFlow() {
   const loginRes = await fetch('http://localhost:3000/api/admin/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: 'RawdahOwner2026!' })
+    body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: process.env.TEST_ADMIN_PASSWORD })
   });
   const cookie = loginRes.headers.get('set-cookie')?.split(';')[0];
   console.log('[PASS] Admin Login:', loginRes.status);

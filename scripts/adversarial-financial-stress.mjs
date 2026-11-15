@@ -285,7 +285,7 @@ async function run() {
   const resValidLogin = await fetch(`${BASE_URL}/api/admin/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: 'RawdahOwner2026!' })
+    body: JSON.stringify({ email: 'owner@rawdahperfumes.com', password: process.env.TEST_ADMIN_PASSWORD })
   });
   const dataValidLogin = await resValidLogin.json();
   const setCookie = resValidLogin.headers.get('set-cookie') || '';
@@ -333,7 +333,7 @@ async function run() {
   const resNonExistentEmail = await fetch(`${BASE_URL}/api/admin/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'intruder@hacker.io', password: 'RawdahOwner2026!' })
+    body: JSON.stringify({ email: 'intruder@hacker.io', password: process.env.TEST_ADMIN_PASSWORD })
   });
   console.log(`Non-existent email login: HTTP ${resNonExistentEmail.status}`);
   recordTest(
@@ -409,7 +409,7 @@ async function run() {
 
     // Attack 4: Expired token timestamp (replay attack simulation)
     console.log('Attack 4: Expired token timestamp...');
-    const SECRET = process.env.ADMIN_SESSION_SECRET || 'rawdah_luxury_haute_parfumerie_secret_key_2026_dhaka';
+    const SECRET = process.env.TEST_SESSION_SECRET || '';
     const expiredPayload = { ...decodedPayload, exp: Date.now() - 3600000 }; // 1 hour ago
     const expiredPayloadBase = Buffer.from(JSON.stringify(expiredPayload)).toString('base64url');
     const expiredSig = crypto.createHmac('sha256', SECRET).update(expiredPayloadBase).digest('base64url');
