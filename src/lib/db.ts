@@ -55,6 +55,29 @@ try {
   // Ignore sync errors in restricted environments
 }
 
+// Hostinger: make sure the persistent database exists before Prisma connects.
+// On the very first start it is created from the bundled launch database.
+try {
+  const dataDir = getDataDir();
+  if (dataDir) {
+    fs.mkdirSync(path.join(dataDir, 'uploads', 'images'), { recursive: true });
+    const dbFile = path.join(dataDir, 'scentpalace.db');
+    const hasDb = fs.existsSync(dbFile) && fs.statSync(dbFile).size > 0;
+    if (!hasDb) {
+      for (const candidate of ['launch.db', 'dev.db']) {
+        const src = path.join(process.cwd(), 'prisma', candidate);
+        if (fs.existsSync(src) && fs.statSync(src).size > 0) {
+          fs.copyFileSync(src, dbFile);
+          console.log(`[db] Created persistent database from prisma/${candidate}`);
+          break;
+        }
+      }
+    }
+  }
+} catch (e) {
+  console.error('[db] Persistent database setup failed:', e);
+}
+
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
   sqlitePragmasConfigured: boolean | undefined;

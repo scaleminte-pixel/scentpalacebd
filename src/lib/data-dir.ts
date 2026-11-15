@@ -8,7 +8,7 @@ import path from 'path';
 export function getDataDir(): string | null {
   if (process.env.PERSISTENT_DATA_DIR) return process.env.PERSISTENT_DATA_DIR;
   const cwd = process.cwd().replace(/\\/g, '/');
-  const m = cwd.match(/^(.*)\/hbuilds\/versions\/[^/]+\/nodejs\/?$/);
+  const m = cwd.match(/^(.*)\/hbuilds\/(?:versions\/[^/]+\/nodejs|source)(?:\/|$)/);
   return m ? `${m[1]}/data` : null;
 }
 
