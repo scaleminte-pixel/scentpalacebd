@@ -62,8 +62,11 @@ try {
   if (dataDir) {
     fs.mkdirSync(path.join(dataDir, 'uploads', 'images'), { recursive: true });
     const dbFile = path.join(dataDir, 'scentpalace.db');
-    const hasDb = fs.existsSync(dbFile) && fs.statSync(dbFile).size > 0;
-    if (!hasDb) {
+    // A real store database is hundreds of KB; a few KB means an empty file
+    // created by an earlier start without tables — replace it (kept aside).
+    const size = fs.existsSync(dbFile) ? fs.statSync(dbFile).size : 0;
+    if (size < 20 * 1024) {
+      if (size > 0) fs.renameSync(dbFile, `${dbFile}.empty-${Date.now()}`);
       for (const candidate of ['launch.db', 'dev.db']) {
         const src = path.join(process.cwd(), 'prisma', candidate);
         if (fs.existsSync(src) && fs.statSync(src).size > 0) {

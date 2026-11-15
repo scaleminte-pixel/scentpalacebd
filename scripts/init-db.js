@@ -23,16 +23,45 @@ if (dataDir) {
   fs.mkdirSync(path.join(dataDir, 'uploads', 'images'), { recursive: true });
   const dbFile = getDatabaseFile();
   const launchDb = path.join(process.cwd(), 'prisma', 'launch.db');
-  const exists = fs.existsSync(dbFile) && fs.statSync(dbFile).size > 0;
-  if (!exists && fs.existsSync(launchDb)) {
-    fs.copyFileSync(launchDb, dbFile);
-    console.log(`[init-db] First deploy: copied launch database to ${dbFile}`);
-  } else {
-    console.log(`[init-db] Using persistent database ${dbFile} (${exists ? 'existing' : 'new'})`);
-  }
   env.DATABASE_URL = getDatabaseUrl();
+  const marker = path.join(dataDir, '.launch-db-applied');
+  const hasFile = fs.existsSync(dbFile) && fs.statSync(dbFile).size > 0;
+  const { tables, orders } = hasFile ? inspectDb(env.DATABASE_URL) : { tables: 0, orders: 0 };
+
+  if (fs.existsSync(marker)) {
+    console.log(`[init-db] Using persistent database ${dbFile} (${tables} tables, ${orders} orders)`);
+  } else if (orders === 0 && fs.existsSync(launchDb)) {
+    // First real launch: replace an empty or auto-seeded DB (no orders) with the
+    // prepared launch database. Old file is kept aside, never deleted.
+    if (hasFile) {
+      const aside = `${dbFile}.replaced-${Date.now()}`;
+      fs.renameSync(dbFile, aside);
+      for (const ext of ['-wal', '-shm']) if (fs.existsSync(dbFile + ext)) fs.renameSync(dbFile + ext, aside + ext);
+      console.log(`[init-db] Previous DB (${tables} tables, 0 orders) kept as ${path.basename(aside)}`);
+    }
+    fs.copyFileSync(launchDb, dbFile);
+    fs.writeFileSync(marker, new Date().toISOString());
+    console.log(`[init-db] Launch database installed at ${dbFile}`);
+  } else {
+    // Has real orders: never replace.
+    fs.writeFileSync(marker, new Date().toISOString());
+    console.log(`[init-db] Keeping existing database with ${orders} orders.`);
+  }
 } else {
   console.log('[init-db] No persistent data folder (local build); using DATABASE_URL as configured.');
+}
+
+function inspectDb(url) {
+  const code =
+    "const {PrismaClient}=require('@prisma/client');" +
+    'const p=new PrismaClient({datasources:{db:{url:process.env.DATABASE_URL}}});' +
+    '(async()=>{let t=0,o=0;' +
+    "try{const r=await p.$queryRawUnsafe(\"SELECT count(*) AS n FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'\");t=Number(r[0].n)}catch(e){}" +
+    "try{const r=await p.$queryRawUnsafe('SELECT count(*) AS n FROM \"Order\"');o=Number(r[0].n)}catch(e){}" +
+    "console.log('TABLES='+t+' ORDERS='+o)})().finally(()=>p.$disconnect())";
+  const r = spawnSync(process.execPath, ['-e', code], { env: { ...process.env, DATABASE_URL: url }, encoding: 'utf8' });
+  const m = /TABLES=(\d+) ORDERS=(\d+)/.exec(r.stdout || '');
+  return m ? { tables: Number(m[1]), orders: Number(m[2]) } : { tables: 0, orders: 0 };
 }
 
 function run(cmd, args) {
