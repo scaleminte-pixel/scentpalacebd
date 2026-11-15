@@ -51,7 +51,9 @@ export default function TrackOrderPage() {
             trackingNumber: o.courierTrackingNumber || 'Pending Courier Pickup',
             estimatedDelivery: isDelivered ? 'Delivered' : isShipped ? 'Tomorrow by 5:00 PM' : '2–3 Business Days',
             recipient: o.customerName,
-            address: `${o.shippingAddress?.address || o.shippingAddress || 'Dhaka'}, ${o.shippingAddress?.city || 'Dhaka'}`,
+            address: (typeof o.shippingAddress === 'string'
+              ? o.shippingAddress
+              : [o.shippingAddress?.address, o.shippingAddress?.city].filter(Boolean).join(', ')) || 'To be confirmed by phone',
             total: o.total,
             paymentStatus: o.paymentStatus,
             items: o.items || [],

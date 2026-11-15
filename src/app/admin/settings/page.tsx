@@ -36,11 +36,29 @@ export default function AdminSettingsPage() {
     adminBrandTitle: 'Scent Palace BD',
     adminBrandSubtitle: 'Admin Console',
     adminHideText: false,
+    footerWatermarkText: '',
+    footerWatermarkSubtitle: '',
   });
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [uploadingField, setUploadingField] = useState<string | null>(null);
+
+  const persistBrandingField = async (fieldKey: string, value: string) => {
+    const res = await fetch('/api/admin/settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ [fieldKey]: value }),
+    });
+    if (!res.ok) {
+      alert('Uploaded, but saving failed. Please press Save.');
+      return;
+    }
+    window.dispatchEvent(new Event('branding_updated'));
+    try {
+      localStorage.setItem('rawdah_branding_updated', Date.now().toString());
+    } catch (_) {}
+  };
 
   const handleBrandingUpload = async (fieldKey: string, file: File) => {
     setUploadingField(fieldKey);
@@ -55,6 +73,8 @@ export default function AdminSettingsPage() {
       const data = await res.json();
       if (data.success && data.url) {
         setForm((prev: any) => ({ ...prev, [fieldKey]: data.url }));
+        // Save this branding field right away so the storefront updates instantly.
+        await persistBrandingField(fieldKey, data.url);
       } else {
         alert(data.error || 'Upload failed');
       }
@@ -191,25 +211,25 @@ export default function AdminSettingsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Storefront Logo (Light / Header) */}
             <BrandingUploadCard
-              label="Storefront Logo (Light / Header)"
-              description="Displayed on the dark header bar. Use a light or white logo."
+              label="Main Storefront Logo (Header & Footer)"
+              description="Main logo shown on the dark header bar and the footer. Use a light or white logo."
               currentUrl={form.storefrontLogoUrl}
               fieldKey="storefrontLogoUrl"
               uploading={uploadingField === 'storefrontLogoUrl'}
               onUpload={handleBrandingUpload}
-              onClear={() => setForm((p: any) => ({ ...p, storefrontLogoUrl: '' }))}
+              onClear={() => { setForm((p: any) => ({ ...p, storefrontLogoUrl: '' })); persistBrandingField('storefrontLogoUrl', ''); }}
               previewBg="bg-[#141312]"
             />
 
             {/* Storefront Logo (Dark / Footer) */}
             <BrandingUploadCard
-              label="Storefront Logo (Dark / Footer)"
-              description="Displayed on light backgrounds (footer, drawers). Use a dark logo."
+              label="Alternate Logo (Light Backgrounds)"
+              description="Optional. Used only on light backgrounds (mobile menu drawer). Use a dark logo."
               currentUrl={form.storefrontLogoDarkUrl}
               fieldKey="storefrontLogoDarkUrl"
               uploading={uploadingField === 'storefrontLogoDarkUrl'}
               onUpload={handleBrandingUpload}
-              onClear={() => setForm((p: any) => ({ ...p, storefrontLogoDarkUrl: '' }))}
+              onClear={() => { setForm((p: any) => ({ ...p, storefrontLogoDarkUrl: '' })); persistBrandingField('storefrontLogoDarkUrl', ''); }}
               previewBg="bg-[#FAF7F2]"
             />
 
@@ -221,7 +241,7 @@ export default function AdminSettingsPage() {
               fieldKey="faviconUrl"
               uploading={uploadingField === 'faviconUrl'}
               onUpload={handleBrandingUpload}
-              onClear={() => setForm((p: any) => ({ ...p, faviconUrl: '' }))}
+              onClear={() => { setForm((p: any) => ({ ...p, faviconUrl: '' })); persistBrandingField('faviconUrl', ''); }}
               previewBg="bg-white"
               small
             />
@@ -234,10 +254,38 @@ export default function AdminSettingsPage() {
               fieldKey="adminLogoUrl"
               uploading={uploadingField === 'adminLogoUrl'}
               onUpload={handleBrandingUpload}
-              onClear={() => setForm((p: any) => ({ ...p, adminLogoUrl: '' }))}
+              onClear={() => { setForm((p: any) => ({ ...p, adminLogoUrl: '' })); persistBrandingField('adminLogoUrl', ''); }}
               previewBg="bg-white"
               small
             />
+          </div>
+
+          {/* Footer Watermark Text */}
+          <div className="pt-4 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label className="block text-stone-700 font-bold mb-1">Footer Big Title (Watermark)</label>
+              <input
+                type="text"
+                value={form.footerWatermarkText || ''}
+                onChange={(e) => setForm({ ...form, footerWatermarkText: e.target.value })}
+                placeholder="SCENT PALACE"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+              />
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                Large faded text at the very bottom of the footer. Leave empty to use the Maison Name.
+              </span>
+            </div>
+            <div>
+              <label className="block text-stone-700 font-bold mb-1">Footer Big Title Subtitle</label>
+              <input
+                type="text"
+                value={form.footerWatermarkSubtitle || ''}
+                onChange={(e) => setForm({ ...form, footerWatermarkSubtitle: e.target.value })}
+                placeholder="HAUTE PARFUMERIE • BD"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+              />
+              <span className="text-[10px] text-stone-500 mt-1 block">Small line under the footer big title (optional).</span>
+            </div>
           </div>
 
           {/* Admin Panel Text Customization */}

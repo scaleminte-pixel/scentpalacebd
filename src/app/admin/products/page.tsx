@@ -46,7 +46,9 @@ export default function AdminProductsPage() {
   const [filterOpen, setFilterOpen] = useState(false);
 
   // Fetch products
+  const fetchSeq = React.useRef(0);
   const fetchProducts = async (page = 1) => {
+    const seq = ++fetchSeq.current;
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -59,22 +61,27 @@ export default function AdminProductsPage() {
       });
       if (searchQuery.trim()) params.set('q', searchQuery.trim());
 
-      const res = await fetch(`/api/admin/products?${params.toString()}`);
+      const res = await fetch(`/api/admin/products?${params.toString()}`, { cache: 'no-store' });
+      if (seq !== fetchSeq.current) return; // a newer search is already running
       if (res.ok) {
         const data = await res.json();
+        if (seq !== fetchSeq.current) return;
         setProducts(data.products || []);
         setPagination(data.pagination || { page: 1, total: 0, totalPages: 1 });
       }
     } catch (err) {
       console.error('Failed to load products:', err);
     } finally {
-      setLoading(false);
+      if (seq === fetchSeq.current) setLoading(false);
     }
   };
 
+  // Live search: results update while typing (debounced), no Enter needed.
   useEffect(() => {
-    fetchProducts(1);
-  }, [selectedCategory, selectedScent, selectedStatus, selectedStock, viewMode]);
+    const t = setTimeout(() => fetchProducts(1), searchQuery ? 250 : 0);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, selectedCategory, selectedScent, selectedStatus, selectedStock, viewMode]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();

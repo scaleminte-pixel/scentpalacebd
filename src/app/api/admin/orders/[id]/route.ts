@@ -1,3 +1,4 @@
+import { normalizeBdPhone } from '@/lib/phone';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
@@ -113,6 +114,10 @@ export async function PATCH(
       isTrashed,
       isIncomplete,
       incompleteReason,
+      customerName,
+      customerEmail,
+      customerPhone,
+      shippingAddress,
     } = body;
 
     const order = await prisma.order.findUnique({
@@ -200,6 +205,21 @@ export async function PATCH(
       if (isTrashed !== undefined) updateData.isTrashed = isTrashed;
       if (isIncomplete !== undefined) updateData.isIncomplete = isIncomplete;
       if (incompleteReason !== undefined) updateData.incompleteReason = incompleteReason;
+      if (typeof customerName === 'string' && customerName.trim()) updateData.customerName = customerName.trim();
+      if (typeof customerEmail === 'string') updateData.customerEmail = customerEmail.trim().toLowerCase();
+      if (customerPhone !== undefined) {
+        const np = normalizeBdPhone(customerPhone);
+        if (!np) throw new Error('Please enter a valid Bangladeshi mobile number.');
+        updateData.customerPhone = np;
+      }
+      if (shippingAddress && typeof shippingAddress === 'object') {
+        updateData.shippingAddress = JSON.stringify({
+          address: String(shippingAddress.address || '').trim(),
+          city: String(shippingAddress.city || '').trim(),
+          division: shippingAddress.division || 'Dhaka',
+          postalCode: shippingAddress.postalCode || null,
+        });
+      }
 
       const orderUpdated = await tx.order.update({
         where: { id },

@@ -40,6 +40,11 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   const [isDispatching, setIsDispatching] = useState(false);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
+  // Customer details editing (used to complete phone-only orders)
+  const [editingCustomer, setEditingCustomer] = useState(false);
+  const [savingCustomer, setSavingCustomer] = useState(false);
+  const [cust, setCust] = useState({ name: '', phone: '', email: '', address: '', city: '', division: 'Dhaka', postalCode: '' });
+
   const fetchOrder = async () => {
     setLoading(true);
     try {
@@ -67,6 +72,54 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 4000);
+  };
+
+  const startEditCustomer = () => {
+    let sh: any = {};
+    try { sh = typeof order.shippingAddress === 'string' ? JSON.parse(order.shippingAddress) : order.shippingAddress || {}; } catch { sh = {}; }
+    setCust({
+      name: order.customerName?.startsWith('Phone order') ? '' : order.customerName || '',
+      phone: order.customerPhone || '',
+      email: order.customerEmail || '',
+      address: sh.address || '',
+      city: sh.city || '',
+      division: sh.division || 'Dhaka',
+      postalCode: sh.postalCode || '',
+    });
+    setEditingCustomer(true);
+  };
+
+  const saveCustomer = async (markComplete: boolean) => {
+    if (markComplete && (!cust.name.trim() || !cust.address.trim() || !cust.city.trim())) {
+      showToast('Name, address and city are needed to confirm this order.', 'error');
+      return;
+    }
+    setSavingCustomer(true);
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: cust.name,
+          customerPhone: cust.phone,
+          customerEmail: cust.email,
+          shippingAddress: { address: cust.address, city: cust.city, division: cust.division, postalCode: cust.postalCode || null },
+          ...(markComplete ? { isIncomplete: false, incompleteReason: null } : {}),
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(markComplete ? 'Details saved — order confirmed and moved to All Orders.' : 'Customer details saved.');
+        setEditingCustomer(false);
+        fetchOrder();
+      } else {
+        showToast(data.error || 'Failed to save customer details', 'error');
+      }
+    } catch (err: any) {
+      showToast(err.message || 'Network error', 'error');
+    } finally {
+      setSavingCustomer(false);
+    }
   };
 
   const handleUpdateStatus = async () => {
@@ -528,8 +581,91 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
 
           {/* Customer Dossier Card */}
           <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-900">Client Dossier</h3>
-            
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-900">Client Dossier</h3>
+              {!editingCustomer && (
+                <button onClick={startEditCustomer} className="text-xs font-semibold text-[#D45520] hover:underline">
+                  Edit details
+                </button>
+              )}
+            </div>
+
+            {order.isIncomplete && (
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 space-y-2">
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  {order.incompleteReason || 'Incomplete order — confirm details with the customer.'}
+                </p>
+                <div className="flex gap-2">
+                  <a
+                    href={`tel:${order.customerPhone}`}
+                    className="flex-1 text-center py-2 rounded-lg bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800"
+                  >
+                    Call
+                  </a>
+                  <a
+                    href={`https://wa.me/88${String(order.customerPhone || '').replace(/\D/g, '').replace(/^88/, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 text-center py-2 rounded-lg bg-[#25D366] text-white text-xs font-semibold hover:opacity-90"
+                  >
+                    WhatsApp
+                  </a>
+                </div>
+                {!editingCustomer && (
+                  <button
+                    onClick={startEditCustomer}
+                    className="w-full py-2 rounded-lg border border-amber-300 text-amber-900 text-xs font-semibold hover:bg-amber-100"
+                  >
+                    Add details &amp; confirm order
+                  </button>
+                )}
+              </div>
+            )}
+
+            {editingCustomer && (
+              <div className="space-y-2 text-xs">
+                {([
+                  ['name', 'Full name'],
+                  ['phone', 'Mobile number'],
+                  ['email', 'Email (optional)'],
+                  ['address', 'Street address'],
+                  ['city', 'City'],
+                  ['division', 'Division'],
+                  ['postalCode', 'Postal code (optional)'],
+                ] as const).map(([key, label]) => (
+                  <div key={key}>
+                    <label className="block text-[10px] uppercase font-semibold text-stone-500 mb-0.5">{label}</label>
+                    <input
+                      value={(cust as any)[key]}
+                      onChange={(e) => setCust({ ...cust, [key]: e.target.value })}
+                      className="w-full p-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                    />
+                  </div>
+                ))}
+                <div className="flex gap-2 pt-1">
+                  <button
+                    onClick={() => saveCustomer(false)}
+                    disabled={savingCustomer}
+                    className="flex-1 py-2 rounded-lg border border-stone-300 font-semibold hover:bg-stone-50 disabled:opacity-50"
+                  >
+                    Save
+                  </button>
+                  {order.isIncomplete && (
+                    <button
+                      onClick={() => saveCustomer(true)}
+                      disabled={savingCustomer}
+                      className="flex-1 py-2 rounded-lg bg-[#D45520] text-white font-semibold hover:opacity-90 disabled:opacity-50"
+                    >
+                      Save &amp; confirm
+                    </button>
+                  )}
+                </div>
+                <button onClick={() => setEditingCustomer(false)} className="w-full text-stone-500 hover:text-stone-800 pt-1">
+                  Cancel
+                </button>
+              </div>
+            )}
+
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2.5">
                 <div className="w-7 h-7 rounded-full bg-stone-100 flex items-center justify-center text-stone-600 shrink-0 mt-0.5">
@@ -562,8 +698,13 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
               <div className="flex items-start gap-2.5 text-stone-600 pt-1">
                 <MapPin className="w-4 h-4 text-stone-400 shrink-0 mt-0.5" />
                 <div className="text-xs leading-relaxed">
-                  <p className="font-medium text-stone-800">{shipping.address || order.shippingAddress}</p>
-                  <p>{shipping.city || 'Dhaka'}{shipping.postalCode ? ` - ${shipping.postalCode}` : ''}</p>
+                  <p className="font-medium text-stone-800">
+                    {shipping.address ||
+                      (typeof order.shippingAddress === 'string' ? order.shippingAddress : '') || (
+                        <span className="italic text-amber-700">Address not provided yet</span>
+                      )}
+                  </p>
+                  <p>{shipping.city || (shipping.address ? 'Dhaka' : '')}{shipping.postalCode ? ` - ${shipping.postalCode}` : ''}</p>
                   <p className="text-stone-400">{shipping.division || 'Dhaka Division'}</p>
                 </div>
               </div>

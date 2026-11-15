@@ -158,11 +158,11 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
           id: v.id,
           size: v.size || '50ml',
           sku: v.sku || 'RDH-50',
-          purchaseCost: Number(v.purchaseCost) || 4500,
-          sellingPrice: Number(v.sellingPrice) || 12500,
+          purchaseCost: Number(v.purchaseCost ?? 0),
+          sellingPrice: Number(v.sellingPrice ?? 0),
           originalPrice: v.originalPrice ? Number(v.originalPrice) : undefined,
-          stock: Number(v.stock) || 15,
-          lowStockThreshold: Number(v.lowStockThreshold) || 5,
+          stock: Number(v.stock ?? 0),
+          lowStockThreshold: Number(v.lowStockThreshold ?? 5),
         }))
       : [
           {
@@ -1046,7 +1046,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                       <input
                         type="number"
                         value={v.stock}
-                        onChange={(e) => handleVariantChange(idx, 'stock', parseInt(e.target.value, 10) || 0)}
+                        onChange={(e) => handleVariantChange(idx, 'stock', Math.max(0, parseInt(e.target.value, 10) || 0))}
                         className="w-full p-2 bg-white border border-stone-200 rounded-lg font-bold text-stone-800"
                       />
                     </div>
@@ -1059,7 +1059,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                         type="number"
                         value={v.lowStockThreshold}
                         onChange={(e) =>
-                          handleVariantChange(idx, 'lowStockThreshold', parseInt(e.target.value, 10) || 5)
+                          handleVariantChange(idx, 'lowStockThreshold', Math.max(0, parseInt(e.target.value, 10) || 0))
                         }
                         className="w-full p-2 bg-white border border-stone-200 rounded-lg text-stone-800"
                       />

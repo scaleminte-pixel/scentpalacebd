@@ -1,12 +1,13 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { trackEvent } from '@/lib/track';
 import { CartItem, Product, ProductVariant, Coupon } from '@/types';
 import { COUPONS } from '@/data/coupons';
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (product: Product, variant: ProductVariant, quantity?: number) => void;
+  addItem: (product: Product, variant: ProductVariant, quantity?: number, options?: { openDrawer?: boolean }) => void;
   updateQuantity: (variantId: string, quantity: number) => void;
   removeItem: (variantId: string) => void;
   clearCart: () => void;
@@ -79,7 +80,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [appliedCoupon, isInitialized]);
 
-  const addItem = (product: Product, variant: ProductVariant, quantity: number = 1) => {
+  const addItem = (
+    product: Product,
+    variant: ProductVariant,
+    quantity: number = 1,
+    options: { openDrawer?: boolean } = {}
+  ) => {
     setItems((prev) => {
       const existingIndex = prev.findIndex((i) => i.variantId === variant.id);
       if (existingIndex > -1) {
@@ -108,7 +114,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         },
       ];
     });
-    setIsDrawerOpen(true);
+    trackEvent('AddToCart', {
+      items: [{ id: product.slug, name: product.name, price: variant.price, quantity, variant: variant.size }],
+    });
+    if (options.openDrawer !== false) setIsDrawerOpen(true);
   };
 
   const updateQuantity = (variantId: string, quantity: number) => {

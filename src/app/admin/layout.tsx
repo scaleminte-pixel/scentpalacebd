@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { AdminAuthProvider, useAdminAuth } from '@/context/AdminAuthContext';
@@ -124,6 +124,32 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   };
 
   // If on login page, render children directly
+  const isLoginPage = pathname === '/admin/login';
+  // Live order badges for the sidebar (new pending orders / incomplete orders)
+  const [orderCounts, setOrderCounts] = useState<{ newOrders: number; incomplete: number }>({
+    newOrders: 0,
+    incomplete: 0,
+  });
+  useEffect(() => {
+    if (isLoginPage) return;
+    let alive = true;
+    const load = () =>
+      fetch('/api/admin/orders/counts', { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          if (alive && d?.success) setOrderCounts({ newOrders: d.newOrders, incomplete: d.incomplete });
+        })
+        .catch(() => {});
+    load();
+    const t = setInterval(load, 15000);
+    window.addEventListener('focus', load);
+    return () => {
+      alive = false;
+      clearInterval(t);
+      window.removeEventListener('focus', load);
+    };
+  }, [pathname, searchParams, isLoginPage]);
+
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
@@ -146,6 +172,14 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
   const currentTab = searchParams.get('tab');
   const fullPathWithTab = currentTab ? `${pathname}?tab=${currentTab}` : pathname;
+
+  const badgeFor = (name: string): { count: number; tone: string } | null => {
+    if (name === 'All Orders' && orderCounts.newOrders > 0)
+      return { count: orderCounts.newOrders, tone: 'bg-[#D45520] text-white' };
+    if (name === 'Incomplete Orders' && orderCounts.incomplete > 0)
+      return { count: orderCounts.incomplete, tone: 'bg-amber-500 text-white' };
+    return null;
+  };
 
   const navGroups = [
     {
@@ -266,8 +300,21 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                       } ${isCollapsed ? 'justify-center px-0' : ''}`}
                       title={isCollapsed ? item.name : undefined}
                     >
-                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#D45520]' : 'text-neutral-500'}`} />
+                      <span className="relative shrink-0">
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-[#D45520]' : 'text-neutral-500'}`} />
+                        {isCollapsed && badgeFor(item.name) && (
+                          <span className={`absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full ring-2 ring-white ${badgeFor(item.name)!.tone}`} />
+                        )}
+                      </span>
                       {!isCollapsed && <span className="truncate">{item.name}</span>}
+                      {!isCollapsed && badgeFor(item.name) && (
+                        <span
+                          className={`ml-auto min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-bold leading-5 text-center ${badgeFor(item.name)!.tone}`}
+                          aria-label={`${badgeFor(item.name)!.count} new`}
+                        >
+                          {badgeFor(item.name)!.count > 99 ? '99+' : badgeFor(item.name)!.count}
+                        </span>
+                      )}
                     </Link>
                   );
                 })}
@@ -517,6 +564,13 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                         >
                           <Icon className="w-4 h-4" />
                           <span>{item.name}</span>
+                          {badgeFor(item.name) && (
+                            <span
+                              className={`ml-auto min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-bold leading-5 text-center ${badgeFor(item.name)!.tone}`}
+                            >
+                              {badgeFor(item.name)!.count > 99 ? '99+' : badgeFor(item.name)!.count}
+                            </span>
+                          )}
                         </Link>
                       );
                     })}

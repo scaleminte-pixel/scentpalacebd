@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { isValidBdPhone, BD_PHONE_HINT } from '@/lib/phone';
+import { trackEvent } from '@/lib/track';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -49,14 +51,14 @@ export default function CheckoutPage() {
   const { formatPrice } = useCurrency();
 
   const [form, setForm] = useState<CheckoutForm>({
-    name: 'Mohammad Al-Amin',
-    phone: '01711234567',
-    email: 'alamin@example.com',
-    address: 'House 14, Road 7, Block C, Gulshan-1',
-    city: 'Dhaka',
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
+    city: '',
     division: 'Dhaka',
-    postalCode: '1212',
-    notes: 'Please ring the bell upon arrival.',
+    postalCode: '',
+    notes: '',
     deliveryMethod: 'inside_dhaka',
     paymentMethod: 'cod',
   });
@@ -80,6 +82,16 @@ export default function CheckoutPage() {
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [isNavigatingToConfirmation, setIsNavigatingToConfirmation] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
+
+  // Checkout started (Meta InitiateCheckout / GA4 begin_checkout / store analytics)
+  const checkoutTracked = React.useRef(false);
+  useEffect(() => {
+    if (checkoutTracked.current || items.length === 0) return;
+    checkoutTracked.current = true;
+    trackEvent('InitiateCheckout', {
+      items: items.map((i) => ({ id: i.slug, name: i.name, price: i.price, quantity: i.quantity, variant: i.size })),
+    });
+  }, [items]);
 
   // Fetch dynamic payment methods and delivery settings from backend
   useEffect(() => {
@@ -169,21 +181,17 @@ export default function CheckoutPage() {
   const validate = (): boolean => {
     const errs: Partial<Record<keyof CheckoutForm, string>> = {};
 
-    if (!form.name.trim()) errs.name = 'Full name is required for delivery';
+    // Only the mobile number is mandatory. Orders without name/address are
+    // accepted and confirmed by our team over a phone call / WhatsApp.
     if (!form.phone.trim()) {
-      errs.phone = 'Mobile phone number is required';
-    } else if (!/^(\+?88)?01[3-9]\d{8}$/.test(form.phone.replace(/[\s-]/g, ''))) {
-      errs.phone = 'Please enter a valid 11-digit Bangladeshi mobile number (01XXXXXXXXX)';
+      errs.phone = 'Mobile number is required';
+    } else if (!isValidBdPhone(form.phone)) {
+      errs.phone = `Please enter a valid Bangladeshi mobile number (${BD_PHONE_HINT})`;
     }
 
-    if (!form.email.trim()) {
-      errs.email = 'Email address is required for order invoice';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
       errs.email = 'Please enter a valid email address';
     }
-
-    if (!form.address.trim()) errs.address = 'Street address and apartment/house details are required';
-    if (!form.city.trim()) errs.city = 'City is required';
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -232,7 +240,7 @@ export default function CheckoutPage() {
         const snapshotOrder = {
           orderId: orderRef,
           orderNumber: orderRef,
-          trackingNumber: data.trackingNumber || `STEAD-${Math.floor(100000 + Math.random() * 900000)}`,
+          trackingNumber: '',
           createdAt: new Date().toISOString(),
           customer: {
             name: form.name,
@@ -264,6 +272,12 @@ export default function CheckoutPage() {
         } catch (storageErr) {
           console.warn('LocalStorage save error:', storageErr);
         }
+
+        trackEvent('Purchase', {
+          orderId: orderRef,
+          value: data.total || finalTotal,
+          items: items.map((i) => ({ id: i.slug, name: i.name, price: i.price, quantity: i.quantity, variant: i.size })),
+        });
 
         setIsNavigatingToConfirmation(true);
         setIsOrderPlaced(true);
@@ -334,11 +348,15 @@ export default function CheckoutPage() {
               <h2 className="font-serif text-xl font-normal text-neutral-900 pb-4 border-b border-[#EAE4DC] mb-5">
                 1. Contact Details
               </h2>
+              <p className="-mt-2 mb-5 text-xs text-neutral-500 leading-relaxed bg-[#FAF7F2] border border-[#EAE4DC] rounded-lg px-3 py-2">
+                Only your <span className="font-semibold text-neutral-800">mobile number</span> is required. In a hurry? Just
+                enter your number and place the order — our team will call or WhatsApp you to confirm the details.
+              </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-                    Full Name *
+                    Full Name
                   </label>
                   <input
                     type="text"
@@ -363,14 +381,14 @@ export default function CheckoutPage() {
                     className={`w-full px-4 py-3 rounded-lg border text-sm text-neutral-900 bg-white focus:outline-none ${
                       errors.phone ? 'border-rose-500 ring-1 ring-rose-500' : 'border-[#D4CFCE] focus:border-[#D45520]'
                     }`}
-                    placeholder="017XXXXXXXX"
+                    placeholder="01XXXXXXXXX or +8801XXXXXXXXX"
                   />
                   {errors.phone && <p className="text-[11px] text-rose-600 mt-1">{errors.phone}</p>}
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-                    Email Address *
+                    Email Address (optional)
                   </label>
                   <input
                     type="email"
@@ -395,7 +413,7 @@ export default function CheckoutPage() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-                    Street Address & Apartment / Suite *
+                    Street Address & Apartment / Suite
                   </label>
                   <textarea
                     rows={2}
@@ -412,7 +430,7 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-                      City *
+                      City
                     </label>
                     <input
                       type="text"

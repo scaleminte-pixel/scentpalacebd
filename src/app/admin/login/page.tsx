@@ -9,8 +9,8 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const { login } = useAdminAuth();
 
-  const [email, setEmail] = useState('owner@scentpalacebd.com');
-  const [password, setPassword] = useState('RawdahOwner2026!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [branding, setBranding] = useState({
@@ -49,6 +49,36 @@ export default function AdminLoginPage() {
     }
   }, [branding.adminBrandTitle]);
 
+  // Forced password change (old default passwords are publicly known)
+  const [mustChange, setMustChange] = useState<{ user: any } | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    if (newPassword.length < 10) return setError('New password must be at least 10 characters.');
+    if (newPassword !== confirmPassword) return setError('The two new passwords do not match.');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/auth/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword: password, newPassword }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        login('', mustChange!.user);
+      } else {
+        setError(data.error || 'Could not change password.');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Connection error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -62,7 +92,9 @@ export default function AdminLoginPage() {
       });
 
       const data = await res.json();
-      if (res.ok && data.success) {
+      if (res.ok && data.success && data.mustChangePassword) {
+        setMustChange({ user: data.user });
+      } else if (res.ok && data.success) {
         login(data.token, data.user);
       } else {
         setError(data.error || 'Authentication failed. Please verify credentials.');
@@ -74,10 +106,6 @@ export default function AdminLoginPage() {
     }
   };
 
-  const prefillAccount = (e: string, p: string) => {
-    setEmail(e);
-    setPassword(p);
-  };
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-4 admin-shell">
@@ -111,6 +139,44 @@ export default function AdminLoginPage() {
           </div>
         )}
 
+        {mustChange ? (
+          <form onSubmit={handleChangePassword} className="space-y-4">
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900 leading-relaxed">
+              <strong>Set a new password to continue.</strong> Your current password is an old default that is
+              publicly known, so it can no longer be used to access the admin panel.
+            </div>
+            {error && <div className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-lg p-2.5">{error}</div>}
+            <div>
+              <label className="block text-xs font-semibold text-neutral-700 mb-1">New password (min. 10 characters)</label>
+              <input
+                type="password"
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-[#EAE4DC] text-sm focus:outline-none focus:border-[#D45520]"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-neutral-700 mb-1">Confirm new password</label>
+              <input
+                type="password"
+                autoComplete="new-password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-[#EAE4DC] text-sm focus:outline-none focus:border-[#D45520]"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-xl bg-[#D45520] text-white text-sm font-semibold hover:opacity-90 disabled:opacity-50"
+            >
+              {loading ? 'Saving…' : 'Save new password & continue'}
+            </button>
+          </form>
+        ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
@@ -166,47 +232,8 @@ export default function AdminLoginPage() {
             </button>
           </div>
         </form>
+        )}
 
-        {/* Quick Demo Credentials Switcher */}
-        <div className="mt-8 pt-6 border-t border-[#EAE4DC]">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-3 text-center">
-            Role-Based Demo Credentials
-          </span>
-          <div className="grid grid-cols-2 gap-2 text-[11px]">
-            <button
-              type="button"
-              onClick={() => prefillAccount('owner@scentpalacebd.com', 'RawdahOwner2026!')}
-              className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-left transition-colors"
-            >
-              <div className="font-bold text-neutral-900">Owner</div>
-              <div className="text-[9px] text-neutral-500">Full Access</div>
-            </button>
-            <button
-              type="button"
-              onClick={() => prefillAccount('manager@scentpalacebd.com', 'RawdahManager2026!')}
-              className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-left transition-colors"
-            >
-              <div className="font-bold text-neutral-900">Manager</div>
-              <div className="text-[9px] text-neutral-500">Operations & Catalog</div>
-            </button>
-            <button
-              type="button"
-              onClick={() => prefillAccount('orderstaff@scentpalacebd.com', 'RawdahStaff2026!')}
-              className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-left transition-colors"
-            >
-              <div className="font-bold text-neutral-900">Order Staff</div>
-              <div className="text-[9px] text-neutral-500">Fulfillment & Courier</div>
-            </button>
-            <button
-              type="button"
-              onClick={() => prefillAccount('accountant@scentpalacebd.com', 'RawdahAccounts2026!')}
-              className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-left transition-colors"
-            >
-              <div className="font-bold text-neutral-900">Accountant</div>
-              <div className="text-[9px] text-neutral-500">Finance & Ledgers</div>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

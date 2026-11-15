@@ -59,7 +59,7 @@ export function transformDbProduct(p: any): Product {
     scentFamily: (p.scentFamily?.name || 'Oud & Woody') as any,
     images,
     rating: p.rating || 4.9,
-    reviewsCount: p.reviewsCount || 12,
+    reviewsCount: p.reviewsCount ?? 0,
     notes: { top, heart, base },
     longevity: p.longevity || '12-16 Hours',
     sillage: p.sillage || 'Enveloping & Royal',

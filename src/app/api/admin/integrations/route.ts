@@ -1,3 +1,4 @@
+import { testSteadfastConnection } from '@/lib/courier';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
@@ -27,10 +28,10 @@ export async function GET(req: NextRequest) {
       couriers: {
         steadfast: {
           enabled: integrationMap['steadfast_enabled'] ?? true,
-          mode: integrationMap['steadfast_mode'] || (process.env.STEADFAST_API_KEY ? 'production' : 'sandbox'),
+          mode: integrationMap['steadfast_mode'] || 'sandbox',
           apiKey: integrationMap['steadfast_apiKey'] || process.env.STEADFAST_API_KEY || '',
           secretKey: integrationMap['steadfast_secretKey'] || process.env.STEADFAST_SECRET_KEY || '',
-          baseUrl: integrationMap['steadfast_baseUrl'] || 'https://portal.steadfast.com.bd/api/v1',
+          baseUrl: integrationMap['steadfast_baseUrl'] || 'https://portal.packzy.com/api/v1',
           autoBookingOnConfirmed: integrationMap['steadfast_autoBooking'] ?? true,
           codFeePercent: 1.0,
           returnFeeBDT: 50,
@@ -112,8 +113,8 @@ export async function GET(req: NextRequest) {
       // 3. Pixel Setup
       pixels: {
         metaPixel: {
-          enabled: integrationMap['metaPixel_enabled'] ?? true,
-          pixelId: integrationMap['metaPixel_pixelId'] || '184920491823901',
+          enabled: integrationMap['metaPixel_enabled'] ?? false,
+          pixelId: integrationMap['metaPixel_pixelId'] || '',
           conversionsApiToken: integrationMap['metaPixel_conversionsApiToken'] || '',
           testEventCode: integrationMap['metaPixel_testEventCode'] || '',
         },
@@ -131,20 +132,20 @@ export async function GET(req: NextRequest) {
       // 4. Meta Tag Manager & SEO
       tagManager: {
         gtm: {
-          enabled: integrationMap['gtm_enabled'] ?? true,
-          containerId: integrationMap['gtm_containerId'] || 'GTM-RDH9901',
+          enabled: integrationMap['gtm_enabled'] ?? false,
+          containerId: integrationMap['gtm_containerId'] || '',
         },
         ga4: {
-          enabled: integrationMap['ga4_enabled'] ?? true,
-          measurementId: integrationMap['ga4_measurementId'] || 'G-RDH2026BD',
+          enabled: integrationMap['ga4_enabled'] ?? false,
+          measurementId: integrationMap['ga4_measurementId'] || '',
         },
         searchConsole: {
-          enabled: integrationMap['searchConsole_enabled'] ?? true,
-          verificationMeta: integrationMap['searchConsole_verificationMeta'] || 'google-site-verification=rawdah_luxury_scents_bd',
+          enabled: integrationMap['searchConsole_enabled'] ?? false,
+          verificationMeta: integrationMap['ga4_verificationMeta'] || integrationMap['searchConsole_verificationMeta'] || '',
         },
         facebookDomainVerification: {
-          enabled: integrationMap['fbDomain_enabled'] ?? true,
-          domainToken: integrationMap['fbDomain_domainToken'] || 'rawdah_fb_domain_token_2026',
+          enabled: integrationMap['fbDomain_enabled'] ?? false,
+          domainToken: integrationMap['fbDomain_domainToken'] || '',
         },
       },
     };
@@ -167,12 +168,17 @@ export async function POST(req: NextRequest) {
     const { action, service, config } = body;
 
     if (action === 'test_connection') {
-      // Simulate real ping validation
-      const serviceName = service.toUpperCase();
-      return NextResponse.json({
-        success: true,
-        message: `Connection to ${serviceName} verified successfully. Latency: 38ms. Handshake response 200 OK.`,
-      });
+      if (String(service).toLowerCase() === 'steadfast') {
+        const result = await testSteadfastConnection();
+        return NextResponse.json(result, { status: result.success ? 200 : 400 });
+      }
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Live connection testing is not available for ${String(service).toUpperCase()}. Settings are saved, but they are not verified automatically.`,
+        },
+        { status: 400 }
+      );
     }
 
     if (config && service) {

@@ -2,57 +2,51 @@
 
 import { useEffect } from 'react';
 
+/**
+ * The favicon is rendered server-side in <head> via layout metadata, so it is
+ * correct on first load. This component only swaps it live after the admin
+ * changes branding. It NEVER removes <link> tags (React owns them — removing
+ * them crashes client-side navigation); it only updates their href, or adds
+ * its own tag marked data-dynamic-favicon.
+ */
 export function DynamicFavicon() {
   useEffect(() => {
     const updateFavicon = () => {
-      fetch('/api/branding')
+      fetch('/api/branding', { cache: 'no-store' })
         .then((res) => res.json())
         .then((data) => {
-          if (data.faviconUrl) {
-            const versionedUrl = `${data.faviconUrl}?v=${Date.now()}`;
-            const mimeType = data.faviconUrl.endsWith('.png')
-              ? 'image/png'
-              : data.faviconUrl.endsWith('.ico')
-              ? 'image/x-icon'
-              : 'image/webp';
-
-            // Remove existing icon links to force browser tab refresh
-            document.querySelectorAll<HTMLLinkElement>("link[rel*='icon']").forEach((el) => el.remove());
-
-            // Create fresh primary icon link
-            const newIcon = document.createElement('link');
-            newIcon.rel = 'icon';
-            newIcon.type = mimeType;
-            newIcon.href = versionedUrl;
-            document.head.appendChild(newIcon);
-
-            // Create fresh shortcut icon link
-            const newShortcut = document.createElement('link');
-            newShortcut.rel = 'shortcut icon';
-            newShortcut.type = mimeType;
-            newShortcut.href = versionedUrl;
-            document.head.appendChild(newShortcut);
-
-            // Create/update apple-touch-icon
-            const newApple = document.createElement('link');
-            newApple.rel = 'apple-touch-icon';
-            newApple.href = versionedUrl;
-            document.head.appendChild(newApple);
+          if (!data?.faviconUrl) return;
+          const href = `${data.faviconUrl}?v=${Date.now()}`;
+          const links = document.querySelectorAll<HTMLLinkElement>("link[rel*='icon']");
+          if (links.length > 0) {
+            links.forEach((el) => {
+              el.href = href;
+              el.removeAttribute('type');
+            });
+          } else {
+            let own = document.querySelector<HTMLLinkElement>('link[data-dynamic-favicon]');
+            if (!own) {
+              own = document.createElement('link');
+              own.rel = 'icon';
+              own.setAttribute('data-dynamic-favicon', '');
+              document.head.appendChild(own);
+            }
+            own.href = href;
           }
         })
         .catch(() => {});
     };
 
-    updateFavicon();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'rawdah_branding_updated') updateFavicon();
+    };
     window.addEventListener('branding_updated', updateFavicon);
-    window.addEventListener('storage', updateFavicon);
-
+    window.addEventListener('storage', onStorage);
     return () => {
       window.removeEventListener('branding_updated', updateFavicon);
-      window.removeEventListener('storage', updateFavicon);
+      window.removeEventListener('storage', onStorage);
     };
   }, []);
 
   return null;
 }
-

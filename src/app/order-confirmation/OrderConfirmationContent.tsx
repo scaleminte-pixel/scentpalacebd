@@ -24,16 +24,18 @@ import {
 
 export const OrderConfirmationContent: React.FC = () => {
   const searchParams = useSearchParams();
-  const orderRef = searchParams.get('orderNumber') || searchParams.get('orderId') || 'RDH-84291';
+  const orderRef = searchParams.get('orderNumber') || searchParams.get('orderId') || '';
   const { formatPrice } = useCurrency();
 
   const [order, setOrder] = useState<any>(null);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     async function loadOrder() {
       // 1. First try live database order by reference
       try {
-        const res = await fetch(`/api/orders/${orderRef}`);
+        if (!orderRef) throw new Error('no order reference');
+        const res = await fetch(`/api/orders/${encodeURIComponent(orderRef)}`);
         if (res.ok) {
           const data = await res.json();
           if (data.success && data.order) {
@@ -43,7 +45,7 @@ export const OrderConfirmationContent: React.FC = () => {
 
             setOrder({
               orderId: o.orderNumber || o.id,
-              trackingNumber: o.courierTrackingNumber || `STEAD-${Math.floor(100000 + Math.random() * 900000)}`,
+              trackingNumber: o.courierTrackingNumber || '',
               createdAt: o.createdAt,
               deliveryMethod,
               deliveryLabel: isOutside ? 'Outside Dhaka Delivery' : 'Inside Dhaka Delivery',
@@ -123,47 +125,33 @@ export const OrderConfirmationContent: React.FC = () => {
         console.error('LocalStorage parse error:', e);
       }
 
-      // 3. Fallback demo order if direct URL hit without params
-      setOrder({
-        orderId: orderRef,
-        trackingNumber: 'STEAD-789421',
-        createdAt: new Date().toISOString(),
-        deliveryMethod: 'inside_dhaka',
-        deliveryLabel: 'Inside Dhaka Delivery',
-        estimatedDelivery: '24–48 Hours (Inside Dhaka)',
-        customer: {
-          name: 'Tanvir Ahmed Chowdhury',
-          email: 'tanvir@luxury.com',
-          phone: '01711234567',
-          address: 'House 14, Road 7, Block C, Gulshan-1',
-          city: 'Dhaka',
-          division: 'Dhaka',
-          postalCode: '1212',
-          notes: 'Please ring the bell upon arrival.',
-        },
-        items: [
-          {
-            productId: 'prod-bleu-oud',
-            variantId: 'var-bo-100',
-            name: 'Bleu Oud',
-            size: '100ml',
-            price: 16500,
-            image: '/images/products/lattafa-blue-oud.webp',
-            quantity: 1,
-          },
-        ],
-        subtotal: 16500,
-        discount: 0,
-        shipping: 0,
-        total: 16500,
-        paymentMethod: 'cod',
-        paymentStatus: 'UNPAID',
-        fulfillmentStatus: 'confirmed',
-      });
+      // 3. Nothing found — never show a made-up order
+      setNotFound(true);
     }
 
     loadOrder();
   }, [orderRef, searchParams]);
+
+  if (notFound) {
+    return (
+      <div className="min-h-[70vh] bg-[#FAF7F2] flex items-center justify-center p-6">
+        <div className="bg-white rounded-3xl border border-[#EAE4DC] p-8 max-w-md text-center space-y-4">
+          <h1 className="font-serif text-2xl text-neutral-900">Order not found</h1>
+          <p className="text-sm text-neutral-600">
+            We couldn&apos;t find this order. Check your order number on the Track Order page, or contact us.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <a href="/track-order" className="px-5 py-2.5 rounded-xl bg-[#D45520] text-white text-xs font-semibold uppercase tracking-wider">
+              Track Order
+            </a>
+            <a href="/shop" className="px-5 py-2.5 rounded-xl border border-neutral-300 text-xs font-semibold uppercase tracking-wider">
+              Shop
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!order) {
     return (
@@ -244,7 +232,7 @@ export const OrderConfirmationContent: React.FC = () => {
             </h1>
             <p className="text-xs sm:text-sm text-neutral-600 max-w-xl mx-auto mt-3 font-sans leading-relaxed">
               Thank you for your patronage. Your royal order reference is{' '}
-              <strong className="text-neutral-900 font-serif text-base">{order.orderId}</strong>. We have dispatched a confirmation SMS and email with live courier updates.
+              <strong className="text-neutral-900 font-serif text-base">{order.orderId}</strong>. Our team will call you shortly to confirm your order. You can follow its progress anytime on the Track Order page.
             </p>
 
             {/* Quick Metrics Bar */}
@@ -314,7 +302,7 @@ export const OrderConfirmationContent: React.FC = () => {
                   Fulfillment & Courier Timeline
                 </h2>
                 <p className="text-xs text-neutral-500 mt-0.5">
-                  Steadfast Consignment Tracking: <strong className="text-neutral-800">{order.trackingNumber}</strong>
+                  Courier Tracking: <strong className="text-neutral-800">{order.trackingNumber || 'Assigned once your parcel is dispatched'}</strong>
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -516,7 +504,7 @@ export const OrderConfirmationContent: React.FC = () => {
             <div className="mt-2 text-xs space-y-0.5">
               <p>Invoice Ref: <strong className="font-mono text-sm">{order.orderId}</strong></p>
               <p className="text-neutral-600">Date: {formattedDate}</p>
-              <p className="text-neutral-600">Tracking: <strong className="font-mono text-[11px]">{order.trackingNumber}</strong></p>
+              {order.trackingNumber && <p className="text-neutral-600">Tracking: <strong className="font-mono text-[11px]">{order.trackingNumber}</strong></p>}
             </div>
           </div>
         </div>

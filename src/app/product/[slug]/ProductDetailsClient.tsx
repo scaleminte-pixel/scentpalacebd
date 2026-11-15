@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Product, ProductVariant } from '@/types';
 import { useCart } from '@/context/CartContext';
+import { trackEvent } from '@/lib/track';
 import { useCurrency } from '@/context/CurrencyContext';
 import { ProductCard } from '@/components/common/ProductCard';
 import {
@@ -69,6 +70,14 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
 
   const isOutOfStock = selectedVariant.stock <= 0;
 
+  // Product view event (Meta ViewContent / GA4 view_item / store analytics)
+  useEffect(() => {
+    trackEvent('ViewContent', {
+      items: [{ id: product.slug, name: product.name, price: selectedVariant.price, quantity: 1, variant: selectedVariant.size }],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.slug]);
+
   const handleAddToCart = () => {
     if (isOutOfStock) return;
     addItem(product, selectedVariant, quantity);
@@ -78,7 +87,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
-    addItem(product, selectedVariant, quantity);
+    addItem(product, selectedVariant, quantity, { openDrawer: false });
     router.push('/checkout');
   };
 
@@ -145,7 +154,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
             transition={{ duration: 0.6, ease: LUXURY_EASE }}
             className="lg:col-span-6 space-y-4"
           >
-            <div className="relative aspect-square sm:aspect-4/3 lg:aspect-square w-full bg-[#F4EFEB] rounded-3xl border border-[#EAE4DC] flex items-center justify-center p-8 sm:p-12 overflow-hidden shadow-xs group">
+            <div className="relative aspect-square w-full bg-white rounded-3xl border border-[#EAE4DC] flex items-center justify-center overflow-hidden shadow-xs group">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeImageIndex}
@@ -160,7 +169,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                     alt={product.name}
                     fill
                     priority
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500 ease-out drop-shadow-md"
+                    className="object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </motion.div>
@@ -211,6 +220,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                 {product.name}
               </h1>
 
+              {product.reviewsCount > 0 && (
               <div className="flex items-center gap-2 mt-3 text-xs">
                 <div className="flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
@@ -220,6 +230,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                 <span className="font-semibold text-neutral-800">{product.rating}</span>
                 <span className="text-neutral-400">({product.reviewsCount} Total Reviews)</span>
               </div>
+              )}
             </motion.div>
 
             {/* Group 2: Description */}

@@ -73,7 +73,7 @@ export default function AdminIntegrationsPage() {
       if (res.ok && data.success) {
         setTestResult({ service, message: data.message, success: true });
       } else {
-        setTestResult({ service, message: data.error || 'Connection check failed', success: false });
+        setTestResult({ service, message: data.message || data.error || 'Connection check failed', success: false });
       }
     } catch (err: any) {
       setTestResult({ service, message: err.message, success: false });
@@ -860,7 +860,7 @@ export default function AdminIntegrationsPage() {
               <button
                 onClick={() =>
                   openEditModal('metaPixel', 'Meta Pixel & Conversions API Settings', 'pixels', {
-                    enabled: pixels.metaPixel?.enabled ?? true,
+                    enabled: pixels.metaPixel?.enabled ?? false,
                     pixelId: pixels.metaPixel?.pixelId || '',
                     conversionsApiToken: pixels.metaPixel?.conversionsApiToken || '',
                     testEventCode: pixels.metaPixel?.testEventCode || '',
@@ -973,7 +973,7 @@ export default function AdminIntegrationsPage() {
               <div className="bg-stone-50 rounded-xl p-3 space-y-1.5 text-xs font-mono">
                 <div className="flex justify-between">
                   <span className="text-stone-400">Container ID:</span>
-                  <span className="text-stone-700 font-medium">{tagManager.gtm?.containerId || 'GTM-RDH9901'}</span>
+                  <span className="text-stone-700 font-medium">{tagManager.gtm?.containerId || 'Not set'}</span>
                 </div>
               </div>
             </div>
@@ -982,8 +982,8 @@ export default function AdminIntegrationsPage() {
               <button
                 onClick={() =>
                   openEditModal('gtm', 'Google Tag Manager Settings', 'tagManager', {
-                    enabled: tagManager.gtm?.enabled ?? true,
-                    containerId: tagManager.gtm?.containerId || 'GTM-RDH9901',
+                    enabled: tagManager.gtm?.enabled ?? false,
+                    containerId: tagManager.gtm?.containerId || '',
                   })
                 }
                 className="px-3.5 py-2 bg-stone-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
@@ -1019,7 +1019,7 @@ export default function AdminIntegrationsPage() {
               <div className="bg-stone-50 rounded-xl p-3 space-y-1.5 text-xs font-mono">
                 <div className="flex justify-between">
                   <span className="text-stone-400">GA4 Measurement ID:</span>
-                  <span className="text-stone-700 font-medium">{tagManager.ga4?.measurementId || 'G-RDH2026BD'}</span>
+                  <span className="text-stone-700 font-medium">{tagManager.ga4?.measurementId || 'Not set'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-400">Search Console Meta:</span>
@@ -1034,8 +1034,8 @@ export default function AdminIntegrationsPage() {
               <button
                 onClick={() =>
                   openEditModal('ga4', 'Google Analytics 4 & Search Console', 'tagManager', {
-                    enabled: tagManager.ga4?.enabled ?? true,
-                    measurementId: tagManager.ga4?.measurementId || 'G-RDH2026BD',
+                    enabled: tagManager.ga4?.enabled ?? false,
+                    measurementId: tagManager.ga4?.measurementId || '',
                     verificationMeta: tagManager.searchConsole?.verificationMeta || '',
                   })
                 }

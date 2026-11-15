@@ -29,6 +29,16 @@ export async function POST(
     let addr: any = {};
     try { addr = JSON.parse(order.shippingAddress); } catch { addr = { address: order.shippingAddress }; }
 
+    if (order.isIncomplete || !addr.address || !String(addr.address).trim()) {
+      return NextResponse.json(
+        { success: false, error: 'This order has no confirmed name/address yet. Confirm it with the customer first (Incomplete Orders).' },
+        { status: 400 }
+      );
+    }
+    if (['SHIPPED', 'DELIVERED', 'CANCELLED', 'RETURNED'].includes(order.fulfillmentStatus)) {
+      return NextResponse.json({ success: false, error: `Order is already ${order.fulfillmentStatus}.` }, { status: 400 });
+    }
+
     // COD amount is full total if UNPAID, or 0 if already PAID online
     const codAmount = order.paymentStatus === 'PAID' ? 0 : order.total;
 
@@ -37,10 +47,15 @@ export async function POST(
       orderNumber: order.orderNumber,
       recipientName: order.customerName,
       recipientPhone: order.customerPhone,
-      recipientAddress: `${addr.address || ''}, ${addr.city || 'Dhaka'}`,
+      recipientAddress: [addr.address, addr.city, addr.division].filter(Boolean).join(', '),
       codAmount,
       note: 'Scent Palace BD Luxury Fragrance',
     });
+
+    if (!booking.success) {
+      // Do not mark shipped or touch stock when the courier booking failed
+      return NextResponse.json({ success: false, error: booking.message }, { status: 502 });
+    }
 
     // Commit stock dispatch & update order status to SHIPPED
     const updated = await prisma.$transaction(async (tx) => {
@@ -82,7 +97,10 @@ export async function POST(
       success: true,
       order: updated,
       trackingCode: booking.trackingCode,
-      message: `Consignment registered with ${provider} (${booking.trackingCode}). Order marked SHIPPED.`,
+      isSandbox: booking.isMock,
+      message: booking.isMock
+        ? `SANDBOX test booking (${booking.trackingCode}) — no real parcel created. Switch Steadfast to production mode in Integrations to book real parcels.`
+        : `Parcel booked with ${provider} (${booking.trackingCode}). Order marked SHIPPED.`,
     });
   } catch (error: any) {
     console.error('Dispatch error:', error);

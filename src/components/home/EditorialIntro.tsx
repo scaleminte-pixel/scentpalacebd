@@ -246,17 +246,17 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
               >
                 <Link
                   href={`/shop?category=${encodeURIComponent(cat.name || cat.id)}`}
-                  className="group relative rounded-2xl overflow-hidden bg-white border border-[#EAE4DC] shadow-xs hover:shadow-xl transition-all duration-300 h-72 sm:h-84 flex flex-col justify-end p-5 block"
+                  className="group relative rounded-2xl overflow-hidden bg-white border border-[#EAE4DC] shadow-xs hover:shadow-xl transition-all duration-300 aspect-square flex flex-col justify-end p-3 sm:p-5"
                 >
                   <div className="absolute inset-0 z-0 overflow-hidden">
                     <Image
                       src={cat.image || '/images/products/lattafa-blue-oud.webp'}
                       alt={cat.name}
                       fill
-                      className="object-cover group-hover:scale-[1.035] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                      className="object-contain p-3 pb-12 sm:p-5 sm:pb-16 group-hover:scale-[1.035] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                       sizes="(max-width: 768px) 50vw, 25vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent group-hover:from-black/85 transition-colors duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent group-hover:from-black/80 transition-colors duration-300" />
                   </div>
 
                   {/* On hover lift the label by 2px (-translate-y-0.5) */}

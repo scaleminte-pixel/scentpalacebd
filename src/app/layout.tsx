@@ -7,7 +7,11 @@ import { ContentProvider } from '@/context/ContentContext';
 import { StorefrontShell } from '@/components/common/StorefrontShell';
 import { DynamicFavicon } from '@/components/common/DynamicFavicon';
 import { getServerSections } from '@/lib/server-catalog';
-import { prisma } from '@/lib/db';
+import { getBranding } from '@/lib/branding';
+import { BrandingProvider } from '@/context/BrandingContext';
+import { Suspense } from 'react';
+import { TrackingScripts } from '@/components/common/TrackingScripts';
+import { getTrackingConfig } from '@/lib/tracking-config';
 
 const bodoniModa = Bodoni_Moda({
   subsets: ['latin'],
@@ -32,22 +36,16 @@ export const revalidate = 0;
 export const fetchCache = 'force-no-store';
 
 export async function generateMetadata(): Promise<Metadata> {
-  let favicon = '/favicon.ico';
-  let storeName = 'Scent Palace BD';
-  try {
-    const [favSetting, nameSetting] = await Promise.all([
-      prisma.storeSetting.findUnique({ where: { key: 'faviconUrl' } }),
-      prisma.storeSetting.findUnique({ where: { key: 'storeName' } }),
-    ]);
-    if (favSetting) {
-      const parsed = JSON.parse(favSetting.valueJson);
-      if (parsed) favicon = parsed;
-    }
-    if (nameSetting) {
-      const parsed = JSON.parse(nameSetting.valueJson);
-      if (parsed) storeName = parsed;
-    }
-  } catch (_) {}
+  const [branding, tracking] = await Promise.all([getBranding(), getTrackingConfig()]);
+  const favicon = branding.faviconUrl || '/favicon.ico';
+  const storeName = branding.storeName;
+  const faviconType = favicon.endsWith('.png')
+    ? 'image/png'
+    : favicon.endsWith('.svg')
+    ? 'image/svg+xml'
+    : favicon.endsWith('.webp')
+    ? 'image/webp'
+    : 'image/x-icon';
 
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
@@ -66,12 +64,15 @@ export async function generateMetadata(): Promise<Metadata> {
       'dhaka luxury fragrance',
     ],
     icons: {
-      icon: [
-        { url: favicon, type: favicon.endsWith('.png') ? 'image/png' : 'image/x-icon' },
-        { url: '/favicon.ico' },
-      ],
+      icon: [{ url: favicon, type: faviconType }],
       shortcut: favicon,
       apple: favicon,
+    },
+    verification: {
+      ...(tracking.googleVerification ? { google: tracking.googleVerification } : {}),
+      ...(tracking.facebookDomainVerification
+        ? { other: { 'facebook-domain-verification': tracking.facebookDomainVerification } }
+        : {}),
     },
   };
 }
@@ -81,7 +82,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const initialSections = await getServerSections();
+  const [initialSections, branding, tracking] = await Promise.all([
+    getServerSections(),
+    getBranding(),
+    getTrackingConfig(),
+  ]);
 
   return (
     <html
@@ -90,14 +95,29 @@ export default async function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="min-h-full flex flex-col bg-[#FAF7F2] text-[#141312] selection:bg-[#D45520] selection:text-white font-sans">
+        {/* Tells trackEvent() which tags will load, so early events wait for them */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__trackingTags=${JSON.stringify({
+              meta: Boolean(tracking.metaPixelId),
+              google: Boolean(tracking.ga4Id || tracking.gtmId),
+              tiktok: Boolean(tracking.tiktokPixelId),
+            })};`,
+          }}
+        />
         <DynamicFavicon />
-        <CurrencyProvider>
-          <CartProvider>
-            <ContentProvider initialSections={initialSections}>
-              <StorefrontShell>{children}</StorefrontShell>
-            </ContentProvider>
-          </CartProvider>
-        </CurrencyProvider>
+        <Suspense fallback={null}>
+          <TrackingScripts config={tracking} />
+        </Suspense>
+        <BrandingProvider initialBranding={branding}>
+          <CurrencyProvider>
+            <CartProvider>
+              <ContentProvider initialSections={initialSections}>
+                <StorefrontShell>{children}</StorefrontShell>
+              </ContentProvider>
+            </CartProvider>
+          </CurrencyProvider>
+        </BrandingProvider>
       </body>
     </html>
   );

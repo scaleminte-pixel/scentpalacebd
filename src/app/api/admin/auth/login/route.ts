@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import bcrypt from 'bcryptjs';
-import { signAdminToken } from '@/lib/auth';
+import { signAdminToken, isLeakedPassword, ADMIN_COOKIE_OPTIONS } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
@@ -54,13 +54,19 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const token = signAdminToken({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role as any,
-      avatar: user.avatar,
-    });
+    // Old default passwords were published — require a new one before entry.
+    const mustChangePassword = isLeakedPassword(password);
+
+    const token = signAdminToken(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role as any,
+        avatar: user.avatar,
+      },
+      { mustChangePassword }
+    );
 
     const res = NextResponse.json({
       success: true,
@@ -71,15 +77,12 @@ export async function POST(req: NextRequest) {
         role: user.role,
         avatar: user.avatar,
       },
-      token,
+      mustChangePassword,
     });
 
     res.cookies.set('rawdah_admin_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-      sameSite: 'lax',
+      ...ADMIN_COOKIE_OPTIONS,
+      maxAge: mustChangePassword ? 60 * 30 : 60 * 60 * 24 * 7,
     });
 
     return res;

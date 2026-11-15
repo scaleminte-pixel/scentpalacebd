@@ -31,17 +31,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="group relative bg-white rounded-2xl border border-[#EAE4DC] hover:border-neutral-400 p-2.5 sm:p-5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-[3px] hover:shadow-xl flex flex-col justify-between h-auto sm:h-[450px]">
       {/* 1:1 Aspect Ratio Studio Image Canvas */}
-      <div className="relative aspect-square w-full rounded-xl bg-[#FAF7F2]/60 overflow-hidden flex items-center justify-center p-2 mb-2 sm:mb-3">
+      <div className="relative aspect-square w-full rounded-xl bg-white overflow-hidden mb-2 sm:mb-3">
         <Link
           href={`/product/${product.slug}`}
-          className="relative w-full h-full flex items-center justify-center"
+          className="absolute inset-0 block"
         >
           <Image
             src={imgSrc}
             alt={product.name}
             fill
             onError={() => setImgSrc('/images/products/rayhaan-azul.webp')}
-            className="object-contain p-1.5 group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            className="object-contain group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         </Link>

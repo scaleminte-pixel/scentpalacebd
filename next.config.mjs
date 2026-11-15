@@ -68,6 +68,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async rewrites() {
+    return {
+      // Runs only when no static file matched: serves images uploaded after boot.
+      fallback: [{ source: '/images/:path*', destination: '/api/uploaded/:path*' }],
+    };
+  },
   async headers() {
     return [
       {

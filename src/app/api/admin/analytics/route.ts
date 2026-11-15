@@ -40,49 +40,86 @@ export async function GET(req: NextRequest) {
     const cartConversionRate = productViews > 0 ? ((cartAdds / productViews) * 100).toFixed(2) : "0.00";
     const checkoutConversionRate = cartAdds > 0 ? ((checkouts / cartAdds) * 100).toFixed(2) : "0.00";
 
-    // Funnel steps
+    // ---- Everything below is computed from real recorded events ----
+    const pct = (n: number, d: number) => (d > 0 ? Math.round((n / d) * 100) : 0);
     const funnel = [
-      { step: "Store Visits", count: Math.max(totalSessions, 1240), percent: 100 },
-      { step: "Fragrance Views", count: Math.max(productViews, 820), percent: Math.round((Math.max(productViews, 820) / Math.max(totalSessions, 1240)) * 100) },
-      { step: "Added to Bag", count: Math.max(cartAdds, 310), percent: Math.round((Math.max(cartAdds, 310) / Math.max(totalSessions, 1240)) * 100) },
-      { step: "Initiated Checkout", count: Math.max(checkouts, 140), percent: Math.round((Math.max(checkouts, 140) / Math.max(totalSessions, 1240)) * 100) },
-      { step: "Completed Purchase", count: Math.max(ordersPlaced, 62), percent: Math.round((Math.max(ordersPlaced, 62) / Math.max(totalSessions, 1240)) * 100) },
+      { step: "Store Visits", count: totalSessions, percent: totalSessions > 0 ? 100 : 0 },
+      { step: "Fragrance Views", count: productViews, percent: pct(productViews, totalSessions) },
+      { step: "Added to Bag", count: cartAdds, percent: pct(cartAdds, totalSessions) },
+      { step: "Initiated Checkout", count: checkouts, percent: pct(checkouts, totalSessions) },
+      { step: "Completed Purchase", count: ordersPlaced, percent: pct(ordersPlaced, totalSessions) },
     ];
 
-    // Device breakdown
-    const devices = [
-      { name: "Mobile (iOS & Android)", percentage: 68, visits: Math.round(Math.max(totalSessions, 1240) * 0.68) },
-      { name: "Desktop (Mac & Windows)", percentage: 27, visits: Math.round(Math.max(totalSessions, 1240) * 0.27) },
-      { name: "Tablet (iPad)", percentage: 5, visits: Math.round(Math.max(totalSessions, 1240) * 0.05) },
-    ];
+    // Per-session aggregation
+    const sessions = new Map<string, { first: number; last: number; views: number; device: string; source: string }>();
+    for (const e of events) {
+      const t = new Date(e.createdAt).getTime();
+      let s = sessions.get(e.sessionId);
+      if (!s) {
+        let source = "Direct";
+        if (e.utmSource) source = e.utmSource;
+        else if (e.referrer) {
+          try {
+            source = new URL(e.referrer).hostname.replace(/^www\./, "");
+          } catch {
+            source = "Referral";
+          }
+        }
+        s = { first: t, last: t, views: 0, device: e.device || "desktop", source };
+        sessions.set(e.sessionId, s);
+      }
+      s.first = Math.min(s.first, t);
+      s.last = Math.max(s.last, t);
+      if (e.eventType === "PAGE_VIEW") s.views++;
+    }
+    const sessionList = [...sessions.values()];
 
-    // Traffic Sources
-    const sources = [
-      { channel: "Direct / Organic Search", sessions: 540, share: 43.5, conversion: "5.2%" },
-      { channel: "Instagram Atelier Feed", sessions: 380, share: 30.6, conversion: "4.8%" },
-      { channel: "Facebook VIP Fragrance", sessions: 190, share: 15.3, conversion: "3.7%" },
-      { channel: "Influencer Review Links", sessions: 85, share: 6.9, conversion: "7.1%" },
-      { channel: "WhatsApp Concierge", sessions: 45, share: 3.7, conversion: "13.3%" },
-    ];
+    const deviceLabels: Record<string, string> = { mobile: "Mobile", tablet: "Tablet", desktop: "Desktop" };
+    const deviceCounts: Record<string, number> = {};
+    for (const s of sessionList) deviceCounts[s.device] = (deviceCounts[s.device] || 0) + 1;
+    const devices = Object.entries(deviceCounts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([k, v]) => ({ name: deviceLabels[k] || k, percentage: pct(v, totalSessions), visits: v }));
 
-    // Top landing pages
-    const topPages = [
-      { path: "/", title: "Scent Palace BD — Haute Parfumerie Home", views: 2450, bounceRate: "28%" },
-      { path: "/product/oud-ambre", title: "Oud Ambré — Sovereign Sillage", views: 1120, bounceRate: "19%" },
-      { path: "/shop", title: "Private Collection — All Fragrances", views: 980, bounceRate: "22%" },
-      { path: "/product/royal-saffron", title: "Royal Saffron Extrait", views: 640, bounceRate: "18%" },
-      { path: "/product/musk-noble", title: "Musk Noble Cashmere", views: 420, bounceRate: "24%" },
-    ];
+    const ordersBySession = new Set(events.filter((e) => e.eventType === "ORDER_PLACED").map((e) => e.sessionId));
+    const sourceAgg: Record<string, { sessions: number; orders: number }> = {};
+    for (const [id, s] of sessions) {
+      const a = (sourceAgg[s.source] ||= { sessions: 0, orders: 0 });
+      a.sessions++;
+      if (ordersBySession.has(id)) a.orders++;
+    }
+    const sources = Object.entries(sourceAgg)
+      .sort((a, b) => b[1].sessions - a[1].sessions)
+      .slice(0, 8)
+      .map(([channel, v]) => ({
+        channel,
+        sessions: v.sessions,
+        share: totalSessions > 0 ? Number(((v.sessions / totalSessions) * 100).toFixed(1)) : 0,
+        conversion: v.sessions > 0 ? `${((v.orders / v.sessions) * 100).toFixed(1)}%` : "0%",
+      }));
+
+    const pageCounts: Record<string, number> = {};
+    for (const e of events) if (e.eventType === "PAGE_VIEW") pageCounts[e.path] = (pageCounts[e.path] || 0) + 1;
+    const singlePage = sessionList.filter((s) => s.views <= 1).length;
+    const topPages = Object.entries(pageCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8)
+      .map(([path, views]) => ({ path, title: path, views, bounceRate: "—" }));
+
+    const durations = sessionList.map((s) => s.last - s.first);
+    const avgMs = durations.length ? durations.reduce((a, b) => a + b, 0) / durations.length : 0;
+    const avgSessionDuration = `${Math.floor(avgMs / 60000)}m ${Math.round((avgMs % 60000) / 1000)}s`;
+    const bounceRate = totalSessions > 0 ? `${((singlePage / totalSessions) * 100).toFixed(1)}%` : "0%";
 
     return NextResponse.json({
       metrics: {
-        totalSessions: Math.max(totalSessions, 1240),
-        totalPageViews: Math.max(totalPageViews, 4890),
+        totalSessions,
+        totalPageViews,
         conversionRate,
         cartConversionRate,
         checkoutConversionRate,
-        avgSessionDuration: "3m 42s",
-        bounceRate: "26.4%",
+        avgSessionDuration,
+        bounceRate,
       },
       funnel,
       devices,

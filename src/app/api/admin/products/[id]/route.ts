@@ -20,6 +20,8 @@ export async function GET(
         category: true,
         scentFamily: true,
         variants: {
+          where: { isActive: true },
+          orderBy: { sellingPrice: 'asc' },
           include: {
             stockMovements: {
               take: 5,
@@ -130,37 +132,83 @@ export async function PUT(
         },
       });
 
-      // Update existing variants or create new ones
+      // Update existing variants, create new ones, retire removed ones
       if (body.variants && Array.isArray(body.variants)) {
+        const num = (x: any, d: number) => {
+          const n = Number(x);
+          return Number.isFinite(n) ? n : d;
+        };
+        const existing = await tx.productVariant.findMany({ where: { productId: id } });
+        const keptIds = new Set<string>();
+
         for (const v of body.variants) {
-          if (v.id) {
+          const current = v.id ? existing.find((e) => e.id === v.id) : undefined;
+          if (current) {
+            keptIds.add(current.id);
+            const newStock = Math.max(0, Math.trunc(num(v.stock, current.stock)));
             await tx.productVariant.update({
-              where: { id: v.id },
+              where: { id: current.id },
               data: {
                 sku: v.sku,
                 size: v.size,
-                purchaseCost: parseFloat(v.purchaseCost) || 0,
-                sellingPrice: parseFloat(v.sellingPrice),
-                originalPrice: v.originalPrice ? parseFloat(v.originalPrice) : null,
-                lowStockThreshold: v.lowStockThreshold ? parseInt(v.lowStockThreshold, 10) : 5,
+                purchaseCost: num(v.purchaseCost, 0),
+                sellingPrice: num(v.sellingPrice, current.sellingPrice),
+                originalPrice: v.originalPrice ? num(v.originalPrice, 0) : null,
+                stock: newStock,
+                lowStockThreshold: Math.max(0, Math.trunc(num(v.lowStockThreshold, 5))),
                 isActive: v.isActive !== undefined ? Boolean(v.isActive) : true,
               },
             });
+            if (newStock !== current.stock) {
+              await tx.stockMovement.create({
+                data: {
+                  variantId: current.id,
+                  type: 'ADJUSTMENT',
+                  quantity: newStock - current.stock,
+                  beforeStock: current.stock,
+                  afterStock: newStock,
+                  reason: 'Edited from product form',
+                  userId: session.id,
+                  userName: session.name,
+                },
+              });
+            }
           } else {
-            // New variant added to existing product
-            await tx.productVariant.create({
+            const stock = Math.max(0, Math.trunc(num(v.stock, 0)));
+            const created = await tx.productVariant.create({
               data: {
                 productId: p.id,
                 sku: v.sku,
                 size: v.size,
-                purchaseCost: parseFloat(v.purchaseCost) || 0,
-                sellingPrice: parseFloat(v.sellingPrice),
-                originalPrice: v.originalPrice ? parseFloat(v.originalPrice) : null,
-                stock: parseInt(v.stock, 10) || 0,
-                lowStockThreshold: parseInt(v.lowStockThreshold, 10) || 5,
+                purchaseCost: num(v.purchaseCost, 0),
+                sellingPrice: num(v.sellingPrice, 0),
+                originalPrice: v.originalPrice ? num(v.originalPrice, 0) : null,
+                stock,
+                lowStockThreshold: Math.max(0, Math.trunc(num(v.lowStockThreshold, 5))),
               },
             });
+            keptIds.add(created.id);
+            if (stock > 0) {
+              await tx.stockMovement.create({
+                data: {
+                  variantId: created.id,
+                  type: 'OPENING',
+                  quantity: stock,
+                  beforeStock: 0,
+                  afterStock: stock,
+                  reason: 'New variant opening stock',
+                  userId: session.id,
+                  userName: session.name,
+                },
+              });
+            }
           }
+        }
+
+        // Variants removed in the form: hide them (kept for past order history)
+        const removed = existing.filter((e) => !keptIds.has(e.id)).map((e) => e.id);
+        if (removed.length > 0) {
+          await tx.productVariant.updateMany({ where: { id: { in: removed } }, data: { isActive: false } });
         }
       }
 

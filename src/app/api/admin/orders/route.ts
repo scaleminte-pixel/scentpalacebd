@@ -1,3 +1,5 @@
+import { generateOrderNumber } from '@/lib/order-number';
+import { isValidBdPhone } from '@/lib/phone';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
@@ -100,12 +102,11 @@ export async function GET(req: NextRequest) {
       let shippingAddress: any = {};
       try { shippingAddress = JSON.parse(o.shippingAddress); } catch { shippingAddress = { address: o.shippingAddress }; }
 
-      const phone = (o.customerPhone || '').replace(/\D/g, '');
-      const isInvalidPhone = phone.length !== 11;
+      const isInvalidPhone = !isValidBdPhone(o.customerPhone || '');
       const addrStr = typeof shippingAddress === 'object' ? Object.values(shippingAddress).join(' ').trim() : String(shippingAddress);
       const isShortAddress = addrStr.length < 10;
       const computedIncomplete = o.isIncomplete || isInvalidPhone || isShortAddress;
-      const computedReason = o.incompleteReason || (isInvalidPhone ? 'Phone number is not 11 digits' : isShortAddress ? 'Shipping address is too short (< 10 chars)' : null);
+      const computedReason = o.incompleteReason || (isInvalidPhone ? 'Not a valid Bangladeshi mobile number' : isShortAddress ? 'Shipping address is too short (< 10 chars)' : null);
 
       return {
         id: o.id,
@@ -246,7 +247,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      const orderNumber = `RDH-${Math.floor(10000 + Math.random() * 90000)}`;
+      const orderNumber = await generateOrderNumber(tx);
 
       const order = await tx.order.create({
         data: {

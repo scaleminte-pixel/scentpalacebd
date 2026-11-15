@@ -54,3 +54,7 @@ prisma/*.db-wal
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+backups/
+
+# per-server admin session secret (auto-generated)
+prisma/.session-secret

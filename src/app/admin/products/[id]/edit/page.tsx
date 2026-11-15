@@ -11,7 +11,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`/api/admin/products/${resolvedParams.id}`);
+        const res = await fetch(`/api/admin/products/${resolvedParams.id}`, { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
           setProduct(data.product);

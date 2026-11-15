@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { X, Trash2, ShoppingBag, ArrowRight, Sparkles, Tag, Check } from 'lucide-react';
@@ -26,6 +26,13 @@ export const CartDrawer: React.FC = () => {
     applyCoupon,
     removeCoupon,
   } = useCart();
+
+  // Always close the drawer when the page changes (e.g. after "Proceed to Checkout").
+  const pathname = usePathname();
+  useEffect(() => {
+    closeDrawer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
   const { formatPrice } = useCurrency();
   const router = useRouter();
 

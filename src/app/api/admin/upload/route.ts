@@ -89,10 +89,6 @@ export async function POST(req: NextRequest) {
           .png()
           .toBuffer();
         await fs.promises.writeFile(path.join(process.cwd(), 'public', 'favicon.ico'), ico64);
-        const appIcoPath = path.join(process.cwd(), 'src', 'app', 'favicon.ico');
-        if (fs.existsSync(path.dirname(appIcoPath))) {
-          await fs.promises.writeFile(appIcoPath, ico64);
-        }
       } catch (icoErr) {
         console.warn('Non-fatal favicon.ico disk sync warning:', icoErr);
       }

@@ -1,7 +1,9 @@
+import { generateOrderNumber } from '@/lib/order-number';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { reserveStockForOrder } from '@/lib/inventory';
 import { createBkashPaymentSession } from '@/lib/bkash';
+import { normalizeBdPhone, BD_PHONE_HINT } from '@/lib/phone';
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,13 +23,34 @@ export async function POST(req: NextRequest) {
       couponCode,
     } = body;
 
-    // Validate inputs
-    if (!name || !phone || !email || !address || !city) {
+    // Only a valid Bangladeshi mobile number is required.
+    const normalizedPhone = normalizeBdPhone(phone);
+    if (!normalizedPhone) {
       return NextResponse.json(
-        { success: false, error: 'Please provide full recipient name, mobile number, email, and shipping address.' },
+        { success: false, error: `Please enter a valid Bangladeshi mobile number (${BD_PHONE_HINT}).` },
         { status: 400 }
       );
     }
+
+    const cleanName = typeof name === 'string' ? name.trim() : '';
+    const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    const cleanAddress = typeof address === 'string' ? address.trim() : '';
+    const cleanCity = typeof city === 'string' ? city.trim() : '';
+
+    if (cleanEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      return NextResponse.json({ success: false, error: 'Please enter a valid email address.' }, { status: 400 });
+    }
+
+    // Missing name/address → order is still placed but lands in "Incomplete Orders"
+    // so staff can call / WhatsApp the customer to confirm details.
+    const missing: string[] = [];
+    if (!cleanName) missing.push('name');
+    if (!cleanAddress) missing.push('address');
+    if (!cleanCity) missing.push('city');
+    const isIncompleteOrder = missing.length > 0;
+    const incompleteReasonText = isIncompleteOrder
+      ? `Phone-only order — call/WhatsApp ${normalizedPhone} to confirm (missing: ${missing.join(', ')})`
+      : null;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
@@ -138,18 +161,18 @@ export async function POST(req: NextRequest) {
       // Find or create customer
       let customer = await tx.customer.findFirst({
         where: {
-          OR: [{ email: email.trim().toLowerCase() }, { phone: phone.trim() }],
+          OR: [{ phone: normalizedPhone }, ...(cleanEmail ? [{ email: cleanEmail }] : [])],
         },
       });
 
       if (!customer) {
         customer = await tx.customer.create({
           data: {
-            name: name.trim(),
-            email: email.trim().toLowerCase(),
-            phone: phone.trim(),
-            address: address.trim(),
-            city: city.trim(),
+            name: cleanName || normalizedPhone,
+            email: cleanEmail,
+            phone: normalizedPhone,
+            address: cleanAddress || null,
+            city: cleanCity || null,
             division: division || 'Dhaka',
             postalCode: postalCode || null,
           },
@@ -157,19 +180,19 @@ export async function POST(req: NextRequest) {
       }
 
       // Generate order number (RDH-xxxxx)
-      const orderNumber = `RDH-${Math.floor(10000 + Math.random() * 90000)}`;
+      const orderNumber = await generateOrderNumber(tx);
 
       // Create Order
       const newOrder = await tx.order.create({
         data: {
           orderNumber,
           customerId: customer.id,
-          customerName: name.trim(),
-          customerEmail: email.trim().toLowerCase(),
-          customerPhone: phone.trim(),
+          customerName: cleanName || 'Phone order (name pending)',
+          customerEmail: cleanEmail,
+          customerPhone: normalizedPhone,
           shippingAddress: JSON.stringify({
-            address: address.trim(),
-            city: city.trim(),
+            address: cleanAddress,
+            city: cleanCity,
             division: division || 'Dhaka',
             postalCode: postalCode || null,
           }),
@@ -180,6 +203,8 @@ export async function POST(req: NextRequest) {
           shippingFee,
           total: totalDue,
           fulfillmentStatus: 'PENDING',
+          isIncomplete: isIncompleteOrder,
+          incompleteReason: incompleteReasonText,
           paymentStatus: 'UNPAID',
           paymentMethod: paymentMethod === 'bkash' ? 'BKASH' : paymentMethod === 'card' ? 'CARD' : 'COD',
           customerNotes: notes || null,
@@ -250,6 +275,7 @@ export async function POST(req: NextRequest) {
       total: result.total,
       paymentMethod: result.paymentMethod,
       bkashUrl: bkashSession?.bkashURL || null,
+      isIncomplete: result.isIncomplete,
       message: 'Order created successfully and stock reserved.',
     });
   } catch (error: unknown) {

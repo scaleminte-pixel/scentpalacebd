@@ -125,17 +125,25 @@ async function ensureSafeBootstrap() {
   const adminCount = await prisma.adminUser.count();
   if (adminCount === 0) {
     console.log('No admin users found. Seeding initial admin users...');
+    // Random one-time passwords (printed once below) — never hardcode credentials.
+    const crypto = require('crypto');
+    const gen = () => crypto.randomBytes(12).toString('base64url');
+    const plain = { owner: gen(), manager: gen(), staff: gen(), accountant: gen() };
     const salt = await bcrypt.genSalt(10);
-    const passOwner = await bcrypt.hash('RawdahOwner2026!', salt);
-    const passManager = await bcrypt.hash('RawdahManager2026!', salt);
-    const passStaff = await bcrypt.hash('RawdahStaff2026!', salt);
-    const passAccountant = await bcrypt.hash('RawdahAccounts2026!', salt);
+    const passOwner = await bcrypt.hash(plain.owner, salt);
+    const passManager = await bcrypt.hash(plain.manager, salt);
+    const passStaff = await bcrypt.hash(plain.staff, salt);
+    const passAccountant = await bcrypt.hash(plain.accountant, salt);
+    console.log('[BOOTSTRAP] Initial admin passwords (save these now, change after first login):');
+    console.log('  owner@scentpalacebd.com      ', plain.owner);
+    console.log('  manager@scentpalacebd.com    ', plain.manager);
+    console.log('  orderstaff@scentpalacebd.com ', plain.staff);
+    console.log('  accountant@scentpalacebd.com ', plain.accountant);
 
     await prisma.adminUser.createMany({
       data: [
         { email: 'owner@scentpalacebd.com', name: 'Tanvir Ahmed Chowdhury', role: 'OWNER', passwordHash: passOwner, isActive: true },
         { email: 'admin@scentpalacebd.com', name: 'Scent Palace Administrator', role: 'OWNER', passwordHash: passOwner, isActive: true },
-        { email: 'owner@rawdahperfumes.com', name: 'Tanvir Ahmed Chowdhury', role: 'OWNER', passwordHash: passOwner, isActive: true },
         { email: 'manager@scentpalacebd.com', name: 'Nusrat Jahan', role: 'MANAGER', passwordHash: passManager, isActive: true },
         { email: 'orderstaff@scentpalacebd.com', name: 'Rakib Hasan', role: 'ORDER_STAFF', passwordHash: passStaff, isActive: true },
         { email: 'accountant@scentpalacebd.com', name: 'Mahmudul Karim', role: 'ACCOUNTANT', passwordHash: passAccountant, isActive: true },

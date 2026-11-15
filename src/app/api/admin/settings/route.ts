@@ -47,6 +47,8 @@ export async function GET(req: NextRequest) {
       adminBrandTitle: settingsMap["adminBrandTitle"] || settingsMap["storeName"] || "Scent Palace BD",
       adminBrandSubtitle: settingsMap["adminBrandSubtitle"] || "Admin Console",
       adminHideText: settingsMap["adminHideText"] === true || settingsMap["adminHideText"] === "true",
+      footerWatermarkText: settingsMap["footerWatermarkText"] || "",
+      footerWatermarkSubtitle: settingsMap["footerWatermarkSubtitle"] || "",
     };
 
     return NextResponse.json(response);
@@ -90,6 +92,8 @@ export async function POST(req: NextRequest) {
       { key: "adminBrandTitle", group: "BRANDING" },
       { key: "adminBrandSubtitle", group: "BRANDING" },
       { key: "adminHideText", group: "BRANDING" },
+      { key: "footerWatermarkText", group: "BRANDING" },
+      { key: "footerWatermarkSubtitle", group: "BRANDING" },
     ];
 
     for (const item of keysToSave) {
