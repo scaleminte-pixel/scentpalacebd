@@ -53,6 +53,7 @@ export default function AdminLoginPage() {
   const [mustChange, setMustChange] = useState<{ user: any } | null>(null);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNew, setShowNew] = useState(false);
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,11 +146,10 @@ export default function AdminLoginPage() {
               <strong>Set a new password to continue.</strong> Your current password is an old default that is
               publicly known, so it can no longer be used to access the admin panel.
             </div>
-            {error && <div className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-lg p-2.5">{error}</div>}
             <div>
               <label className="block text-xs font-semibold text-neutral-700 mb-1">New password (min. 10 characters)</label>
               <input
-                type="password"
+                type={showNew ? 'text' : 'password'}
                 autoComplete="new-password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -160,13 +160,24 @@ export default function AdminLoginPage() {
             <div>
               <label className="block text-xs font-semibold text-neutral-700 mb-1">Confirm new password</label>
               <input
-                type="password"
+                type={showNew ? 'text' : 'password'}
                 autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-[#EAE4DC] text-sm focus:outline-none focus:border-[#D45520]"
                 required
               />
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <label className="flex items-center gap-2 text-neutral-600 cursor-pointer select-none">
+                <input type="checkbox" checked={showNew} onChange={(e) => setShowNew(e.target.checked)} />
+                Show passwords
+              </label>
+              {confirmPassword.length > 0 && (
+                <span className={newPassword === confirmPassword ? 'text-emerald-600 font-semibold' : 'text-rose-600'}>
+                  {newPassword === confirmPassword ? '✓ Passwords match' : 'Passwords do not match yet'}
+                </span>
+              )}
             </div>
             <button
               type="submit"
