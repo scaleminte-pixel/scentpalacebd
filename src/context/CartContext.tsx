@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { trackEvent } from '@/lib/track';
 import { CartItem, Product, ProductVariant, Coupon } from '@/types';
-import { COUPONS } from '@/data/coupons';
 
 interface CartContextType {
   items: CartItem[];
@@ -21,7 +20,7 @@ interface CartContextType {
   closeQuickView: () => void;
 
   appliedCoupon: Coupon | null;
-  applyCoupon: (code: string) => { success: boolean; message: string };
+  applyCoupon: (code: string, opts?: { keepIfNotEligible?: boolean }) => Promise<{ success: boolean; message: string }>;
   removeCoupon: () => void;
 
   subtotal: number;
@@ -160,24 +159,69 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const applyCoupon = (code: string) => {
+  // Coupons are validated by the server against the coupons managed in admin.
+  const [pendingCouponCode, setPendingCouponCode] = useState<string | null>(null);
+
+  const applyCoupon = async (
+    code: string,
+    opts: { keepIfNotEligible?: boolean } = {}
+  ): Promise<{ success: boolean; message: string }> => {
     const trimmed = code.trim().toUpperCase();
-    const found = COUPONS.find((c) => c.code === trimmed);
-
-    if (!found) {
-      return { success: false, message: 'Invalid promotional code. Please try again.' };
+    if (!trimmed) return { success: false, message: 'Please enter a coupon code.' };
+    try {
+      const res = await fetch('/api/coupons/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: trimmed, subtotal }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.coupon) {
+        const c = data.coupon;
+        setAppliedCoupon({
+          code: c.code,
+          type: String(c.type).toUpperCase() === 'PERCENTAGE' ? 'percentage' : 'fixed',
+          value: Number(c.value),
+          minSpend: Number(c.minSpend) || 0,
+          maxDiscount: c.maxDiscount ?? null,
+          description: c.description || '',
+        });
+        setPendingCouponCode(null);
+        return { success: true, message: `Coupon ${c.code} applied successfully!` };
+      }
+      if (opts.keepIfNotEligible && data.reason === 'MIN_SPEND') {
+        // Remember it and apply automatically once the bag reaches the minimum
+        setPendingCouponCode(trimmed);
+        return { success: true, message: data.error || 'Code saved — it applies automatically when eligible.' };
+      }
+      return { success: false, message: data.error || 'Invalid promotional code. Please try again.' };
+    } catch {
+      return { success: false, message: 'Could not check the coupon. Please try again.' };
     }
-
-    if (subtotal < found.minSpend) {
-      return {
-        success: false,
-        message: `This coupon requires a minimum spend of ৳${found.minSpend.toLocaleString('en-BD')}.`,
-      };
-    }
-
-    setAppliedCoupon(found);
-    return { success: true, message: `Coupon ${found.code} applied successfully!` };
   };
+
+  // Apply a remembered code when the bag becomes eligible
+  useEffect(() => {
+    if (!pendingCouponCode || appliedCoupon || subtotal <= 0) return;
+    applyCoupon(pendingCouponCode, { keepIfNotEligible: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subtotal, pendingCouponCode]);
+
+  // Re-check a saved coupon once per page load (it may have been disabled in admin)
+  const couponRechecked = React.useRef(false);
+  useEffect(() => {
+    if (couponRechecked.current || !appliedCoupon || subtotal <= 0) return;
+    couponRechecked.current = true;
+    fetch('/api/coupons/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: appliedCoupon.code, subtotal }),
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (!d.success) setAppliedCoupon(null);
+      })
+      .catch(() => {});
+  }, [appliedCoupon, subtotal]);
 
   const removeCoupon = () => {
     setAppliedCoupon(null);
@@ -194,6 +238,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   if (appliedCoupon) {
     if (appliedCoupon.type === 'percentage') {
       discountAmount = Math.round((subtotal * appliedCoupon.value) / 100);
+      if (appliedCoupon.maxDiscount && discountAmount > appliedCoupon.maxDiscount) {
+        discountAmount = appliedCoupon.maxDiscount;
+      }
     } else {
       discountAmount = Math.min(appliedCoupon.value, subtotal);
     }

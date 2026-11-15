@@ -8,6 +8,7 @@ import { ProductCard } from '@/components/common/ProductCard';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { LUXURY_EASE, viewportOnce } from '@/utils/motion';
+import { useContent } from '@/context/ContentContext';
 
 interface BestSellersProps {
   initialProducts?: Product[];
@@ -18,6 +19,11 @@ export const BestSellers: React.FC<BestSellersProps> = ({ initialProducts }) => 
     initialProducts && initialProducts.length > 0
       ? initialProducts.slice(0, 6)
       : PRODUCTS.filter((p) => p.isBestSeller).slice(0, 6);
+
+  const { getSection } = useContent();
+  const sec = getSection('best_sellers');
+  if (sec && !sec.isVisible) return null;
+  const heading = (sec?.title || 'BEST SELLING PRODUCT.').trim();
 
   return (
     <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
@@ -31,7 +37,7 @@ export const BestSellers: React.FC<BestSellersProps> = ({ initialProducts }) => 
           className="flex items-baseline justify-between mb-10"
         >
           <h2 className="font-serif italic text-2xl sm:text-3xl md:text-4xl text-neutral-900 tracking-wider font-normal">
-            BEST SELLING PRODUCT.
+            {heading}
           </h2>
 
           <Link

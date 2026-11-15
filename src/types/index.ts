@@ -89,6 +89,7 @@ export interface Coupon {
   type: 'percentage' | 'fixed';
   value: number; // e.g. 10 for 10%, 500 for 500 BDT
   minSpend: number;
+  maxDiscount?: number | null;
   description: string;
 }
 

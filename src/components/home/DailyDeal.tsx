@@ -3,8 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { DAILY_DEAL } from '@/data/deals';
-import { PRODUCTS } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { Product } from '@/types';
@@ -29,31 +27,27 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
     expired: boolean;
   }>({ hours: 18, minutes: 42, seconds: 19, expired: false });
 
-  // Fetch dynamic active deal from database
+  // Active deal from Admin → Website Content → Deal of the Day (database products)
   useEffect(() => {
-    fetch(`/api/deals?t=${Date.now()}`, { cache: 'no-store' })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.deal) {
-          setDynamicDeal(data.deal);
-        }
-      })
-      .catch(() => {});
+    const load = () =>
+      fetch(`/api/deals?t=${Date.now()}`, { cache: 'no-store' })
+        .then((res) => res.json())
+        .then((data) => setDynamicDeal(data.success ? data.deal : null))
+        .catch(() => {});
+    load();
+    window.addEventListener('rawdah:content-updated', load);
+    return () => window.removeEventListener('rawdah:content-updated', load);
   }, []);
 
-  const dealTitle = dynamicDeal?.title || DAILY_DEAL.title;
-  const dealPrice = dynamicDeal?.dealPrice ?? DAILY_DEAL.dealPrice;
-  const originalPrice = dynamicDeal?.originalPrice ?? DAILY_DEAL.originalPrice;
-  const endTime = dynamicDeal?.endTime || DAILY_DEAL.endTime;
-  const isEnabled = dynamicDeal ? true : DAILY_DEAL.enabled;
+  const dealTitle = dynamicDeal?.title || 'Deal of the Day';
+  const dealPrice: number = dynamicDeal?.dealPrice ?? 0;
+  const originalPrice: number = dynamicDeal?.originalPrice ?? 0;
+  const endTime: string = dynamicDeal?.endsAt || new Date(0).toISOString();
+  const isEnabled = Boolean(dynamicDeal);
 
-  const matchedProduct = dynamicDeal?.product
-    ? PRODUCTS.find((p) => p.slug === dynamicDeal.product.slug || p.id === dynamicDeal.productId)
-    : null;
-  const dealProduct = dealProductProp || matchedProduct || PRODUCTS.find((p) => p.id === DAILY_DEAL.productId);
+  const dealProduct: Product | null = dealProductProp || dynamicDeal?.product || null;
   const dealVariant =
     (dynamicDeal?.variantId && dealProduct?.variants.find((v) => v.id === dynamicDeal.variantId)) ||
-    dealProduct?.variants.find((v) => v.id === DAILY_DEAL.variantId) ||
     dealProduct?.variants?.[0];
 
   useEffect(() => {
@@ -145,6 +139,14 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-neutral-900 tracking-tight">
                 {dealTitle}
               </h2>
+              <Link
+                href={`/product/${dealProduct.slug}`}
+                className="mt-2 inline-block font-serif text-lg sm:text-xl text-[#D45520] hover:underline"
+              >
+                {dealProduct.name}
+                {dealVariant?.size ? ` · ${dealVariant.size}` : ''}
+              </Link>
+              {dynamicDeal?.tagline && <p className="mt-1 text-xs sm:text-sm text-neutral-500">{dynamicDeal.tagline}</p>}
 
               {/* Pricing */}
               <div className="mt-5 flex items-baseline gap-4">

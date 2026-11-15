@@ -5,6 +5,7 @@ import { REVIEWS } from '@/data/reviews';
 import { Star, ArrowLeft, ArrowRight, Quote } from 'lucide-react';
 import { motion } from 'motion/react';
 import { LUXURY_EASE, viewportOnce } from '@/utils/motion';
+import { useContent } from '@/context/ContentContext';
 
 export const ReviewsSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -22,6 +23,15 @@ export const ReviewsSection: React.FC = () => {
 
   const progressPercent = Math.round(((currentIndex + 1) / (maxIndex + 1)) * 100);
 
+  const { getSection } = useContent();
+  const sec = getSection('reviews');
+  if (sec && !sec.isVisible) return null;
+  // Admin title: text before the first comma is line 1, the rest is the italic line 2
+  const fullTitle: string = (sec?.title || 'Read reviews, wear with sovereign confidence.').trim();
+  const commaAt = fullTitle.indexOf(',');
+  const titleLine1 = commaAt > 0 ? fullTitle.slice(0, commaAt + 1) : fullTitle;
+  const titleLine2 = commaAt > 0 ? fullTitle.slice(commaAt + 1).trim() : '';
+
   return (
     <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -34,9 +44,13 @@ export const ReviewsSection: React.FC = () => {
             transition={{ duration: 0.6, ease: LUXURY_EASE }}
             className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-neutral-900 tracking-tight leading-tight"
           >
-            Read reviews,
-            <br />
-            <span className="italic text-neutral-800">wear with sovereign confidence.</span>
+            {titleLine1}
+            {titleLine2 && (
+              <>
+                <br />
+                <span className="italic text-neutral-800">{titleLine2}</span>
+              </>
+            )}
           </motion.h2>
 
           {/* Rating Strip */}

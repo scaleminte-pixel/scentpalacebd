@@ -41,10 +41,10 @@ export default function CartPage() {
   const [couponCode, setCouponCode] = useState('');
   const [couponMsg, setCouponMsg] = useState<{ text: string; isError: boolean } | null>(null);
 
-  const handleApplyCoupon = (e: React.FormEvent) => {
+  const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!couponCode.trim()) return;
-    const res = applyCoupon(couponCode);
+    const res = await applyCoupon(couponCode);
     setCouponMsg({ text: res.message, isError: !res.success });
     if (res.success) setCouponCode('');
   };
@@ -250,7 +250,7 @@ export default function CartPage() {
                         setCouponCode(e.target.value);
                         setCouponMsg(null);
                       }}
-                      placeholder="Try: LUXURY10 or SCENT500"
+                      placeholder="Enter discount code"
                       className="flex-1 px-3 py-2 text-xs border border-[#D4CFCE] rounded-lg uppercase tracking-wider focus:outline-none focus:border-[#D45520]"
                     />
                     <button

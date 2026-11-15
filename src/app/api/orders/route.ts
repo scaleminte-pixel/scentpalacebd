@@ -1,3 +1,4 @@
+import { getActiveDailyDeal } from '@/lib/daily-deal';
 import { generateOrderNumber } from '@/lib/order-number';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
@@ -73,6 +74,9 @@ export async function POST(req: NextRequest) {
       totalPrice: number;
     }> = [];
 
+    // Active Daily Deal: its variant is charged at the deal price
+    const activeDeal = await getActiveDailyDeal();
+
     for (const item of items) {
       const variant = await prisma.productVariant.findFirst({
         where: {
@@ -103,7 +107,9 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const lineTotal = variant.sellingPrice * item.quantity;
+      const unitPrice =
+        activeDeal && activeDeal.variantId === variant.id ? activeDeal.dealPrice : variant.sellingPrice;
+      const lineTotal = unitPrice * item.quantity;
       calculatedSubtotal += lineTotal;
 
       validatedItems.push({
@@ -112,7 +118,7 @@ export async function POST(req: NextRequest) {
         productName: variant.product.name,
         variantSku: variant.sku,
         size: variant.size,
-        unitPrice: variant.sellingPrice,
+        unitPrice,
         purchaseCost: variant.purchaseCost,
         quantity: item.quantity,
         totalPrice: lineTotal,

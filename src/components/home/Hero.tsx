@@ -10,7 +10,8 @@ import { LUXURY_EASE } from '@/utils/motion';
 import { useContent } from '@/context/ContentContext';
 
 export const Hero: React.FC = () => {
-  const { getContent } = useContent();
+  const { getContent, getSection } = useContent();
+  const heroSection = getSection('hero');
   const heroContent = getContent<any>('hero', {
     headlineLine1: 'A Signature Scent,',
     headlineLine2: 'Crafted with Soul',
@@ -26,6 +27,8 @@ export const Hero: React.FC = () => {
   const ctaButtonText = heroContent.buttonText || heroContent.ctaText || 'Discover Fragrance';
   const ctaButtonLink = heroContent.buttonLink || heroContent.ctaLink || '/shop';
   const heroSubtitle = heroContent.subtitle || heroContent.description || 'A bold composition of rare woods, warm amber, and delicate florals, created to leave an unforgettable impression.';
+
+  if (heroSection && !heroSection.isVisible) return null;
 
   return (
     <section className="relative w-full h-[calc(100vh-102px)] min-h-[540px] max-h-[850px] flex items-end justify-between overflow-hidden bg-[#0F141C]">

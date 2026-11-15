@@ -61,7 +61,7 @@ export const WelcomePromoModal: React.FC = () => {
 
   const handleClaimOffer = () => {
     // Automatically apply coupon code in CartContext
-    const res = applyCoupon(promo.couponCode);
+    applyCoupon(promo.couponCode, { keepIfNotEligible: true });
     setCopied(true);
     setAppliedToast(true);
     setHasInteracted(true);

@@ -127,7 +127,8 @@ export async function getServerProducts(params?: {
 export async function getServerSections() {
   try {
     const sections = await prisma.websiteSection.findMany({
-      where: { isVisible: true },
+      // include hidden sections: components check isVisible themselves
+      
       orderBy: { sortOrder: 'asc' },
     });
 

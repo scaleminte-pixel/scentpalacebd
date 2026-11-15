@@ -42,12 +42,12 @@ export const CartDrawer: React.FC = () => {
 
   if (!isDrawerOpen) return null;
 
-  const handleApplyCoupon = (e: React.FormEvent) => {
+  const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!couponInput.trim()) return;
     setCouponError('');
     setCouponSuccess('');
-    const res = applyCoupon(couponInput);
+    const res = await applyCoupon(couponInput);
     if (res.success) {
       setCouponSuccess(res.message);
       setCouponInput('');
@@ -231,7 +231,7 @@ export const CartDrawer: React.FC = () => {
                       setCouponInput(e.target.value);
                       setCouponError('');
                     }}
-                    placeholder="Discount code (try: LUXURY10)"
+                    placeholder="Discount code"
                     className="flex-1 px-3 py-2 text-xs border border-[#D4CFCE] rounded-lg uppercase tracking-wider focus:outline-none focus:border-[#D45520]"
                   />
                   <button

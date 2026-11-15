@@ -92,9 +92,37 @@ export default function AdminContentPage() {
     promoFloatingPill: 'Special 15% Off Privilege',
     promoImageUrl: '/images/products/lattafa-khamrah.webp',
 
+    // Deal of the Day
+    dealProductSlug: '',
+    dealVariantId: '',
+    dealPrice: '' as string | number,
+    dealEndsAt: '',
+    dealTagline: '',
+
     // Generic fallback for any other sections
     genericFields: {} as Record<string, any>,
   });
+
+  // All published products for the Deal of the Day picker
+  const [dealProducts, setDealProducts] = useState<any[]>([]);
+  useEffect(() => {
+    if (editingSection?.sectionKey !== 'daily_deal' || dealProducts.length > 0) return;
+    fetch(`/api/products?t=${Date.now()}`, { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((d) => {
+        const list = (d.products || []).slice().sort((a: any, b: any) => String(a.name).localeCompare(String(b.name)));
+        setDealProducts(list);
+      })
+      .catch(() => {});
+  }, [editingSection, dealProducts.length]);
+
+  const toLocalInput = (iso?: string) => {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return '';
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
 
   const fetchSections = async () => {
     setLoading(true);
@@ -200,6 +228,12 @@ export default function AdminContentPage() {
       promoFloatingPill: c.floatingPillText || 'Special 15% Off Privilege',
       promoImageUrl: c.imageUrl || c.image || '/images/products/lattafa-khamrah.webp',
 
+      dealProductSlug: c.productSlug || '',
+      dealVariantId: c.variantId || '',
+      dealPrice: c.dealPrice ?? '',
+      dealEndsAt: toLocalInput(c.endsAt),
+      dealTagline: c.tagline || '',
+
       genericFields: { ...c },
     });
   };
@@ -299,6 +333,34 @@ export default function AdminContentPage() {
         floatingPillText: form.promoFloatingPill,
         imageUrl: form.promoImageUrl,
         image: form.promoImageUrl,
+      };
+    } else if (key === 'daily_deal') {
+      const product = dealProducts.find((p: any) => p.slug === form.dealProductSlug);
+      const variant = product?.variants?.find((v: any) => v.id === form.dealVariantId) || product?.variants?.[0];
+      const price = Number(form.dealPrice);
+      if (form.isVisible) {
+        if (!product || !variant) {
+          alert('Please choose a product for the deal.');
+          setIsSaving(false);
+          return;
+        }
+        if (!price || price <= 0 || price >= variant.price) {
+          alert(`Deal price must be lower than the regular price (৳${variant.price}).`);
+          setIsSaving(false);
+          return;
+        }
+        if (!form.dealEndsAt || new Date(form.dealEndsAt).getTime() <= Date.now()) {
+          alert('Please set an end date/time in the future.');
+          setIsSaving(false);
+          return;
+        }
+      }
+      updatedContent = {
+        productSlug: form.dealProductSlug,
+        variantId: variant?.id || '',
+        dealPrice: price || 0,
+        endsAt: form.dealEndsAt ? new Date(form.dealEndsAt).toISOString() : '',
+        tagline: form.dealTagline,
       };
     } else {
       updatedContent = {
@@ -1072,6 +1134,89 @@ export default function AdminContentPage() {
               )}
 
               {/* 6. WELCOME PRIVILEGE MODAL & BADGE FORM */}
+              {editingSection.sectionKey === 'daily_deal' && (() => {
+                const selected = dealProducts.find((p: any) => p.slug === form.dealProductSlug);
+                const variants = selected?.variants || [];
+                const variant = variants.find((v: any) => v.id === form.dealVariantId) || variants[0];
+                const price = Number(form.dealPrice);
+                const pct = variant && price > 0 && price < variant.price ? Math.round(((variant.price - price) / variant.price) * 100) : 0;
+                return (
+                  <div className="space-y-4 border-t border-stone-100 pt-4 text-xs">
+                    <h4 className="font-semibold text-stone-900">Deal of the Day</h4>
+                    <div>
+                      <label className="block text-stone-700 font-semibold mb-1">
+                        Product ({dealProducts.length} available)
+                      </label>
+                      <select
+                        value={form.dealProductSlug}
+                        onChange={(e) => {
+                          const p = dealProducts.find((x: any) => x.slug === e.target.value);
+                          setForm({ ...form, dealProductSlug: e.target.value, dealVariantId: p?.variants?.[0]?.id || '' });
+                        }}
+                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                      >
+                        <option value="">— Choose a product —</option>
+                        {dealProducts.map((p: any) => (
+                          <option key={p.slug} value={p.slug}>
+                            {p.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-stone-700 font-semibold mb-1">Size</label>
+                        <select
+                          value={variant?.id || ''}
+                          onChange={(e) => setForm({ ...form, dealVariantId: e.target.value })}
+                          className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                          disabled={!selected}
+                        >
+                          {variants.map((v: any) => (
+                            <option key={v.id} value={v.id}>
+                              {v.size} — regular ৳{v.price} ({v.stock} in stock)
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-stone-700 font-semibold mb-1">Deal price (৳)</label>
+                        <input
+                          type="number"
+                          min={1}
+                          value={form.dealPrice}
+                          onChange={(e) => setForm({ ...form, dealPrice: e.target.value })}
+                          className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                        />
+                        {pct > 0 && <span className="text-emerald-700 mt-1 block">{pct}% off the regular price</span>}
+                      </div>
+                      <div>
+                        <label className="block text-stone-700 font-semibold mb-1">Deal ends at</label>
+                        <input
+                          type="datetime-local"
+                          value={form.dealEndsAt}
+                          onChange={(e) => setForm({ ...form, dealEndsAt: e.target.value })}
+                          className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-stone-700 font-semibold mb-1">Tagline (optional)</label>
+                        <input
+                          type="text"
+                          value={form.dealTagline}
+                          onChange={(e) => setForm({ ...form, dealTagline: e.target.value })}
+                          className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                        />
+                      </div>
+                    </div>
+                    <p className="text-stone-500">
+                      The deal shows on the homepage until the end time, and customers are charged the deal price at
+                      checkout. Set visibility to Hidden to stop the deal.
+                    </p>
+                  </div>
+                );
+              })()}
+
               {editingSection.sectionKey === 'welcome_promo' && (
                 <div className="space-y-4">
                   <div className="border-b border-stone-200 pb-2">

@@ -30,6 +30,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         success: false,
         error: `Minimum order value of ৳${coupon.minSpend.toLocaleString()} required for this coupon`,
+        reason: 'MIN_SPEND',
+        minSpend: coupon.minSpend,
       }, { status: 400 });
     }
 
@@ -49,6 +51,8 @@ export async function POST(req: NextRequest) {
         code: coupon.code,
         type: coupon.type,
         value: coupon.value,
+        minSpend: coupon.minSpend,
+        maxDiscount: coupon.maxDiscount,
         discountAmount,
         description: coupon.description,
       },
