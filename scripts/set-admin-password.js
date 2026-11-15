@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs');
     console.error('Usage: node scripts/set-admin-password.js <email> <new-password (min 10 chars)>');
     process.exit(1);
   }
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient(require('./data-dir').prismaOptions());
   try {
     const user = await prisma.adminUser.findUnique({ where: { email: email.toLowerCase() } });
     if (!user) throw new Error(`No admin user with email ${email}`);

@@ -15,7 +15,7 @@
  */
 const { PrismaClient } = require('@prisma/client');
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(require('./data-dir').prismaOptions());
 const CONFIRM = process.argv.includes('--yes');
 const stockArg = process.argv.find((a) => a.startsWith('--stock='));
 const STOCK = stockArg ? parseInt(stockArg.split('=')[1], 10) : 50;

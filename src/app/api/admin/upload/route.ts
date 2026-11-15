@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 import { getAdminSessionFromRequest } from '@/lib/auth';
+import { getUploadsRoot } from '@/lib/data-dir';
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -56,7 +57,8 @@ export async function POST(req: NextRequest) {
     const baseName = path.basename(rawName, rawExt).replace(/_+/g, '_').substring(0, 40);
 
     const timestamp = Date.now();
-    const uploadDir = path.join(process.cwd(), 'public', 'images', safeFolder);
+    // Persistent folder on Hostinger (survives deploys); public/ locally
+    const uploadDir = path.join(getUploadsRoot(), 'images', safeFolder);
 
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });

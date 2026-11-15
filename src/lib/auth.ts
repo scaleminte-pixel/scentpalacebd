@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import { NextRequest } from 'next/server';
+import { getDataDir } from './data-dir';
 
 export type AdminRole = 'OWNER' | 'MANAGER' | 'ORDER_STAFF' | 'CATALOG_EDITOR' | 'ACCOUNTANT';
 
@@ -45,7 +46,7 @@ function resolveSecret(): string {
   const env = process.env.ADMIN_SESSION_SECRET || '';
   if (env.length >= 32 && !LEAKED_SECRET_HASHES.has(sha256(env))) return env;
 
-  const file = path.join(process.cwd(), 'prisma', '.session-secret');
+  const file = path.join(getDataDir() || path.join(process.cwd(), 'prisma'), '.session-secret');
   try {
     const existing = fs.readFileSync(file, 'utf8').trim();
     if (existing.length >= 32) return existing;

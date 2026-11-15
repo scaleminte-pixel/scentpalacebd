@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { getDataDir, getDatabaseUrl } from './data-dir';
 import path from 'path';
 import fs from 'fs';
 
@@ -29,6 +30,7 @@ function syncDbFiles(srcBase: string, destBase: string) {
 
 // Ensure SQLite database file is synchronized between root and prisma directory
 try {
+  if (getDataDir()) throw new Error('persistent data dir in use; skip legacy dev.db sync');
   const prismaDb = path.join(process.cwd(), 'prisma', 'dev.db');
   const rootDb = path.join(process.cwd(), 'dev.db');
 
@@ -62,11 +64,13 @@ export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['warn', 'error'] : ['error'],
+    ...(getDataDir() ? { datasources: { db: { url: getDatabaseUrl() } } } : {}),
   });
 
 export async function checkpointDatabase(): Promise<void> {
   try {
     await prisma.$queryRawUnsafe('PRAGMA wal_checkpoint(FULL);');
+    if (getDataDir()) return;
     const prismaDb = path.join(process.cwd(), 'prisma', 'dev.db');
     const rootDb = path.join(process.cwd(), 'dev.db');
     if (fs.existsSync(prismaDb)) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { getUploadsRoot } from '@/lib/data-dir';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,17 +23,21 @@ const TYPES: Record<string, string> = {
  */
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const { path: parts } = await params;
-  const root = path.join(process.cwd(), 'public', 'images');
-  const target = path.resolve(root, ...parts.map((p) => decodeURIComponent(p)));
-
-  if (!target.startsWith(root + path.sep)) {
-    return new NextResponse('Not found', { status: 404 });
-  }
-  const type = TYPES[path.extname(target).toLowerCase()];
+  const rel = parts.map((p) => decodeURIComponent(p));
+  const type = TYPES[path.extname(rel[rel.length - 1] || '').toLowerCase()];
   if (!type) return new NextResponse('Not found', { status: 404 });
 
-  try {
-    const data = await fs.promises.readFile(target);
+  // Persistent uploads first (Hostinger), then the bundled public/images.
+  const roots = [path.join(getUploadsRoot(), 'images'), path.join(process.cwd(), 'public', 'images')];
+  for (const root of roots) {
+    const target = path.resolve(root, ...rel);
+    if (!target.startsWith(root + path.sep)) return new NextResponse('Not found', { status: 404 });
+    let data: Buffer;
+    try {
+      data = await fs.promises.readFile(target);
+    } catch {
+      continue;
+    }
     return new NextResponse(new Uint8Array(data), {
       headers: {
         'Content-Type': type,
@@ -40,7 +45,6 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ pat
         'Cache-Control': 'public, max-age=31536000, immutable',
       },
     });
-  } catch {
-    return new NextResponse('Not found', { status: 404 });
   }
+  return new NextResponse('Not found', { status: 404 });
 }

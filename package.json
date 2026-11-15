@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next dev",
-    "build": "prisma db push && node scripts/ensure-safe-bootstrap.js && node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next build",
+    "build": "node scripts/init-db.js && node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next build",
     "start": "node -r ./scripts/patch-fs.js node_modules/next/dist/bin/next start",
     "test": "node scripts/verify-all-systems.js",
     "lint": "eslint",
@@ -19,10 +19,10 @@
     "bcryptjs": "^3.0.3",
     "lucide-react": "^1.68.0",
     "motion": "^14.9.1",
-    "next": "^15.2.0",
-    "react": "^19",
-    "react-dom": "^19",
-    "sharp": "^0.35.5"
+    "next": "15.5.29",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sharp": "0.35.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.4",
@@ -32,7 +32,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^15.2.0",
+    "eslint-config-next": "15.5.29",
     "postcss": "^8.5.32",
     "prisma": "6.19.3",
     "tailwindcss": "^4",
