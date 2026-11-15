@@ -165,8 +165,8 @@ async function ensureSafeBootstrap() {
       await prisma.websiteSection.create({
         data: {
           sectionKey: def.sectionKey,
-          sectionName: def.sectionName,
-          sectionType: def.sectionType,
+          type: def.sectionType,
+          title: def.sectionName,
           sortOrder: def.sortOrder,
           contentJson: JSON.stringify(def.content),
           isVisible: true,
