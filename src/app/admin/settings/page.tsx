@@ -150,6 +150,36 @@ export default function AdminSettingsPage() {
         </div>
       )}
 
+      {/* Backup & Download */}
+      <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-4">
+        <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
+          <Shield className="w-5 h-5 text-[#D45520]" />
+          <h3>Backup &amp; Download</h3>
+        </div>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          Download a copy of your store data with one click. The full backup includes orders, customers and products
+          (Excel-ready CSV files), all website content, every image, and a complete database copy for restoring. Keep the
+          file private — it contains customer details.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="/api/admin/backup"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#D45520] text-white text-xs font-semibold hover:opacity-90"
+          >
+            <Upload className="w-4 h-4 rotate-180" />
+            Download full backup (ZIP)
+          </a>
+          <a
+            href="/api/admin/backup?only=orders"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-stone-300 text-stone-800 text-xs font-semibold hover:bg-stone-50"
+          >
+            <Upload className="w-4 h-4 rotate-180" />
+            Download orders &amp; customers only
+          </a>
+        </div>
+        <p className="text-[11px] text-stone-400">Owner account only. A full backup may take a few seconds to prepare.</p>
+      </div>
+
       <form onSubmit={handleSave} className="space-y-6">
         {/* Atelier Identity */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-4">

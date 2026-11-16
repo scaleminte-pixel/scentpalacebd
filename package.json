@@ -17,6 +17,7 @@
   "dependencies": {
     "@prisma/client": "6.19.3",
     "bcryptjs": "^3.0.3",
+    "fflate": "0.8.2",
     "lucide-react": "^1.68.0",
     "motion": "^14.9.1",
     "next": "15.5.29",
