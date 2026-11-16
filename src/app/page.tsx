@@ -15,11 +15,16 @@ export const revalidate = 0;
 export const fetchCache = 'force-no-store';
 
 export default async function HomePage() {
-  const [categories, bestSellers, newArrivals] = await Promise.all([
+  const [categories, bestSellers, newArrivals, allProducts] = await Promise.all([
     getServerCategories(),
     getServerProducts({ isBestSeller: true, take: 6 }),
     getServerProducts({ isNewArrival: true, take: 6 }),
+    getServerProducts(),
   ]);
+  // slug -> name/image, used by the editorial showcase tiles chosen in admin
+  const productIndex = Object.fromEntries(
+    allProducts.map((p) => [p.slug, { name: p.name, image: p.images?.[0] || '' }])
+  );
 
   return (
     <div className="flex flex-col w-full">
@@ -27,7 +32,7 @@ export default async function HomePage() {
       <Hero />
 
       {/* 3. Editorial Intro + Shop by Category */}
-      <EditorialIntro initialCategories={categories} />
+      <EditorialIntro initialCategories={categories} productIndex={productIndex} />
 
       {/* 4. Best Sellers */}
       <BestSellers initialProducts={bestSellers} />

@@ -99,6 +99,9 @@ export default function AdminContentPage() {
     dealEndsAt: '',
     dealTagline: '',
 
+    // Editorial showcase tiles (3 product slugs)
+    showcaseSlugs: ['', '', ''] as string[],
+
     // Generic fallback for any other sections
     genericFields: {} as Record<string, any>,
   });
@@ -106,7 +109,7 @@ export default function AdminContentPage() {
   // All published products for the Deal of the Day picker
   const [dealProducts, setDealProducts] = useState<any[]>([]);
   useEffect(() => {
-    if (editingSection?.sectionKey !== 'daily_deal' || dealProducts.length > 0) return;
+    if (!['daily_deal', 'editorial'].includes(editingSection?.sectionKey) || dealProducts.length > 0) return;
     fetch(`/api/products?t=${Date.now()}`, { cache: 'no-store' })
       .then((r) => r.json())
       .then((d) => {
@@ -233,6 +236,7 @@ export default function AdminContentPage() {
       dealPrice: c.dealPrice ?? '',
       dealEndsAt: toLocalInput(c.endsAt),
       dealTagline: c.tagline || '',
+      showcaseSlugs: [0, 1, 2].map((i) => (Array.isArray(c.showcaseSlugs) ? c.showcaseSlugs[i] || '' : '')),
 
       genericFields: { ...c },
     });
@@ -298,6 +302,7 @@ export default function AdminContentPage() {
         body: form.editorialBody,
         signatureTitle: form.signatureTitle,
         signatureSubtitle: form.signatureSubtitle,
+        showcaseSlugs: form.showcaseSlugs.filter(Boolean),
         amberTitle: 'Warm Golden Amber',
         saffronTitle: 'Kashmiri Dawn Saffron',
       };
@@ -945,6 +950,44 @@ export default function AdminContentPage() {
               )}
 
               {/* 4. BANNER FORMS (GIFT SETS OR COLLECTION) */}
+              {editingSection.sectionKey === 'editorial' && (
+                <div className="space-y-3 border-t border-stone-100 pt-4 text-xs">
+                  <h4 className="font-semibold text-stone-900">Showcase products under the headline</h4>
+                  <p className="text-stone-500">
+                    Choose the 3 products shown as small tiles under &ldquo;{form.headingLine1} {form.headingLine2}&rdquo;.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {[0, 1, 2].map((i) => (
+                      <div key={i}>
+                        <label className="block text-stone-700 font-semibold mb-1">Product {i + 1}</label>
+                        <select
+                          value={form.showcaseSlugs[i] || ''}
+                          onChange={(e) => {
+                            const next = [...form.showcaseSlugs];
+                            next[i] = e.target.value;
+                            setForm({ ...form, showcaseSlugs: next });
+                          }}
+                          className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                        >
+                          <option value="">— Choose ({dealProducts.length} products) —</option>
+                          {dealProducts.map((p: any) => (
+                            <option key={p.slug} value={p.slug}>
+                              {p.name}
+                            </option>
+                          ))}
+                        </select>
+                        {(() => {
+                          const sel = dealProducts.find((p: any) => p.slug === form.showcaseSlugs[i]);
+                          return sel?.images?.[0] ? (
+                            <img src={sel.images[0]} alt="" className="mt-2 w-16 h-16 object-contain rounded-lg border border-stone-200 bg-white" />
+                          ) : null;
+                        })()}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {(editingSection.sectionKey === 'gift_sets_banner' ||
                 editingSection.sectionKey === 'collection_banner') && (
                 <div className="space-y-4">

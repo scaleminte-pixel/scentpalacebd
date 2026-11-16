@@ -11,9 +11,10 @@ import { useContent } from '@/context/ContentContext';
 
 interface EditorialIntroProps {
   initialCategories?: any[];
+  productIndex?: Record<string, { name: string; image: string }>;
 }
 
-export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategories }) => {
+export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategories, productIndex = {} }) => {
   const { getContent, getSection } = useContent();
   const sec = getSection('editorial');
   const [categories, setCategories] = useState<any[]>(
@@ -42,11 +43,21 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
     signatureSubtitle: 'Explore our collection of refined fragrances, inspired by tradition and crafted for modern elegance.',
   });
 
-  const showcaseTiles = [
+  const defaultTiles = [
     { name: 'AFNAN 9PM', image: '/images/products/afnan-9pm.webp', link: '/product/afnan-9pm' },
     { name: 'LATTAFA ASAD', image: '/images/products/lattafa-asad-elixir.webp', link: '/product/lattafa-asad-elixir' },
     { name: 'HAWAS ICE', image: '/images/products/hawas-ice-freeze.webp', link: '/product/hawas-ice-freeze' },
   ];
+  // Products chosen in Admin → Website Content → Editorial (3 slots)
+  const chosen: string[] = Array.isArray((content as any).showcaseSlugs) ? (content as any).showcaseSlugs : [];
+  const showcaseTiles = [0, 1, 2]
+    .map((i) => {
+      const slug = chosen[i];
+      const prod = slug ? productIndex[slug] : null;
+      if (prod) return { name: prod.name, image: prod.image || defaultTiles[i].image, link: `/product/${slug}` };
+      return chosen.length > 0 ? null : defaultTiles[i];
+    })
+    .filter(Boolean) as { name: string; image: string; link: string }[];
 
   if (sec && !sec.isVisible) return null;
 
@@ -106,7 +117,7 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
             >
               {showcaseTiles.map((tile) => (
                 <motion.div
-                  key={tile.name}
+                  key={tile.link}
                   variants={{
                     hidden: { opacity: 0, y: 12 },
                     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: LUXURY_EASE } },
