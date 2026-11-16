@@ -102,6 +102,21 @@ export default function AdminContentPage() {
     // Editorial showcase tiles (3 product slugs)
     showcaseSlugs: ['', '', ''] as string[],
 
+    // Shop by Scent
+    scentHeading: 'Shop by Scent',
+    scentItems: [] as { name: string; image: string; link: string }[],
+
+    // Instagram gallery
+    igHeading: 'Follow Our Journey',
+    igHandle: '@scentpalace.bd',
+    igProfileUrl: 'https://instagram.com',
+    igItems: [] as { image: string; link: string }[],
+
+    // Shop page heading
+    shopEyebrow: '',
+    shopTitle: '',
+    shopDescription: '',
+
     // Generic fallback for any other sections
     genericFields: {} as Record<string, any>,
   });
@@ -237,6 +252,19 @@ export default function AdminContentPage() {
       dealEndsAt: toLocalInput(c.endsAt),
       dealTagline: c.tagline || '',
       showcaseSlugs: [0, 1, 2].map((i) => (Array.isArray(c.showcaseSlugs) ? c.showcaseSlugs[i] || '' : '')),
+      scentHeading: c.heading || 'Shop by Scent',
+      scentItems: Array.isArray(c.items) && section.sectionKey === 'shop_by_scent'
+        ? c.items.map((it: any) => ({ name: it.name || '', image: it.image || '', link: it.link || '' }))
+        : [],
+      igHeading: c.heading || 'Follow Our Journey',
+      igHandle: c.handle ?? '@scentpalace.bd',
+      igProfileUrl: c.profileUrl || 'https://instagram.com',
+      igItems: Array.isArray(c.items) && section.sectionKey === 'instagram'
+        ? c.items.map((it: any) => ({ image: it.image || '', link: it.link || '' }))
+        : [],
+      shopEyebrow: c.eyebrow || '',
+      shopTitle: c.title || '',
+      shopDescription: c.description || '',
 
       genericFields: { ...c },
     });
@@ -339,6 +367,22 @@ export default function AdminContentPage() {
         imageUrl: form.promoImageUrl,
         image: form.promoImageUrl,
       };
+    } else if (key === 'shop_by_scent') {
+      updatedContent = {
+        heading: form.scentHeading,
+        items: form.scentItems
+          .filter((it) => it.image && it.name)
+          .map((it) => ({ ...it, link: it.link || `/shop?scent=${encodeURIComponent(it.name)}` })),
+      };
+    } else if (key === 'instagram') {
+      updatedContent = {
+        heading: form.igHeading,
+        handle: form.igHandle,
+        profileUrl: form.igProfileUrl,
+        items: form.igItems.filter((it) => it.image),
+      };
+    } else if (key === 'shop_header') {
+      updatedContent = { eyebrow: form.shopEyebrow, title: form.shopTitle, description: form.shopDescription };
     } else if (key === 'daily_deal') {
       const product = dealProducts.find((p: any) => p.slug === form.dealProductSlug);
       const variant = product?.variants?.find((v: any) => v.id === form.dealVariantId) || product?.variants?.[0];
@@ -415,7 +459,7 @@ export default function AdminContentPage() {
       return ['hero', 'collection_banner', 'gift_sets_banner'].includes(s.sectionKey);
     }
     if (activeTab === 'editorial') {
-      return ['editorial', 'best_sellers', 'reviews'].includes(s.sectionKey);
+      return ['editorial', 'best_sellers', 'reviews', 'shop_by_scent', 'instagram', 'shop_header'].includes(s.sectionKey);
     }
     if (activeTab === 'promos') {
       return ['announcement', 'welcome_promo', 'faq'].includes(s.sectionKey);
@@ -1177,6 +1221,173 @@ export default function AdminContentPage() {
               )}
 
               {/* 6. WELCOME PRIVILEGE MODAL & BADGE FORM */}
+              {editingSection.sectionKey === 'shop_by_scent' && (
+                <div className="space-y-4 border-t border-stone-100 pt-4 text-xs">
+                  <div>
+                    <label className="block text-stone-700 font-semibold mb-1">Section heading</label>
+                    <input value={form.scentHeading} onChange={(e) => setForm({ ...form, scentHeading: e.target.value })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-white" />
+                  </div>
+                  {form.scentItems.map((it, i) => (
+                    <div key={i} className="rounded-xl border border-stone-200 p-3 space-y-2 bg-stone-50/50">
+                      <div className="flex items-center justify-between">
+                        <span className="font-semibold text-stone-800">Card {i + 1}</span>
+                        <button
+                          type="button"
+                          onClick={() => setForm({ ...form, scentItems: form.scentItems.filter((_, j) => j !== i) })}
+                          className="text-rose-600 hover:underline"
+                        >
+                          Remove card
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-stone-600 mb-1">Card text</label>
+                          <input
+                            value={it.name}
+                            onChange={(e) => {
+                              const next = [...form.scentItems];
+                              next[i] = { ...it, name: e.target.value };
+                              setForm({ ...form, scentItems: next });
+                            }}
+                            className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-stone-600 mb-1">Link (optional)</label>
+                          <input
+                            value={it.link}
+                            placeholder="/shop?scent=…"
+                            onChange={(e) => {
+                              const next = [...form.scentItems];
+                              next[i] = { ...it, link: e.target.value };
+                              setForm({ ...form, scentItems: next });
+                            }}
+                            className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                          />
+                        </div>
+                      </div>
+                      <ContentImageUploader
+                        label="Card image"
+                        sublabel="Square image works best"
+                        imageUrl={it.image}
+                        onChange={(url) => {
+                          const next = [...form.scentItems];
+                          next[i] = { ...it, image: url };
+                          setForm({ ...form, scentItems: next });
+                        }}
+                        aspectRatio="square"
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, scentItems: [...form.scentItems, { name: '', image: '', link: '' }] })}
+                    className="px-3 py-2 rounded-lg border border-dashed border-stone-300 hover:bg-stone-50 font-semibold"
+                  >
+                    + Add card
+                  </button>
+                </div>
+              )}
+
+              {editingSection.sectionKey === 'instagram' && (
+                <div className="space-y-4 border-t border-stone-100 pt-4 text-xs">
+                  <div className="rounded-xl bg-amber-50 border border-amber-200 p-3 text-amber-900 leading-relaxed">
+                    <strong>How this works:</strong> these photos are not pulled from Instagram automatically. Upload the
+                    photos you want to show (for example, screenshots or the original images of your Instagram posts) and
+                    paste each post&apos;s link. Clicking a photo opens that post; the &ldquo;Instagram&rdquo; button opens
+                    your profile. Automatic syncing would need an Instagram/Meta API token.
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div>
+                      <label className="block text-stone-700 font-semibold mb-1">Section heading</label>
+                      <input value={form.igHeading} onChange={(e) => setForm({ ...form, igHeading: e.target.value })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-white" />
+                    </div>
+                    <div>
+                      <label className="block text-stone-700 font-semibold mb-1">Instagram handle</label>
+                      <input value={form.igHandle} onChange={(e) => setForm({ ...form, igHandle: e.target.value })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-white" />
+                    </div>
+                    <div>
+                      <label className="block text-stone-700 font-semibold mb-1">Profile link</label>
+                      <input
+                        value={form.igProfileUrl}
+                        placeholder="https://instagram.com/yourpage"
+                        onChange={(e) => setForm({ ...form, igProfileUrl: e.target.value })}
+                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                      />
+                    </div>
+                  </div>
+                  {form.igItems.map((it, i) => (
+                    <div key={i} className="rounded-xl border border-stone-200 p-3 space-y-2 bg-stone-50/50">
+                      <div className="flex items-center justify-between">
+                        <span className="font-semibold text-stone-800">Photo {i + 1}</span>
+                        <button
+                          type="button"
+                          onClick={() => setForm({ ...form, igItems: form.igItems.filter((_, j) => j !== i) })}
+                          className="text-rose-600 hover:underline"
+                        >
+                          Remove photo
+                        </button>
+                      </div>
+                      <div>
+                        <label className="block text-stone-600 mb-1">Instagram post link (optional)</label>
+                        <input
+                          value={it.link}
+                          placeholder="https://www.instagram.com/p/…"
+                          onChange={(e) => {
+                            const next = [...form.igItems];
+                            next[i] = { ...it, link: e.target.value };
+                            setForm({ ...form, igItems: next });
+                          }}
+                          className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                        />
+                      </div>
+                      <ContentImageUploader
+                        label="Photo"
+                        sublabel="Square image works best"
+                        imageUrl={it.image}
+                        onChange={(url) => {
+                          const next = [...form.igItems];
+                          next[i] = { ...it, image: url };
+                          setForm({ ...form, igItems: next });
+                        }}
+                        aspectRatio="square"
+                      />
+                    </div>
+                  ))}
+                  {form.igItems.length < 10 && (
+                    <button
+                      type="button"
+                      onClick={() => setForm({ ...form, igItems: [...form.igItems, { image: '', link: '' }] })}
+                      className="px-3 py-2 rounded-lg border border-dashed border-stone-300 hover:bg-stone-50 font-semibold"
+                    >
+                      + Add photo
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {editingSection.sectionKey === 'shop_header' && (
+                <div className="space-y-3 border-t border-stone-100 pt-4 text-xs">
+                  <div>
+                    <label className="block text-stone-700 font-semibold mb-1">Small top line</label>
+                    <input value={form.shopEyebrow} onChange={(e) => setForm({ ...form, shopEyebrow: e.target.value })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-white" />
+                  </div>
+                  <div>
+                    <label className="block text-stone-700 font-semibold mb-1">Main heading</label>
+                    <input value={form.shopTitle} onChange={(e) => setForm({ ...form, shopTitle: e.target.value })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-white" />
+                  </div>
+                  <div>
+                    <label className="block text-stone-700 font-semibold mb-1">Description</label>
+                    <textarea
+                      rows={3}
+                      value={form.shopDescription}
+                      onChange={(e) => setForm({ ...form, shopDescription: e.target.value })}
+                      className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                    />
+                  </div>
+                </div>
+              )}
+
               {editingSection.sectionKey === 'daily_deal' && (() => {
                 const selected = dealProducts.find((p: any) => p.slug === form.dealProductSlug);
                 const variants = selected?.variants || [];

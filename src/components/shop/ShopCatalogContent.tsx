@@ -7,6 +7,7 @@ import { CATEGORIES } from '@/data/categories';
 import { SCENT_FAMILIES } from '@/data/scents';
 import { ProductCard } from '@/components/common/ProductCard';
 import { useCurrency } from '@/context/CurrencyContext';
+import { useContent } from '@/context/ContentContext';
 import {
   Filter,
   X,
@@ -41,10 +42,19 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
   const initialSearch = searchParams.get('q') || '';
 
   // Local Filter States
+  // Heading text from Admin → Website Content → Shop Page Heading
+  const { getContent } = useContent();
+  const shopHeader = getContent<any>('shop_header', {
+    eyebrow: 'Scent Palace BD Catalog',
+    title: 'The Masterwork Fragrance Collection',
+    description: 'Explore our full spectrum of rare extraits de parfum, aged Cambodian ouds, and limited edition presentation sets.',
+  });
+
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all');
   const [selectedScent, setSelectedScent] = useState<string>(initialScent || 'all');
   const [selectedSize, setSelectedSize] = useState<string>('all');
-  const [priceRange, setPriceRange] = useState<number>(8000); // Max price in BDT
+  // null = no price filter. The slider max follows the most expensive product.
+  const [priceRange, setPriceRange] = useState<number | null>(null);
   const [sortBy, setSortBy] = useState<string>(initialSort);
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
@@ -54,6 +64,13 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
   const [categories, setCategories] = useState<any[]>(
     initialCategories && initialCategories.length > 0 ? initialCategories : CATEGORIES
   );
+  const catalogMax = useMemo(() => {
+    const prices = catalogProducts.flatMap((p) => p.variants.map((v) => v.price));
+    const max = prices.length ? Math.max(...prices) : 8000;
+    return Math.max(1000, Math.ceil(max / 500) * 500);
+  }, [catalogProducts]);
+  const effectivePrice = priceRange ?? catalogMax;
+  const isPriceFiltered = priceRange !== null && priceRange < catalogMax;
 
   useEffect(() => {
     if (initialProducts && initialProducts.length > 0) {
@@ -129,7 +146,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
     setSelectedCategory('all');
     setSelectedScent('all');
     setSelectedSize('all');
-    setPriceRange(8000);
+    setPriceRange(null);
     setSortBy('featured');
     setSearchQuery('');
     router.replace('/shop', { scroll: false });
@@ -169,7 +186,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
 
       // Price filter
       const minProductPrice = Math.min(...product.variants.map((v) => v.price));
-      if (minProductPrice > priceRange) {
+      if (minProductPrice > effectivePrice) {
         return false;
       }
 
@@ -204,7 +221,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
     (selectedCategory !== 'all' ? 1 : 0) +
     (selectedScent !== 'all' ? 1 : 0) +
     (selectedSize !== 'all' ? 1 : 0) +
-    (priceRange < 30000 ? 1 : 0) +
+    (isPriceFiltered ? 1 : 0) +
     (searchQuery.trim() ? 1 : 0);
 
   return (
@@ -220,7 +237,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                 transition={{ duration: 0.45, delay: 0.05, ease: LUXURY_EASE }}
                 className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D45520] block"
               >
-                Scent Palace BD Catalog
+                {shopHeader.eyebrow}
               </motion.span>
               <motion.h1
                 initial={{ opacity: 0, y: 14 }}
@@ -228,7 +245,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                 transition={{ duration: 0.55, delay: 0.15, ease: LUXURY_EASE }}
                 className="font-serif italic text-3xl sm:text-4xl lg:text-5xl text-neutral-900 tracking-tight font-normal mt-1"
               >
-                The Masterwork Fragrance Collection
+                {shopHeader.title}
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 12 }}
@@ -236,7 +253,7 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                 transition={{ duration: 0.5, delay: 0.25, ease: LUXURY_EASE }}
                 className="text-xs sm:text-sm text-neutral-500 mt-2 font-sans max-w-2xl"
               >
-                Explore our full spectrum of rare extraits de parfum, aged Cambodian ouds, and limited edition presentation sets.
+                {shopHeader.description}
               </motion.p>
             </div>
 
@@ -298,10 +315,10 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                 </span>
               )}
 
-              {priceRange < 30000 && (
+              {isPriceFiltered && (
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#EAE4DC] text-xs text-neutral-800 shadow-2xs">
-                  Under: <strong>{formatPrice(priceRange)}</strong>
-                  <button onClick={() => setPriceRange(30000)} className="hover:text-rose-600">
+                  Under: <strong>{formatPrice(effectivePrice)}</strong>
+                  <button onClick={() => setPriceRange(null)} className="hover:text-rose-600">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
@@ -496,21 +513,21 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                   Max Price
                 </label>
                 <span className="text-xs font-semibold text-[#D45520] tabular-nums">
-                  {formatPrice(priceRange)}
+                  {formatPrice(effectivePrice)}
                 </span>
               </div>
               <input
                 type="range"
                 min="1500"
-                max="8000"
+                max={catalogMax}
                 step="100"
-                value={priceRange}
+                value={effectivePrice}
                 onChange={(e) => setPriceRange(Number(e.target.value))}
                 className="w-full accent-[#D45520] cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-neutral-400 mt-1 tabular-nums">
                 <span>{formatPrice(1500)}</span>
-                <span>{formatPrice(8000)}</span>
+                <span>{formatPrice(catalogMax)}</span>
               </div>
             </div>
           </motion.aside>
@@ -684,20 +701,20 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                 <div>
                   <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2">
                     <span>Max Price</span>
-                    <span className="text-[#D45520] tabular-nums">{formatPrice(priceRange)}</span>
+                    <span className="text-[#D45520] tabular-nums">{formatPrice(effectivePrice)}</span>
                   </div>
                   <input
                     type="range"
                     min="1500"
-                    max="8000"
+                    max={catalogMax}
                     step="100"
-                    value={priceRange}
+                    value={effectivePrice}
                     onChange={(e) => setPriceRange(Number(e.target.value))}
                     className="w-full accent-[#D45520]"
                   />
                   <div className="flex justify-between text-[10px] text-neutral-400 mt-1 tabular-nums">
                     <span>{formatPrice(1500)}</span>
-                    <span>{formatPrice(8000)}</span>
+                    <span>{formatPrice(catalogMax)}</span>
                   </div>
                 </div>
               </div>

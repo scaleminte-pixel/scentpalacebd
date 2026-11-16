@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { LUXURY_EASE, viewportOnce } from '@/utils/motion';
+import { useContent } from '@/context/ContentContext';
 
 const SCENT_TILES = [
   {
@@ -31,6 +32,19 @@ const SCENT_TILES = [
 ];
 
 export const ShopByScent: React.FC = () => {
+  const { getContent, getSection } = useContent();
+  const sec = getSection('shop_by_scent');
+  const content = getContent<any>('shop_by_scent', { heading: 'Shop by Scent', items: [] });
+  if (sec && !sec.isVisible) return null;
+
+  // Cards from Admin → Website Content → Shop by Scent (fallback: built-in four)
+  const adminItems = Array.isArray(content.items) ? content.items.filter((t: any) => t && t.image && t.name) : [];
+  const tiles = (adminItems.length > 0 ? adminItems : SCENT_TILES).map((t: any) => ({
+    name: t.name,
+    image: t.image,
+    link: t.link || `/shop?scent=${encodeURIComponent(t.id || t.name)}`,
+  }));
+
   return (
     <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -43,7 +57,7 @@ export const ShopByScent: React.FC = () => {
           className="flex items-baseline justify-between mb-10"
         >
           <h2 className="font-serif italic text-2xl sm:text-3xl md:text-4xl text-neutral-900 tracking-tight font-normal">
-            Shop by Scent
+            {content.heading || 'Shop by Scent'}
           </h2>
 
           <Link
@@ -69,16 +83,16 @@ export const ShopByScent: React.FC = () => {
           }}
           className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
         >
-          {SCENT_TILES.map((scent) => (
+          {tiles.map((scent: any) => (
             <motion.div
-              key={scent.id}
+              key={scent.name + scent.image}
               variants={{
                 hidden: { opacity: 0, scale: 0.98 },
                 visible: { opacity: 1, scale: 1, transition: { duration: 0.55, ease: LUXURY_EASE } },
               }}
             >
               <Link
-                href={`/shop?scent=${encodeURIComponent(scent.id)}`}
+                href={scent.link}
                 className="group relative rounded-2xl overflow-hidden bg-white border border-[#EAE4DC] shadow-xs hover:shadow-xl transition-all duration-300 h-72 sm:h-88 flex flex-col justify-end p-5 block"
               >
                 {/* Background Image with contained hover zoom */}

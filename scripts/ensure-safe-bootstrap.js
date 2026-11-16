@@ -116,6 +116,44 @@ const DEFAULT_SECTIONS = [
       isEnabled: true,
     },
   },
+  {
+    sectionKey: 'shop_by_scent',
+    sectionName: 'Shop by Scent',
+    sectionType: 'SHOP_BY_SCENT',
+    sortOrder: 20,
+    content: {
+      heading: 'Shop by Scent',
+      items: [
+        { name: 'Oud & Woody', image: '/images/scent-oud.webp', link: '/shop?scent=Oud%20%26%20Woody' },
+        { name: 'Fresh & Citrus', image: '/images/scent-citrus.webp', link: '/shop?scent=Fresh%20%26%20Citrus' },
+        { name: 'Floral', image: '/images/scent-floral.webp', link: '/shop?scent=Floral' },
+        { name: 'Amber & Spicy', image: '/images/scent-amber.webp', link: '/shop?scent=Amber%20%26%20Spicy' },
+      ],
+    },
+  },
+  {
+    sectionKey: 'instagram',
+    sectionName: 'Instagram Gallery',
+    sectionType: 'INSTAGRAM',
+    sortOrder: 21,
+    content: {
+      heading: 'Follow Our Journey',
+      handle: '@scentpalace.bd',
+      profileUrl: 'https://instagram.com',
+      items: [1, 2, 3, 4, 5].map((n) => ({ image: `/images/insta-${n}.webp`, link: '' })),
+    },
+  },
+  {
+    sectionKey: 'shop_header',
+    sectionName: 'Shop Page Heading',
+    sectionType: 'SHOP_HEADER',
+    sortOrder: 22,
+    content: {
+      eyebrow: 'Scent Palace BD Catalog',
+      title: 'The Masterwork Fragrance Collection',
+      description: 'Explore our full spectrum of rare extraits de parfum, aged Cambodian ouds, and limited edition presentation sets.',
+    },
+  },
 ];
 
 async function ensureSafeBootstrap() {

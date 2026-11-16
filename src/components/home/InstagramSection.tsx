@@ -5,15 +5,24 @@ import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { LUXURY_EASE, viewportOnce } from '@/utils/motion';
+import { useContent } from '@/context/ContentContext';
 
 export const InstagramSection: React.FC = () => {
-  const instaPosts = [
-    { id: 1, image: '/images/insta-1.webp', tag: '@scentpalace.bd' },
-    { id: 2, image: '/images/insta-2.webp', tag: '@scentpalace.bd' },
-    { id: 3, image: '/images/insta-3.webp', tag: '@scentpalace.bd' },
-    { id: 4, image: '/images/insta-4.webp', tag: '@scentpalace.bd' },
-    { id: 5, image: '/images/insta-5.webp', tag: '@scentpalace.bd' },
-  ];
+  const { getContent, getSection } = useContent();
+  const sec = getSection('instagram');
+  const content = getContent<any>('instagram', {
+    heading: 'Follow Our Journey',
+    handle: '@scentpalace.bd',
+    profileUrl: 'https://instagram.com',
+    items: [1, 2, 3, 4, 5].map((n) => ({ image: `/images/insta-${n}.webp`, link: '' })),
+  });
+  const profileUrl: string = content.profileUrl || 'https://instagram.com';
+  // Images managed in Admin → Website Content → Instagram Gallery
+  const instaPosts = (Array.isArray(content.items) ? content.items : [])
+    .filter((it: any) => it && it.image)
+    .map((it: any, i: number) => ({ id: i, image: it.image, link: it.link || profileUrl, tag: content.handle || '' }));
+
+  if ((sec && !sec.isVisible) || instaPosts.length === 0) return null;
 
   return (
     <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
@@ -26,11 +35,11 @@ export const InstagramSection: React.FC = () => {
           className="flex items-baseline justify-between mb-8"
         >
           <h2 className="font-serif italic text-2xl sm:text-3xl md:text-4xl text-neutral-900 tracking-tight font-normal">
-            Follow Our Journey
+            {content.heading || 'Follow Our Journey'}
           </h2>
 
           <a
-            href="https://instagram.com"
+            href={profileUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-[#D45520] transition-colors"
@@ -54,7 +63,7 @@ export const InstagramSection: React.FC = () => {
           }}
           className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4"
         >
-          {instaPosts.map((post) => (
+          {instaPosts.map((post: any) => (
             <motion.div
               key={post.id}
               variants={{
@@ -63,7 +72,7 @@ export const InstagramSection: React.FC = () => {
               }}
             >
               <a
-                href="https://instagram.com"
+                href={post.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative rounded-xl overflow-hidden aspect-square bg-neutral-200 border border-[#EAE4DC] shadow-xs block"
