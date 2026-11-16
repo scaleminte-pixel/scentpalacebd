@@ -144,6 +144,14 @@ const DEFAULT_SECTIONS = [
     },
   },
   {
+    sectionKey: 'our_story',
+    sectionName: 'Our Story Page',
+    sectionType: 'PAGE',
+    sortOrder: 23,
+    // Empty = use the built-in defaults (src/lib/our-story-defaults.ts) until edited in admin
+    content: {},
+  },
+  {
     sectionKey: 'shop_header',
     sectionName: 'Shop Page Heading',
     sectionType: 'SHOP_HEADER',

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import ContentImageUploader from '@/components/admin/ContentImageUploader';
+import { DEFAULT_OUR_STORY, type OurStoryContent } from '@/lib/our-story-defaults';
 import {
   Layout,
   Eye,
@@ -111,6 +112,10 @@ export default function AdminContentPage() {
     igHandle: '@scentpalace.bd',
     igProfileUrl: 'https://instagram.com',
     igItems: [] as { image: string; link: string }[],
+
+    // Our Story page (paragraphs edited as text separated by blank lines)
+    story: { ...DEFAULT_OUR_STORY } as OurStoryContent,
+    storyText: DEFAULT_OUR_STORY.storyParagraphs.join('\n\n'),
 
     // Shop page heading
     shopEyebrow: '',
@@ -262,6 +267,19 @@ export default function AdminContentPage() {
       igItems: Array.isArray(c.items) && section.sectionKey === 'instagram'
         ? c.items.map((it: any) => ({ image: it.image || '', link: it.link || '' }))
         : [],
+      story:
+        section.sectionKey === 'our_story'
+          ? {
+              ...DEFAULT_OUR_STORY,
+              ...c,
+              pillars: Array.isArray(c.pillars) ? c.pillars : DEFAULT_OUR_STORY.pillars,
+              storyParagraphs: Array.isArray(c.storyParagraphs) ? c.storyParagraphs : DEFAULT_OUR_STORY.storyParagraphs,
+            }
+          : { ...DEFAULT_OUR_STORY },
+      storyText: (section.sectionKey === 'our_story' && Array.isArray(c.storyParagraphs)
+        ? c.storyParagraphs
+        : DEFAULT_OUR_STORY.storyParagraphs
+      ).join('\n\n'),
       shopEyebrow: c.eyebrow || '',
       shopTitle: c.title || '',
       shopDescription: c.description || '',
@@ -381,6 +399,15 @@ export default function AdminContentPage() {
         profileUrl: form.igProfileUrl,
         items: form.igItems.filter((it) => it.image),
       };
+    } else if (key === 'our_story') {
+      updatedContent = {
+        ...form.story,
+        storyParagraphs: form.storyText
+          .split(/\n\s*\n/)
+          .map((t) => t.trim())
+          .filter(Boolean),
+        pillars: form.story.pillars.filter((p) => p.title || p.text),
+      };
     } else if (key === 'shop_header') {
       updatedContent = { eyebrow: form.shopEyebrow, title: form.shopTitle, description: form.shopDescription };
     } else if (key === 'daily_deal') {
@@ -459,7 +486,7 @@ export default function AdminContentPage() {
       return ['hero', 'collection_banner', 'gift_sets_banner'].includes(s.sectionKey);
     }
     if (activeTab === 'editorial') {
-      return ['editorial', 'best_sellers', 'reviews', 'shop_by_scent', 'instagram', 'shop_header'].includes(s.sectionKey);
+      return ['editorial', 'best_sellers', 'reviews', 'shop_by_scent', 'instagram', 'shop_header', 'our_story'].includes(s.sectionKey);
     }
     if (activeTab === 'promos') {
       return ['announcement', 'welcome_promo', 'faq'].includes(s.sectionKey);
@@ -1365,6 +1392,138 @@ export default function AdminContentPage() {
                   )}
                 </div>
               )}
+
+              {editingSection.sectionKey === 'our_story' && (() => {
+                const st = form.story;
+                const set = (patch: Partial<OurStoryContent>) => setForm({ ...form, story: { ...st, ...patch } });
+                const field = (label: string, key: keyof OurStoryContent, multiline = false) => (
+                  <div>
+                    <label className="block text-stone-700 font-semibold mb-1">{label}</label>
+                    {multiline ? (
+                      <textarea rows={3} value={String(st[key] ?? '')} onChange={(e) => set({ [key]: e.target.value } as any)} className="w-full p-2.5 border border-stone-200 rounded-xl bg-white" />
+                    ) : (
+                      <input value={String(st[key] ?? '')} onChange={(e) => set({ [key]: e.target.value } as any)} className="w-full p-2.5 border border-stone-200 rounded-xl bg-white" />
+                    )}
+                  </div>
+                );
+                return (
+                  <div className="space-y-6 border-t border-stone-100 pt-4 text-xs">
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-stone-900">1. Top banner</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {field('Small top line', 'heroEyebrow')}
+                        {field('Main heading', 'heroTitle')}
+                      </div>
+                      {field('Text under heading', 'heroSubtitle', true)}
+                      <ContentImageUploader
+                        label="Banner background image"
+                        sublabel="Wide image, shown darkened behind the text"
+                        imageUrl={st.heroImage}
+                        onChange={(url) => set({ heroImage: url })}
+                        aspectRatio="hero"
+                      />
+                    </div>
+
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-stone-900">2. Story</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {field('Small top line', 'storyEyebrow')}
+                        {field('Heading', 'storyHeading')}
+                      </div>
+                      <div>
+                        <label className="block text-stone-700 font-semibold mb-1">
+                          Story text <span className="font-normal text-stone-500">(leave an empty line between paragraphs)</span>
+                        </label>
+                        <textarea rows={8} value={form.storyText} onChange={(e) => setForm({ ...form, storyText: e.target.value })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-white" />
+                      </div>
+                      <ContentImageUploader
+                        label="Story image (right side)"
+                        sublabel="Portrait image works best. Remove it to show text only."
+                        imageUrl={st.storyImage}
+                        onChange={(url) => set({ storyImage: url })}
+                        aspectRatio="square"
+                      />
+                    </div>
+
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-stone-900">3. Feature boxes</h4>
+                      {st.pillars.map((pl, i) => (
+                        <div key={i} className="rounded-xl border border-stone-200 p-3 space-y-2 bg-stone-50/50">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-stone-800">Box {i + 1}</span>
+                            <button
+                              type="button"
+                              onClick={() => set({ pillars: st.pillars.filter((_, j) => j !== i) })}
+                              className="text-rose-600 hover:underline"
+                            >
+                              Remove box
+                            </button>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+                            <div>
+                              <label className="block text-stone-600 mb-1">Icon (text/emoji)</label>
+                              <input
+                                value={pl.icon}
+                                maxLength={4}
+                                onChange={(e) => {
+                                  const next = [...st.pillars];
+                                  next[i] = { ...pl, icon: e.target.value };
+                                  set({ pillars: next });
+                                }}
+                                className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                              />
+                            </div>
+                            <div className="sm:col-span-3">
+                              <label className="block text-stone-600 mb-1">Title</label>
+                              <input
+                                value={pl.title}
+                                onChange={(e) => {
+                                  const next = [...st.pillars];
+                                  next[i] = { ...pl, title: e.target.value };
+                                  set({ pillars: next });
+                                }}
+                                className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-stone-600 mb-1">Text</label>
+                            <textarea
+                              rows={3}
+                              value={pl.text}
+                              onChange={(e) => {
+                                const next = [...st.pillars];
+                                next[i] = { ...pl, text: e.target.value };
+                                set({ pillars: next });
+                              }}
+                              className="w-full p-2.5 border border-stone-200 rounded-xl bg-white"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      {st.pillars.length < 6 && (
+                        <button
+                          type="button"
+                          onClick={() => set({ pillars: [...st.pillars, { icon: '✦', title: '', text: '' }] })}
+                          className="px-3 py-2 rounded-lg border border-dashed border-stone-300 hover:bg-stone-50 font-semibold"
+                        >
+                          + Add box
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-stone-900">4. Bottom call to action</h4>
+                      {field('Heading', 'ctaTitle')}
+                      {field('Text', 'ctaText', true)}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {field('Button text', 'ctaButtonText')}
+                        {field('Button link', 'ctaButtonLink')}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
 
               {editingSection.sectionKey === 'shop_header' && (
                 <div className="space-y-3 border-t border-stone-100 pt-4 text-xs">
