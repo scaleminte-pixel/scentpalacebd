@@ -272,8 +272,8 @@ async function ensureSafeBootstrap() {
         };
         c.slides = [
           first,
-          { eyebrow: 'Signature', headlineLine1: 'Rose 01,', headlineLine2: 'A Garden in Bloom', subtitle: 'Velvet rose, lychee and soft vanilla — an elegant floral signature.', buttonText: 'Shop Now', buttonLink: '/shop', imageUrl: '/images/banners/banner-rose-01.webp', mobileImageUrl: '' },
-          { eyebrow: 'Oud & Woody', headlineLine1: 'Rare Ouds,', headlineLine2: 'Royal Heritage', subtitle: 'Deep oud, warm spices and amber for evenings that linger.', buttonText: 'Explore Oud', buttonLink: '/shop', imageUrl: '/images/banners/banner-opulent-oud.webp', mobileImageUrl: '' },
+          { eyebrow: 'Signature', headlineLine1: 'Rose 01,', headlineLine2: 'A Garden in Bloom', subtitle: 'Velvet rose, lychee and soft vanilla — an elegant floral signature.', buttonText: 'Shop Now', buttonLink: '/shop', imageUrl: '/images/banners/banner-rose-01.webp', mobileImageUrl: '/images/banners/banner-rose-01-mobile.webp' },
+          { eyebrow: 'Oud & Woody', headlineLine1: 'Rare Ouds,', headlineLine2: 'Royal Heritage', subtitle: 'Deep oud, warm spices and amber for evenings that linger.', buttonText: 'Explore Oud', buttonLink: '/shop', imageUrl: '/images/banners/banner-opulent-oud.webp', mobileImageUrl: '/images/banners/banner-opulent-oud-mobile.webp' },
         ];
         c.autoplaySeconds = 3;
         await prisma.websiteSection.update({ where: { sectionKey: 'hero' }, data: { contentJson: JSON.stringify(c) } });

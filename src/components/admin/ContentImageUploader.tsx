@@ -12,6 +12,8 @@ interface ContentImageUploaderProps {
   imageUrl: string;
   onChange: (url: string) => void;
   aspectRatio?: 'hero' | 'banner' | 'square' | 'wide';
+  /** Exact size the storefront expects. Shows a badge, previews at that shape and checks uploads. */
+  requiredSize?: { width: number; height: number };
 }
 
 export default function ContentImageUploader({
@@ -20,7 +22,19 @@ export default function ContentImageUploader({
   imageUrl,
   onChange,
   aspectRatio = 'banner',
+  requiredSize,
 }: ContentImageUploaderProps) {
+  // Natural size of the current image, to warn when it does not match the required banner size
+  const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
+  React.useEffect(() => setNatural(null), [imageUrl]);
+  const sizeCheck = (() => {
+    if (!requiredSize || !natural) return null;
+    const want = requiredSize.width / requiredSize.height;
+    const got = natural.w / natural.h;
+    const ratioOk = Math.abs(got - want) / want <= 0.06;
+    const bigEnough = natural.w >= requiredSize.width * 0.75;
+    return { ok: ratioOk && bigEnough, ratioOk, bigEnough };
+  })();
   const [uploadProgress, setUploadProgress] = useState<UploadProgressInfo | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [manualInputOpen, setManualInputOpen] = useState(false);
@@ -87,6 +101,11 @@ export default function ContentImageUploader({
           <label className="block text-stone-700 font-semibold text-xs tracking-tight">
             {label}
           </label>
+          {requiredSize && (
+            <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-md bg-[#E8CE5F] text-[#033528] text-[11px] font-bold">
+              Required size: {requiredSize.width} × {requiredSize.height} px
+            </span>
+          )}
           {sublabel && <p className="text-[11px] text-stone-500 mt-0.5">{sublabel}</p>}
         </div>
         <div className="flex items-center gap-2">
@@ -206,13 +225,41 @@ export default function ContentImageUploader({
         }}
       />
 
+      {/* Size check for banners */}
+      {imageUrl && sizeCheck && (
+        <div
+          className={`p-2 rounded-xl text-[11px] flex items-start gap-1.5 border ${
+            sizeCheck.ok ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-amber-50 border-amber-200 text-amber-900'
+          }`}
+        >
+          {sizeCheck.ok ? <CheckCircle className="w-3.5 h-3.5 shrink-0 mt-px" /> : <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-px" />}
+          <span>
+            This image is {natural!.w} × {natural!.h} px.{' '}
+            {sizeCheck.ok
+              ? 'Correct size: it will show properly.'
+              : !sizeCheck.ratioOk
+              ? `The shape is different from ${requiredSize!.width} × ${requiredSize!.height}, so the edges will be cut off. Upload a ${requiredSize!.width} × ${requiredSize!.height} px image for the best result.`
+              : `Too small: it may look blurry. Upload ${requiredSize!.width} × ${requiredSize!.height} px.`}
+          </span>
+        </div>
+      )}
+
       {/* Main Image Container */}
       {imageUrl ? (
-        <div className={`relative ${heightClass} w-full rounded-2xl overflow-hidden border border-stone-200 bg-stone-900 group shadow-xs`}>
+        <div
+          className={`relative ${requiredSize ? '' : heightClass} w-full rounded-2xl overflow-hidden border border-stone-200 bg-stone-900 group shadow-xs`}
+          style={requiredSize ? { aspectRatio: `${requiredSize.width} / ${requiredSize.height}` } : undefined}
+        >
           <Image
             src={imageUrl}
             alt={label}
             fill
+            // original file for banners, so the size check sees the real pixel size
+            unoptimized={Boolean(requiredSize)}
+            onLoad={(e) => {
+              const img = e.currentTarget as HTMLImageElement;
+              if (img.naturalWidth) setNatural({ w: img.naturalWidth, h: img.naturalHeight });
+            }}
             className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 768px) 100vw, 600px"
           />
@@ -287,7 +334,9 @@ export default function ContentImageUploader({
                   Click to upload or drag and drop
                 </p>
                 <p className="text-[10px] text-stone-400 mt-0.5">
-                  High-res WebP, JPG, or PNG (up to 12MB)
+                  {requiredSize
+                    ? `Upload exactly ${requiredSize.width} × ${requiredSize.height} px (JPG, PNG or WebP)`
+                    : 'High-res WebP, JPG, or PNG (up to 12MB)'}
                 </p>
               </div>
             </>

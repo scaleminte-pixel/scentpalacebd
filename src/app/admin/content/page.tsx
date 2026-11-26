@@ -812,6 +812,16 @@ export default function AdminContentPage() {
                         card, swipe, dots — no text or button; tapping opens the button link). Computers show the full-width
                         banner with the heading, text and button. Banner 1 shows first.
                       </p>
+                      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                        <div className="rounded-lg bg-[#033528] text-[#F7F2E6] px-3 py-2">
+                          <b className="text-[#E8CE5F]">Computer banner: 1920 × 900 px</b>
+                          <br />Wide shape. Keep the main product in the centre.
+                        </div>
+                        <div className="rounded-lg bg-[#033528] text-[#F7F2E6] px-3 py-2">
+                          <b className="text-[#E8CE5F]">Phone banner: 1600 × 900 px (16:9)</b>
+                          <br />Shown as-is. Put any text inside the image.
+                        </div>
+                      </div>
                     </div>
 
                     {slides.map((sl, i) => (
@@ -844,18 +854,20 @@ export default function AdminContentPage() {
                         {txt(i, 'Button link', 'buttonLink', 'e.g. /shop or /product/swiss-arabian-rose-01')}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <ContentImageUploader
-                            label="Banner image (computer)"
-                            sublabel="Wide image, e.g. 1920×1080 (shown with text on computers). Also used on phones if no phone image is set."
+                            label="Computer banner"
+                            sublabel="Shown full width with the heading and button on top. Keep the product in the middle; the bottom-left is covered by text."
                             imageUrl={sl.imageUrl}
                             onChange={(url) => upd(i, { imageUrl: url })}
                             aspectRatio="hero"
+                            requiredSize={{ width: 1920, height: 900 }}
                           />
                           <ContentImageUploader
-                            label="Phone banner image"
-                            sublabel="16:9 shape, e.g. 1600×900. Shown as-is on phones (no text on top), so any text should be inside the image."
+                            label="Phone banner"
+                            sublabel="Shown exactly as uploaded (no text on top). If empty, the computer banner is used (cropped)."
                             imageUrl={sl.mobileImageUrl}
                             onChange={(url) => upd(i, { mobileImageUrl: url })}
                             aspectRatio="wide"
+                            requiredSize={{ width: 1600, height: 900 }}
                           />
                         </div>
                       </div>
