@@ -93,6 +93,8 @@ export async function getServerCategories() {
   }
 }
 
+import { sortByName } from '@/lib/sort';
+
 export async function getServerProducts(params?: {
   isBestSeller?: boolean;
   isNewArrival?: boolean;
@@ -105,7 +107,7 @@ export async function getServerProducts(params?: {
 
     const products = await prisma.product.findMany({
       where,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { name: 'asc' },
       take: params?.take,
       include: {
         category: true,
@@ -117,7 +119,7 @@ export async function getServerProducts(params?: {
       },
     });
 
-    return products.map(transformDbProduct);
+    return sortByName(products).map(transformDbProduct);
   } catch (error) {
     console.error('Failed to get server products:', error);
     return [];

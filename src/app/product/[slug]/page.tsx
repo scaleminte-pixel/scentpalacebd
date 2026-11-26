@@ -38,6 +38,7 @@ async function getProductData(slug: string): Promise<{ product: Product | null; 
           id: { not: dbProduct.id },
           status: 'PUBLISHED',
         },
+        orderBy: { name: 'asc' },
         take: 3,
         include: {
           category: true,

@@ -1,3 +1,4 @@
+import { byName } from '@/lib/sort';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
@@ -37,6 +38,11 @@ export async function GET(req: NextRequest) {
       },
       orderBy: { stock: 'asc' },
     });
+    // A → Z by product name, then by size (50ml before 100ml)
+    const sizeOrder = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+    variants.sort(
+      (a: any, b: any) => byName(a.product || {}, b.product || {}) || sizeOrder.compare(a.size || '', b.size || '')
+    );
 
     const transformed = variants
       .map((v) => {

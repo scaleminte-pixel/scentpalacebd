@@ -1,3 +1,4 @@
+import { byName } from '@/lib/sort';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { transformDbProduct } from '@/lib/server-catalog';
@@ -52,7 +53,8 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    let orderBy: any = { createdAt: 'desc' };
+    // Default order everywhere: A → Z by name
+    let orderBy: any = { name: 'asc' };
     if (sort === 'best-seller') {
       where.isBestSeller = true;
     } else if (sort === 'newest') {
@@ -95,13 +97,15 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // Sort if price-low, price-high, or newest
+    // Sort: price / newest when asked, otherwise A → Z (ties always fall back to A → Z)
     if (sort === 'price-low') {
-      filtered.sort((a, b) => getMinVariantPrice(a) - getMinVariantPrice(b));
+      filtered.sort((a, b) => getMinVariantPrice(a) - getMinVariantPrice(b) || byName(a, b));
     } else if (sort === 'price-high') {
-      filtered.sort((a, b) => getMinVariantPrice(b) - getMinVariantPrice(a));
+      filtered.sort((a, b) => getMinVariantPrice(b) - getMinVariantPrice(a) || byName(a, b));
     } else if (sort === 'newest') {
-      filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() || byName(a, b));
+    } else {
+      filtered.sort(byName);
     }
 
     const total = filtered.length;

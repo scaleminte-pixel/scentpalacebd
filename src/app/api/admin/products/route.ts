@@ -1,3 +1,4 @@
+import { sortByName } from '@/lib/sort';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { getAdminSessionFromRequest } from '@/lib/auth';
@@ -46,11 +47,10 @@ export async function GET(req: NextRequest) {
 
     const totalCount = await prisma.product.count({ where });
 
-    const products = await prisma.product.findMany({
+    // A → Z by name (case-insensitive), then paginate
+    const allMatching = await prisma.product.findMany({
       where,
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { name: 'asc' },
       include: {
         category: true,
         scentFamily: true,
@@ -59,6 +59,7 @@ export async function GET(req: NextRequest) {
         },
       },
     });
+    const products = sortByName(allMatching).slice((page - 1) * limit, page * limit);
 
     const transformed = products.map((p) => {
       let rawImages: any[] = [];

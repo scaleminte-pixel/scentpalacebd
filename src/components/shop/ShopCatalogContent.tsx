@@ -20,6 +20,7 @@ import {
 import { ProductCategory, ScentFamily, Product } from '@/types';
 import { motion, AnimatePresence } from 'motion/react';
 import { LUXURY_EASE } from '@/utils/motion';
+import { byName } from '@/lib/sort';
 
 interface ShopCatalogContentProps {
   initialProducts?: Product[];
@@ -208,12 +209,12 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
       const priceA = Math.min(...a.variants.map((v) => v.price));
       const priceB = Math.min(...b.variants.map((v) => v.price));
 
-      if (sortBy === 'price-low') return priceA - priceB;
-      if (sortBy === 'price-high') return priceB - priceA;
-      if (sortBy === 'best-seller') return (b.rating * b.reviewsCount) - (a.rating * a.reviewsCount);
-      if (sortBy === 'newest') return (b.isNewArrival ? 1 : 0) - (a.isNewArrival ? 1 : 0);
-      if (sortBy === 'name-asc') return a.name.localeCompare(b.name);
-      return 0; // featured default
+      // Default (and every tie) is A → Z by name
+      if (sortBy === 'price-low') return priceA - priceB || byName(a, b);
+      if (sortBy === 'price-high') return priceB - priceA || byName(a, b);
+      if (sortBy === 'best-seller') return (b.rating * b.reviewsCount) - (a.rating * a.reviewsCount) || byName(a, b);
+      if (sortBy === 'newest') return (b.isNewArrival ? 1 : 0) - (a.isNewArrival ? 1 : 0) || byName(a, b);
+      return byName(a, b);
     });
   }, [selectedCategory, selectedScent, selectedSize, priceRange, searchQuery, sortBy, catalogProducts]);
 
@@ -378,12 +379,11 @@ export const ShopCatalogContent: React.FC<ShopCatalogContentProps> = ({
                 onChange={(e) => handleSortChange(e.target.value)}
                 className="bg-white border border-[#D6CBB2] rounded-lg py-2 px-3 text-xs text-neutral-900 focus:outline-none focus:border-[#033528] transition-colors"
               >
-                <option value="featured">Featured Curations</option>
+                <option value="featured">Name: A to Z</option>
                 <option value="best-seller">Best Selling First</option>
                 <option value="newest">Newest Arrivals</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
-                <option value="name-asc">Alphabetical (A-Z)</option>
               </select>
             </div>
           </div>

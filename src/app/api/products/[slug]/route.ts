@@ -79,6 +79,7 @@ export async function GET(
         id: { not: product.id },
         status: 'PUBLISHED',
       },
+      orderBy: { name: 'asc' },
       take: 3,
       include: {
         category: true,
