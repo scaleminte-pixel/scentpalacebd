@@ -49,6 +49,12 @@ export async function GET(req: NextRequest) {
       adminHideText: settingsMap["adminHideText"] === true || settingsMap["adminHideText"] === "true",
       footerWatermarkText: settingsMap["footerWatermarkText"] || "",
       footerWatermarkSubtitle: settingsMap["footerWatermarkSubtitle"] || "",
+      facebookUrl: settingsMap["facebookUrl"] || "",
+      instagramUrl: settingsMap["instagramUrl"] || "",
+      tiktokUrl: settingsMap["tiktokUrl"] || "",
+      youtubeUrl: settingsMap["youtubeUrl"] || "",
+      xUrl: settingsMap["xUrl"] || "",
+      whatsappNumber: settingsMap["whatsappNumber"] || "",
     };
 
     return NextResponse.json(response);
@@ -94,6 +100,12 @@ export async function POST(req: NextRequest) {
       { key: "adminHideText", group: "BRANDING" },
       { key: "footerWatermarkText", group: "BRANDING" },
       { key: "footerWatermarkSubtitle", group: "BRANDING" },
+      { key: "facebookUrl", group: "SOCIAL" },
+      { key: "instagramUrl", group: "SOCIAL" },
+      { key: "tiktokUrl", group: "SOCIAL" },
+      { key: "youtubeUrl", group: "SOCIAL" },
+      { key: "xUrl", group: "SOCIAL" },
+      { key: "whatsappNumber", group: "SOCIAL" },
     ];
 
     for (const item of keysToSave) {

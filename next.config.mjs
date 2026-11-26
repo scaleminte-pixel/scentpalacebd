@@ -70,9 +70,17 @@ const nextConfig = {
   },
   async rewrites() {
     return {
+      beforeFiles: [
+        // MCP Server Card (SEP-1649) for AI agents
+        { source: '/.well-known/mcp/server-card.json', destination: '/api/mcp/server-card' },
+        { source: '/.well-known/mcp.json', destination: '/api/mcp/server-card' },
+      ],
       // Runs only when no static file matched: serves images uploaded after boot.
       fallback: [{ source: '/images/:path*', destination: '/api/uploaded/:path*' }],
     };
+  },
+  async redirects() {
+    return [{ source: '/about', destination: '/our-story', permanent: true }];
   },
   async headers() {
     return [

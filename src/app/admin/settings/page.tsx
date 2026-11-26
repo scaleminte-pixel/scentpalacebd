@@ -38,6 +38,12 @@ export default function AdminSettingsPage() {
     adminHideText: false,
     footerWatermarkText: '',
     footerWatermarkSubtitle: '',
+    facebookUrl: '',
+    instagramUrl: '',
+    tiktokUrl: '',
+    youtubeUrl: '',
+    xUrl: '',
+    whatsappNumber: '',
   });
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -315,6 +321,79 @@ export default function AdminSettingsPage() {
                 className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
               <span className="text-[10px] text-stone-500 mt-1 block">Small line under the footer big title (optional).</span>
+            </div>
+          </div>
+
+          {/* Social profiles — footer icons + JSON-LD sameAs */}
+          <div className="pt-4 border-t border-stone-200 text-xs space-y-3">
+            <div>
+              <h4 className="font-bold text-stone-900 text-sm">Social profiles</h4>
+              <p className="text-[11px] text-stone-500">
+                Full links to your real pages. They appear as footer icons (empty = icon hidden) and tell Google and AI
+                assistants which profiles belong to this shop.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-stone-700 font-bold mb-1">Facebook page</label>
+                <input
+                  type="text"
+                  value={form.facebookUrl || ''}
+                  onChange={(e) => setForm({ ...form, facebookUrl: e.target.value })}
+                  placeholder="https://www.facebook.com/yourpage"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
+                />
+              </div>
+              <div>
+                <label className="block text-stone-700 font-bold mb-1">Instagram</label>
+                <input
+                  type="text"
+                  value={form.instagramUrl || ''}
+                  onChange={(e) => setForm({ ...form, instagramUrl: e.target.value })}
+                  placeholder="https://www.instagram.com/yourhandle"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
+                />
+              </div>
+              <div>
+                <label className="block text-stone-700 font-bold mb-1">TikTok</label>
+                <input
+                  type="text"
+                  value={form.tiktokUrl || ''}
+                  onChange={(e) => setForm({ ...form, tiktokUrl: e.target.value })}
+                  placeholder="https://www.tiktok.com/@yourhandle"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
+                />
+              </div>
+              <div>
+                <label className="block text-stone-700 font-bold mb-1">YouTube</label>
+                <input
+                  type="text"
+                  value={form.youtubeUrl || ''}
+                  onChange={(e) => setForm({ ...form, youtubeUrl: e.target.value })}
+                  placeholder="https://www.youtube.com/@yourchannel"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
+                />
+              </div>
+              <div>
+                <label className="block text-stone-700 font-bold mb-1">X / Twitter</label>
+                <input
+                  type="text"
+                  value={form.xUrl || ''}
+                  onChange={(e) => setForm({ ...form, xUrl: e.target.value })}
+                  placeholder="https://x.com/yourhandle"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
+                />
+              </div>
+              <div>
+                <label className="block text-stone-700 font-bold mb-1">WhatsApp number</label>
+                <input
+                  type="text"
+                  value={form.whatsappNumber || ''}
+                  onChange={(e) => setForm({ ...form, whatsappNumber: e.target.value })}
+                  placeholder="8801XXXXXXXXX"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
+                />
+              </div>
             </div>
           </div>
 

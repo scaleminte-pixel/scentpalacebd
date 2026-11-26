@@ -5,6 +5,8 @@ import { PRODUCTS } from '@/data/products';
 import { Product } from '@/types';
 import { ProductDetailsClient } from './ProductDetailsClient';
 import { transformDbProduct } from '@/lib/server-catalog';
+import { getAgentProduct, getStoreInfo } from '@/lib/agent-catalog';
+import { breadcrumbNode, ldJson, organizationNode, productNode } from '@/lib/structured-data';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -94,5 +96,24 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
-  return <ProductDetailsClient product={product} relatedProducts={relatedProducts} />;
+  // JSON-LD: Product with one Offer per size (price in BDT) + breadcrumb
+  const [agentProduct, storeInfo] = await Promise.all([getAgentProduct(slug).catch(() => null), getStoreInfo()]);
+  const jsonLd = agentProduct
+    ? ldJson([
+        productNode(agentProduct, true),
+        breadcrumbNode([
+          { name: 'Home', path: '/' },
+          { name: 'Shop', path: '/shop' },
+          { name: agentProduct.name, path: `/product/${agentProduct.slug}` },
+        ]),
+        organizationNode(storeInfo),
+      ])
+    : null;
+
+  return (
+    <>
+      {jsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />}
+      <ProductDetailsClient product={product} relatedProducts={relatedProducts} />
+    </>
+  );
 }

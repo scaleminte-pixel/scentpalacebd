@@ -11,7 +11,10 @@ import { getBranding } from '@/lib/branding';
 import { BrandingProvider } from '@/context/BrandingContext';
 import { Suspense } from 'react';
 import { TrackingScripts } from '@/components/common/TrackingScripts';
+import { WebMcpTools } from '@/components/common/WebMcpTools';
 import { getTrackingConfig } from '@/lib/tracking-config';
+import { headers } from 'next/headers';
+import { SITE_URL, absoluteUrl } from '@/lib/site';
 
 const bodoniModa = Bodoni_Moda({
   subsets: ['latin'],
@@ -41,7 +44,16 @@ export const viewport: Viewport = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [branding, tracking] = await Promise.all([getBranding(), getTrackingConfig()]);
+  const [branding, tracking, h] = await Promise.all([getBranding(), getTrackingConfig(), headers()]);
+  // Canonical = this page's own URL without query string (path comes from middleware)
+  const pathname = (h.get('x-pathname') || '/').replace(/\/+$/, '') || '/';
+  const MD = /^\/($|shop$|product\/[^/]+$|our-story$|contact$|faq$|shipping-returns$|privacy-policy$)/;
+  const alternates: Metadata['alternates'] = {
+    canonical: absoluteUrl(pathname),
+    ...(MD.test(pathname)
+      ? { types: { 'text/markdown': absoluteUrl(`/api/markdown?path=${encodeURIComponent(pathname)}`) } }
+      : {}),
+  };
   const favicon = branding.faviconUrl || '/favicon.ico';
   const storeName = branding.storeName;
   const faviconType = favicon.endsWith('.png')
@@ -53,7 +65,8 @@ export async function generateMetadata(): Promise<Metadata> {
     : 'image/x-icon';
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+    metadataBase: new URL(SITE_URL),
+    alternates,
     title: `${storeName} | Artisanal Luxury Fragrances & Royal Ouds`,
     description:
       `Experience the sovereign world of ${storeName}. Blended with rare Cambodian oud, Baltic amber, and Taif roses. Complimentary shipping across Bangladesh.`,
@@ -111,6 +124,7 @@ export default async function RootLayout({
           }}
         />
         <DynamicFavicon />
+        <WebMcpTools />
         <Suspense fallback={null}>
           <TrackingScripts config={tracking} />
         </Suspense>

@@ -30,6 +30,12 @@ export async function getBranding(): Promise<Branding> {
       storePhone: m.storePhone || DEFAULT_BRANDING.storePhone,
       footerWatermarkText: m.footerWatermarkText || '',
       footerWatermarkSubtitle: m.footerWatermarkSubtitle || '',
+      facebookUrl: typeof m.facebookUrl === 'string' ? m.facebookUrl.trim() : '',
+      instagramUrl: typeof m.instagramUrl === 'string' ? m.instagramUrl.trim() : '',
+      tiktokUrl: typeof m.tiktokUrl === 'string' ? m.tiktokUrl.trim() : '',
+      youtubeUrl: typeof m.youtubeUrl === 'string' ? m.youtubeUrl.trim() : '',
+      xUrl: typeof m.xUrl === 'string' ? m.xUrl.trim() : '',
+      whatsappNumber: typeof m.whatsappNumber === 'string' ? m.whatsappNumber.trim() : '',
     };
   } catch (error) {
     console.error('getBranding error:', error);

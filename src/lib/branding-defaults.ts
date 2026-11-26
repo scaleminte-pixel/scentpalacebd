@@ -12,6 +12,13 @@ export interface Branding {
   storePhone: string;
   footerWatermarkText: string;
   footerWatermarkSubtitle: string;
+  /** Social / directory profiles (Admin → Settings). Used by the footer and JSON-LD sameAs. */
+  facebookUrl: string;
+  instagramUrl: string;
+  tiktokUrl: string;
+  youtubeUrl: string;
+  xUrl: string;
+  whatsappNumber: string;
 }
 
 export const DEFAULT_STORE_NAME = 'Scent Palace BD';
@@ -31,4 +38,10 @@ export const DEFAULT_BRANDING: Branding = {
   storePhone: '+880 1711-000000',
   footerWatermarkText: '',
   footerWatermarkSubtitle: '',
+  facebookUrl: '',
+  instagramUrl: '',
+  tiktokUrl: '',
+  youtubeUrl: '',
+  xUrl: '',
+  whatsappNumber: '',
 };
