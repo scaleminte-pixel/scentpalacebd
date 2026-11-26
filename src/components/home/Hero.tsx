@@ -81,7 +81,7 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
         {slides.map((s, i) => (
           <div
             key={i}
-            className="relative w-full shrink-0 snap-center flex min-h-[210px] min-[400px]:min-h-[225px] overflow-hidden bg-[#033528]"
+            className="relative w-full shrink-0 snap-center flex min-h-[170px] min-[400px]:min-h-[185px] overflow-hidden bg-[#033528]"
             role="group"
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${slides.length}`}
@@ -96,30 +96,26 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
               className="object-cover object-[70%_center] select-none"
             />
             {/* Emerald wash on the left so the copy stays readable on any photo */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#033528]/92 via-[#033528]/55 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#033528]/90 via-[#033528]/45 via-55% to-transparent" />
 
-            <div className="relative z-10 min-h-full w-[70%] flex flex-col justify-center pl-5 pr-2 py-5">
+            <div className="relative z-10 min-h-full w-[60%] flex flex-col justify-center pl-4 pr-1 py-4">
               {s.eyebrow && (
-                <span className="self-start mb-2 px-2.5 py-1 rounded-full bg-[#F7F2E6] text-[#033528] text-[9px] font-bold uppercase tracking-[0.14em] shadow-xs">
+                <span className="self-start mb-1.5 px-2 py-0.5 rounded-full bg-[#F7F2E6] text-[#033528] text-[8px] font-bold uppercase tracking-[0.14em] shadow-xs">
                   {s.eyebrow}
                 </span>
               )}
-              <h2 className="font-serif text-[19px] min-[380px]:text-[21px] min-[420px]:text-[23px] leading-[1.12] text-[#F7F2E6] drop-shadow-sm">
-                {s.headlineLine1}
+              <h2 className="font-serif text-[16px] min-[380px]:text-[17px] min-[420px]:text-[19px] leading-[1.15] text-[#F7F2E6] drop-shadow-sm">
+                <span className="line-clamp-2">{s.headlineLine1}</span>
                 {s.headlineLine2 && (
                   <>
-                    <br />
-                    <span className="text-[#E8CE5F]">{s.headlineLine2}</span>
+                    <span className="block text-[#E8CE5F] truncate">{s.headlineLine2}</span>
                   </>
                 )}
               </h2>
-              {s.subtitle && (
-                <p className="mt-1.5 text-[11px] leading-snug text-[#F7F2E6]/85 line-clamp-2">{s.subtitle}</p>
-              )}
               {s.buttonText && (
                 <Link
                   href={s.buttonLink || '/shop'}
-                  className="self-start mt-3 inline-flex items-center gap-2 pl-3.5 pr-1 py-1 rounded-full bg-[#F7F2E6] text-[#033528] text-[11px] font-semibold shadow-md active:scale-95 transition-transform"
+                  className="self-start mt-2.5 inline-flex items-center gap-1.5 pl-3 pr-1 py-0.5 rounded-full bg-[#F7F2E6] text-[#033528] text-[10px] font-semibold shadow-md active:scale-95 transition-transform"
                 >
                   <span>{s.buttonText}</span>
                   <span className="w-5 h-5 rounded-full bg-[#E8CE5F] flex items-center justify-center">
