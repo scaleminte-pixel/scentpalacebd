@@ -81,7 +81,7 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
         {slides.map((s, i) => (
           <div
             key={i}
-            className="relative w-full shrink-0 snap-center flex min-h-[170px] min-[400px]:min-h-[185px] overflow-hidden bg-[#033528]"
+            className="relative w-full shrink-0 snap-center flex min-h-[150px] min-[400px]:min-h-[165px] overflow-hidden bg-[#033528]"
             role="group"
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${slides.length}`}
@@ -98,19 +98,14 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
             {/* Emerald wash on the left so the copy stays readable on any photo */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#033528]/90 via-[#033528]/45 via-55% to-transparent" />
 
-            <div className="relative z-10 min-h-full w-[60%] flex flex-col justify-center pl-4 pr-1 py-4">
+            <div className="relative z-10 min-h-full w-[56%] flex flex-col justify-center pl-4 pr-1 py-4">
               {s.eyebrow && (
                 <span className="self-start mb-1.5 px-2 py-0.5 rounded-full bg-[#F7F2E6] text-[#033528] text-[8px] font-bold uppercase tracking-[0.14em] shadow-xs">
                   {s.eyebrow}
                 </span>
               )}
-              <h2 className="font-serif text-[16px] min-[380px]:text-[17px] min-[420px]:text-[19px] leading-[1.15] text-[#F7F2E6] drop-shadow-sm">
-                <span className="line-clamp-2">{s.headlineLine1}</span>
-                {s.headlineLine2 && (
-                  <>
-                    <span className="block text-[#E8CE5F] truncate">{s.headlineLine2}</span>
-                  </>
-                )}
+              <h2 className="font-serif text-[15px] min-[380px]:text-[16px] min-[420px]:text-[18px] leading-[1.2] text-[#F7F2E6] drop-shadow-sm line-clamp-2">
+                {s.mobileHeadline || s.headlineLine1 || s.headlineLine2}
               </h2>
               {s.buttonText && (
                 <Link

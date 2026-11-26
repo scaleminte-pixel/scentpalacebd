@@ -841,6 +841,7 @@ export default function AdminContentPage() {
                           <textarea rows={2} value={sl.subtitle} onChange={(e) => upd(i, { subtitle: e.target.value })} placeholder="One or two short lines" className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
                         </div>
                         {txt(i, 'Button link', 'buttonLink', 'e.g. /shop or /product/swiss-arabian-rose-01')}
+                        {txt(i, 'Phone heading (short, optional)', 'mobileHeadline', 'e.g. 100% Original Perfumes. Empty = heading line 1')}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <ContentImageUploader
                             label="Banner image (computer)"

@@ -10,6 +10,8 @@ export interface HeroSlide {
   imageUrl: string;
   /** Optional separate image for the phone banner card. */
   mobileImageUrl: string;
+  /** Optional short heading for the phone banner card (falls back to heading line 1). */
+  mobileHeadline: string;
 }
 
 export const MAX_HERO_SLIDES = 6;
@@ -24,6 +26,7 @@ export const DEFAULT_HERO_SLIDE: HeroSlide = {
   buttonLink: '/shop',
   imageUrl: '/images/banner-oud-collection.webp',
   mobileImageUrl: '',
+  mobileHeadline: '',
 };
 
 const str = (v: unknown) => (typeof v === 'string' ? v : '');
@@ -38,6 +41,7 @@ function normalize(raw: any): HeroSlide {
     buttonLink: str(raw?.buttonLink) || str(raw?.ctaLink) || '/shop',
     imageUrl: str(raw?.imageUrl) || str(raw?.bgImage),
     mobileImageUrl: str(raw?.mobileImageUrl),
+    mobileHeadline: str(raw?.mobileHeadline),
   };
 }
 
