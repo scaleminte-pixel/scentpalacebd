@@ -62,7 +62,7 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
   if (sec && !sec.isVisible) return null;
 
   return (
-    <section className="bg-[#F7F2E6] py-10 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
+    <section className="bg-[#F7F2E6] pt-7 pb-10 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Top Asymmetrical Editorial Statement matching Reference Image */}
         <motion.div

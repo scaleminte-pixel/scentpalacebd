@@ -70,7 +70,8 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
   };
 
   return (
-    <section className="md:hidden px-4 pt-4 pb-1" aria-roledescription="carousel" aria-label="Featured banners">
+    <section className="md:hidden px-4 pt-4" aria-roledescription="carousel" aria-label="Featured banners">
+      <div className="relative">
       <div
         ref={trackRef}
         onScroll={onScroll}
@@ -102,9 +103,10 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
         ))}
       </div>
 
+      {/* Dots sit inside the banner, bottom centre */}
       {many && (
-        <div className="flex justify-center pt-3">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full lg-glass lg-ivory" role="tablist" aria-label="Choose banner">
+        <div className="absolute bottom-2.5 inset-x-0 flex justify-center pointer-events-none">
+        <div className="pointer-events-auto inline-flex items-center gap-1.5 px-2 py-1 rounded-full lg-glass lg-clear bg-black/20" role="tablist" aria-label="Choose banner">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -117,13 +119,14 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
                 goTo(i);
               }}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === active ? 'w-5 bg-[#033528]' : 'w-1.5 bg-[#B88556]/40'
+                i === active ? 'w-4 bg-white' : 'w-1.5 bg-white/55'
               }`}
             />
           ))}
         </div>
         </div>
       )}
+      </div>
     </section>
   );
 }
