@@ -888,14 +888,6 @@ export default function AdminContentPage() {
                         <label className="block text-stone-600 font-medium mb-1">Change every (seconds)</label>
                         <input type="number" min={2} max={15} value={form.heroAutoplaySeconds} onChange={(e) => setForm({ ...form, heroAutoplaySeconds: Number(e.target.value) })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
                       </div>
-                      <div>
-                        <label className="block text-stone-600 font-medium mb-1">Big faded text (computer)</label>
-                        <input type="text" value={form.watermarkText} onChange={(e) => setForm({ ...form, watermarkText: e.target.value })} placeholder="Empty = hide" className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
-                      </div>
-                      <div>
-                        <label className="block text-stone-600 font-medium mb-1">Round gold badge (computer)</label>
-                        <input type="text" value={form.badgeText} onChange={(e) => setForm({ ...form, badgeText: e.target.value })} placeholder="Empty = hide" className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
-                      </div>
                     </div>
                   </div>
                 );

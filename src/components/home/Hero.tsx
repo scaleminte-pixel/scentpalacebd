@@ -27,7 +27,7 @@ export const Hero: React.FC = () => {
   return (
     <>
       <MobileHeroCarousel slides={slides} intervalMs={intervalMs} />
-      <DesktopHero slides={slides} intervalMs={intervalMs} watermark={heroContent.watermarkText} badge={heroContent.badgeText} />
+      <DesktopHero slides={slides} intervalMs={intervalMs} />
     </>
   );
 };
@@ -132,34 +132,26 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
 function DesktopHero({
   slides,
   intervalMs,
-  watermark,
-  badge,
 }: {
   slides: HeroSlide[];
   intervalMs: number;
-  watermark?: string;
-  badge?: string;
 }) {
   const [active, setActive] = useState(0);
-  const [hovered, setHovered] = useState(false);
   const many = slides.length > 1;
   const s = slides[Math.min(active, slides.length - 1)];
 
   useEffect(() => {
-    if (!many || hovered) return;
+    if (!many) return;
     const t = setInterval(() => {
       if (!document.hidden) setActive((a) => (a + 1) % slides.length);
     }, intervalMs);
     return () => clearInterval(t);
-  }, [many, hovered, slides.length, intervalMs]);
+  }, [many, slides.length, intervalMs]);
 
-  const badgeText = badge || 'LONG LASTING';
 
   return (
     <section
       className="hidden md:flex relative w-full h-[calc(100vh-102px)] min-h-[540px] max-h-[850px] items-end justify-between overflow-hidden bg-[#033528]"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       aria-roledescription="carousel"
       aria-label="Featured banners"
     >
@@ -186,50 +178,6 @@ function DesktopHero({
       ))}
       <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/85 via-black/20 to-black/35 pointer-events-none" />
       <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none" />
-
-      {/* Oversized translucent watermark */}
-      {watermark !== '' && (
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 0.25, x: 0 }}
-          transition={{ duration: 0.95, delay: 0.1, ease: LUXURY_EASE }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 overflow-hidden select-none"
-        >
-          <span
-            className="font-serif italic font-light text-[11vw] lg:text-[10vw] tracking-wider text-white uppercase text-center whitespace-nowrap leading-none drop-shadow-sm px-4"
-            style={{ letterSpacing: '0.08em' }}
-          >
-            {watermark || 'A SCENT THAT LINGERS'}
-          </span>
-        </motion.div>
-      )}
-
-      {/* Floating circular badge */}
-      {badge !== '' && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.55, delay: 0.95, ease: LUXURY_EASE }}
-          className="absolute top-24 right-8 md:top-28 md:right-16 z-20"
-        >
-          <div className="w-20 h-20 md:w-22 md:h-22 rounded-full bg-[#E8CE5F]/90 backdrop-blur-md shadow-xl flex flex-col items-center justify-center p-2 text-center border border-white/40">
-            <svg className="w-5 h-5 text-[#033528] mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="6" y="9" width="12" height="13" rx="2" />
-              <path d="M10 2h4" />
-              <path d="M12 2v7" />
-              <circle cx="12" cy="15" r="2" />
-            </svg>
-            <span className="text-[10px] font-black uppercase tracking-tight text-[#033528] leading-tight font-sans">
-              {badgeText.split(' ').map((w, i) => (
-                <React.Fragment key={i}>
-                  {w}
-                  {i === 0 && badgeText.includes(' ') && <br />}{' '}
-                </React.Fragment>
-              ))}
-            </span>
-          </div>
-        </motion.div>
-      )}
 
       {/* Copy for the active slide */}
       <div className="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-8 pb-10 pt-16">
