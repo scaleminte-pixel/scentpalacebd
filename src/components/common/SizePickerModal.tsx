@@ -43,7 +43,7 @@ export const SizePickerModal: React.FC = () => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div className="fixed inset-0" onClick={closeQuickView} />
 
-      <div className="relative w-full max-w-lg bg-[#FAF7F2] rounded-3xl shadow-2xl border border-[#EAE4DC] overflow-hidden z-10 flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-lg bg-[#F7F2E6] rounded-3xl shadow-2xl border border-[#E8DFCB] overflow-hidden z-10 flex flex-col max-h-[90vh]">
         {/* Close Button */}
         <button
           onClick={closeQuickView}
@@ -55,7 +55,7 @@ export const SizePickerModal: React.FC = () => {
 
         <div className="p-6 sm:p-8 overflow-y-auto">
           {/* Header & Product Presentation: Seamless */}
-          <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-[#EAE4DC]">
+          <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-[#E8DFCB]">
             <div className="relative w-32 h-44 shrink-0 flex items-center justify-center">
               <Image
                 src={quickViewProduct.images[0]}
@@ -67,7 +67,7 @@ export const SizePickerModal: React.FC = () => {
             </div>
 
             <div className="flex-1 text-center sm:text-left">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#D45520]">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#B88556]">
                 {quickViewProduct.concentration}
               </span>
               <h3 className="font-serif text-2xl font-normal text-neutral-900 mt-1 tracking-tight">
@@ -121,12 +121,12 @@ export const SizePickerModal: React.FC = () => {
                     onClick={() => setSelectedVariant(variant)}
                     className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase transition-all flex items-center gap-2 ${
                       isSelected
-                        ? 'bg-[#141312] text-white shadow-sm ring-1 ring-neutral-900'
-                        : 'bg-white border border-[#EAE4DC] text-neutral-700 hover:border-neutral-400'
+                        ? 'bg-[#033528] text-white shadow-sm ring-1 ring-neutral-900'
+                        : 'bg-white border border-[#E8DFCB] text-neutral-700 hover:border-neutral-400'
                     }`}
                   >
                     <span className="font-semibold">{variant.size}</span>
-                    <span className={`text-[11px] ${isSelected ? 'text-amber-200' : 'text-neutral-400'}`}>
+                    <span className={`text-[11px] ${isSelected ? 'text-[#E8CE5F]' : 'text-neutral-400'}`}>
                       {formatPrice(variant.price)}
                     </span>
                   </button>
@@ -137,7 +137,7 @@ export const SizePickerModal: React.FC = () => {
 
           {/* Quantity Selector + Add to Bag */}
           <div className="mt-6 flex items-center gap-3">
-            <div className="flex items-center justify-between border border-[#EAE4DC] rounded-full bg-white px-3 py-2 w-26 shrink-0 shadow-2xs">
+            <div className="flex items-center justify-between border border-[#E8DFCB] rounded-full bg-white px-3 py-2 w-26 shrink-0 shadow-2xs">
               <button
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                 className="text-neutral-400 hover:text-neutral-900 transition-colors text-sm font-semibold"
@@ -165,7 +165,7 @@ export const SizePickerModal: React.FC = () => {
                   ? 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
                   : added
                   ? 'bg-emerald-700 text-white'
-                  : 'bg-[#D45520] hover:bg-[#BD4616] text-white'
+                  : 'bg-[#033528] hover:bg-[#022A20] text-white'
               }`}
             >
               {added ? (
@@ -182,7 +182,7 @@ export const SizePickerModal: React.FC = () => {
             </button>
           </div>
 
-          <div className="mt-4 pt-4 border-t border-[#EAE4DC] text-center">
+          <div className="mt-4 pt-4 border-t border-[#E8DFCB] text-center">
             <Link
               href={`/product/${quickViewProduct.slug}`}
               onClick={closeQuickView}

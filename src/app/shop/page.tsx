@@ -22,9 +22,9 @@ export default async function ShopPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-8">
+        <div className="min-h-screen bg-[#F7F2E6] flex items-center justify-center p-8">
           <div className="text-center space-y-3">
-            <div className="w-12 h-12 rounded-full border-2 border-[#D45520] border-t-transparent animate-spin mx-auto" />
+            <div className="w-12 h-12 rounded-full border-2 border-[#033528] border-t-transparent animate-spin mx-auto" />
             <p className="font-serif text-lg text-neutral-800">
               Curating Royal Fragrance Catalog...
             </p>

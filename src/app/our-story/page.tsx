@@ -19,9 +19,9 @@ export default async function OurStoryPage() {
   const c = await getOurStory();
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen">
+    <div className="bg-[#F7F2E6] min-h-screen">
       {/* Hero Banner */}
-      <section className="relative w-full h-[55vh] min-h-[400px] flex items-center justify-center bg-neutral-950 text-white overflow-hidden">
+      <section className="relative w-full h-[55vh] min-h-[400px] flex items-center justify-center bg-[#033528] text-white overflow-hidden">
         {c.heroImage && (
           <Image
             src={c.heroImage}
@@ -34,7 +34,7 @@ export default async function OurStoryPage() {
         )}
         <div className="relative z-10 max-w-3xl mx-auto text-center px-4">
           {c.heroEyebrow && (
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300 mb-3 block">{c.heroEyebrow}</span>
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#E8CE5F] mb-3 block">{c.heroEyebrow}</span>
           )}
           <h1 className="font-serif italic text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight">{c.heroTitle}</h1>
           {c.heroSubtitle && (
@@ -51,7 +51,7 @@ export default async function OurStoryPage() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
             <div className={`${c.storyImage ? 'md:col-span-6' : 'md:col-span-12'} space-y-5`}>
               {c.storyEyebrow && (
-                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D45520]">{c.storyEyebrow}</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#B88556]">{c.storyEyebrow}</span>
               )}
               {c.storyHeading && (
                 <h2 className="font-serif text-3xl sm:text-4xl font-normal text-neutral-900 leading-tight">
@@ -66,7 +66,7 @@ export default async function OurStoryPage() {
             </div>
 
             {c.storyImage && (
-              <div className="md:col-span-6 relative aspect-4/5 rounded-3xl overflow-hidden shadow-xl border border-[#EAE4DC] bg-white">
+              <div className="md:col-span-6 relative aspect-4/5 rounded-3xl overflow-hidden shadow-xl border border-[#E8DFCB] bg-white">
                 <Image
                   src={c.storyImage}
                   alt={c.storyHeading || 'Our story'}
@@ -87,8 +87,8 @@ export default async function OurStoryPage() {
             }`}
           >
             {c.pillars.map((p, i) => (
-              <div key={i} className="bg-white rounded-2xl p-8 border border-[#EAE4DC] shadow-xs">
-                <div className="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-[#D45520] mb-4">
+              <div key={i} className="bg-white rounded-2xl p-8 border border-[#E8DFCB] shadow-xs">
+                <div className="w-12 h-12 rounded-xl bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-[#033528] mb-4">
                   <span className="font-serif text-xl font-bold">{p.icon || '✦'}</span>
                 </div>
                 <h3 className="font-serif text-xl font-normal text-neutral-900 mb-2">{p.title}</h3>
@@ -100,13 +100,13 @@ export default async function OurStoryPage() {
 
         {/* Call to action */}
         {(c.ctaTitle || c.ctaText) && (
-          <div className="mt-20 text-center py-12 px-6 bg-white rounded-3xl border border-[#EAE4DC]">
+          <div className="mt-20 text-center py-12 px-6 bg-white rounded-3xl border border-[#E8DFCB]">
             {c.ctaTitle && <h2 className="font-serif italic text-3xl font-normal text-neutral-900 mb-3">{c.ctaTitle}</h2>}
             {c.ctaText && <p className="text-xs sm:text-sm text-neutral-500 max-w-md mx-auto mb-6">{c.ctaText}</p>}
             {c.ctaButtonText && (
               <Link
                 href={c.ctaButtonLink || '/shop'}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-all"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-all"
               >
                 <span>{c.ctaButtonText}</span>
                 <ArrowRight className="w-4 h-4" />

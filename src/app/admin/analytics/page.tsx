@@ -41,7 +41,7 @@ export default function AdminAnalyticsPage() {
   if (loading || !analytics) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[60vh]">
-        <div className="w-8 h-8 border-2 border-stone-300 border-t-[#D45520] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-stone-300 border-t-[#033528] rounded-full animate-spin" />
       </div>
     );
   }
@@ -107,8 +107,8 @@ export default function AdminAnalyticsPage() {
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
-          <span className="text-xs uppercase tracking-wider text-[#D45520] font-semibold block">Cart to Checkout</span>
-          <div className="text-2xl font-bold text-[#D45520] mt-1">
+          <span className="text-xs uppercase tracking-wider text-[#B88556] font-semibold block">Cart to Checkout</span>
+          <div className="text-2xl font-bold text-[#033528] mt-1">
             {metrics.checkoutConversionRate}%
           </div>
           <span className="text-[11px] text-stone-500 mt-0.5 block">Add-to-cart conversion</span>
@@ -140,7 +140,7 @@ export default function AdminAnalyticsPage() {
               </div>
               <div className="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-[#D45520] rounded-full transition-all duration-500"
+                  className="h-full bg-[#033528] rounded-full transition-all duration-500"
                   style={{ width: `${Math.max(step.percent, 3)}%` }}
                 />
               </div>
@@ -199,7 +199,7 @@ export default function AdminAnalyticsPage() {
                 </div>
                 <div className="w-full h-2 bg-stone-100 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#C5A059] rounded-full"
+                    className="h-full bg-[#B88556] rounded-full"
                     style={{ width: `${d.percentage}%` }}
                   />
                 </div>

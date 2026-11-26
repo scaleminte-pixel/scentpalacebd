@@ -95,7 +95,7 @@ export default function AdminFinancePage() {
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[60vh]">
-        <div className="w-8 h-8 border-2 border-stone-300 border-t-[#D45520] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-stone-300 border-t-[#033528] rounded-full animate-spin" />
       </div>
     );
   }
@@ -118,7 +118,7 @@ export default function AdminFinancePage() {
         </div>
         <button
           onClick={() => setIsExpenseModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#D45520] text-white rounded-xl text-xs font-semibold hover:bg-[#B34316] transition shadow-xs"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#033528] text-white rounded-xl text-xs font-semibold hover:bg-[#022A20] transition shadow-xs"
         >
           <Plus className="w-4 h-4" /> Record Business Expense
         </button>
@@ -179,11 +179,11 @@ export default function AdminFinancePage() {
         <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-2">
           <div className="flex items-center justify-between text-xs text-stone-500 uppercase tracking-wider">
             <span>Net Operating Profit</span>
-            <div className="w-7 h-7 rounded-lg bg-[#D45520]/10 text-[#D45520] flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-[#033528]/10 text-[#033528] flex items-center justify-center">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-[#D45520]">
+          <div className="text-2xl font-bold text-[#033528]">
             ৳{(pnl.netOperatingProfit || 0).toLocaleString()}
           </div>
           <div className="text-[11px] text-stone-600 font-medium">
@@ -277,7 +277,7 @@ export default function AdminFinancePage() {
                   </div>
                   <div className="w-full h-1.5 bg-stone-100 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-[#D45520] rounded-full"
+                      className="h-full bg-[#033528] rounded-full"
                       style={{ width: `${Math.min(pct, 100)}%` }}
                     />
                   </div>
@@ -377,7 +377,7 @@ export default function AdminFinancePage() {
                   value={expenseForm.title}
                   onChange={(e) => setExpenseForm({ ...expenseForm, title: e.target.value })}
                   required
-                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
                 />
               </div>
 
@@ -462,7 +462,7 @@ export default function AdminFinancePage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-2 bg-[#D45520] text-white rounded-lg hover:bg-[#B34316] font-medium disabled:opacity-50"
+                  className="px-4 py-2 bg-[#033528] text-white rounded-lg hover:bg-[#022A20] font-medium disabled:opacity-50"
                 >
                   {isSubmitting ? 'Recording...' : 'Disburse & Save Voucher'}
                 </button>

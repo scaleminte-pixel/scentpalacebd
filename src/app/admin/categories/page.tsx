@@ -407,7 +407,7 @@ export default function AdminCategoriesPage() {
 
           <button
             onClick={openAddModal}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold shadow-sm transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold shadow-sm transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Add New Category</span>
@@ -424,7 +424,7 @@ export default function AdminCategoriesPage() {
 
         {loading ? (
           <div className="p-12 text-center text-xs text-stone-500 flex flex-col items-center gap-2">
-            <div className="w-6 h-6 border-2 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-[#033528] border-t-transparent rounded-full animate-spin" />
             <span>Loading categories from atelier database...</span>
           </div>
         ) : categories.length === 0 ? (
@@ -445,7 +445,7 @@ export default function AdminCategoriesPage() {
                   {/* Position number indicator */}
                   <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-stone-100 border border-stone-200 text-stone-800 shrink-0">
                     <span className="text-[10px] uppercase font-bold text-stone-400">Pos</span>
-                    <span className="text-base font-serif font-bold text-[#D45520]">#{cat.sortOrder}</span>
+                    <span className="text-base font-serif font-bold text-[#033528]">#{cat.sortOrder}</span>
                   </div>
 
                   {/* Up / Down Arrow buttons */}
@@ -517,13 +517,13 @@ export default function AdminCategoriesPage() {
                       min={1}
                       value={cat.sortOrder}
                       onChange={(e) => handleSortOrderInputChange(cat.id, parseInt(e.target.value, 10) || 1)}
-                      className="w-14 px-2 py-1 text-center font-bold text-stone-900 border border-stone-300 rounded-lg bg-white focus:outline-none focus:border-[#D45520]"
+                      className="w-14 px-2 py-1 text-center font-bold text-stone-900 border border-stone-300 rounded-lg bg-white focus:outline-none focus:border-[#033528]"
                     />
                   </div>
 
                   <button
                     onClick={() => openEditModal(cat)}
-                    className="p-2 rounded-lg border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 hover:text-[#D45520] transition shadow-xs"
+                    className="p-2 rounded-lg border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 hover:text-[#033528] transition shadow-xs"
                     title="Edit category"
                   >
                     <Edit2 className="w-4 h-4" />
@@ -602,7 +602,7 @@ export default function AdminCategoriesPage() {
                   required
                   value={editForm.name}
                   onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                  className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#033528]"
                 />
               </div>
 
@@ -616,7 +616,7 @@ export default function AdminCategoriesPage() {
                     required
                     value={editForm.slug}
                     onChange={(e) => setEditForm({ ...editForm, slug: e.target.value })}
-                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#D45520]"
+                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#033528]"
                   />
                 </div>
 
@@ -630,7 +630,7 @@ export default function AdminCategoriesPage() {
                     required
                     value={editForm.sortOrder}
                     onChange={(e) => setEditForm({ ...editForm, sortOrder: parseInt(e.target.value, 10) || 1 })}
-                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#D45520]"
+                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#033528]"
                   />
                 </div>
               </div>
@@ -643,7 +643,7 @@ export default function AdminCategoriesPage() {
                   rows={2}
                   value={editForm.description}
                   onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                  className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#033528]"
                   placeholder="Atmospheric fragrance description for storefront cards..."
                 />
               </div>
@@ -686,7 +686,7 @@ export default function AdminCategoriesPage() {
                         onClick={() => editFileInputRef.current?.click()}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 text-xs font-semibold shadow-2xs"
                       >
-                        <Upload className="w-3.5 h-3.5 text-[#D45520]" />
+                        <Upload className="w-3.5 h-3.5 text-[#033528]" />
                         <span>{isUploading ? 'Uploading...' : 'Upload'}</span>
                       </button>
                       <button
@@ -722,7 +722,7 @@ export default function AdminCategoriesPage() {
                     onChange={(e) => setEditForm({ ...editForm, isActive: e.target.checked })}
                     className="sr-only peer"
                   />
-                  <div className="w-10 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D45520]" />
+                  <div className="w-10 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#033528]" />
                 </label>
               </div>
 
@@ -738,7 +738,7 @@ export default function AdminCategoriesPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 bg-[#D45520] hover:bg-[#BD4616] text-white rounded-xl font-semibold shadow-sm transition disabled:opacity-50"
+                  className="px-5 py-2 bg-[#033528] hover:bg-[#022A20] text-white rounded-xl font-semibold shadow-sm transition disabled:opacity-50"
                 >
                   {isSubmitting ? 'Saving...' : 'Save Category'}
                 </button>
@@ -788,7 +788,7 @@ export default function AdminCategoriesPage() {
                     setAddForm({ ...addForm, name, slug: autoSlug });
                   }}
                   placeholder="e.g. Rare Attars & Macerations"
-                  className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#033528]"
                 />
               </div>
 
@@ -802,7 +802,7 @@ export default function AdminCategoriesPage() {
                     required
                     value={addForm.slug}
                     onChange={(e) => setAddForm({ ...addForm, slug: e.target.value })}
-                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#D45520]"
+                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#033528]"
                   />
                 </div>
 
@@ -816,7 +816,7 @@ export default function AdminCategoriesPage() {
                     required
                     value={addForm.sortOrder}
                     onChange={(e) => setAddForm({ ...addForm, sortOrder: parseInt(e.target.value, 10) || 1 })}
-                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#D45520]"
+                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#033528]"
                   />
                 </div>
               </div>
@@ -829,7 +829,7 @@ export default function AdminCategoriesPage() {
                   rows={2}
                   value={addForm.description}
                   onChange={(e) => setAddForm({ ...addForm, description: e.target.value })}
-                  className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-stone-900 focus:outline-none focus:border-[#033528]"
                   placeholder="Artisanal compositions aged in vintage sandalwood..."
                 />
               </div>
@@ -872,7 +872,7 @@ export default function AdminCategoriesPage() {
                         onClick={() => addFileInputRef.current?.click()}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 text-xs font-semibold shadow-2xs"
                       >
-                        <Upload className="w-3.5 h-3.5 text-[#D45520]" />
+                        <Upload className="w-3.5 h-3.5 text-[#033528]" />
                         <span>{isUploading ? 'Uploading...' : 'Upload'}</span>
                       </button>
                       <button
@@ -910,7 +910,7 @@ export default function AdminCategoriesPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 bg-[#D45520] hover:bg-[#BD4616] text-white rounded-xl font-semibold shadow-sm transition disabled:opacity-50"
+                  className="px-5 py-2 bg-[#033528] hover:bg-[#022A20] text-white rounded-xl font-semibold shadow-sm transition disabled:opacity-50"
                 >
                   {isSubmitting ? 'Creating...' : 'Create Category'}
                 </button>

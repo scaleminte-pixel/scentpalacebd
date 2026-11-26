@@ -51,11 +51,14 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   const [isClearingCache, setIsClearingCache] = useState(false);
   const [cacheClearSuccess, setCacheClearSuccess] = useState(false);
   const [branding, setBranding] = useState({
-    adminLogoUrl: '',
+    adminLogoUrl: '/brand/icon-gold.webp',
     adminBrandTitle: 'Scent Palace BD',
     adminBrandSubtitle: 'Admin Console',
     adminHideText: false,
   });
+
+  // Official brand mark → show the full gold logo on the emerald sidebar
+  const isBrandAdminLogo = branding.adminLogoUrl === '/brand/icon-gold.webp';
 
   // Fetch branding on mount and listen to updates
   React.useEffect(() => {
@@ -156,9 +159,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center admin-shell">
+      <div className="min-h-screen bg-[#F7F2E6] flex items-center justify-center admin-shell">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-3 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-3 border-[#033528] border-t-transparent rounded-full animate-spin" />
           <span className="text-stone-700 text-sm font-semibold tracking-tight">Authenticating Scent Palace BD Workspace...</span>
         </div>
       </div>
@@ -175,7 +178,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
   const badgeFor = (name: string): { count: number; tone: string } | null => {
     if (name === 'All Orders' && orderCounts.newOrders > 0)
-      return { count: orderCounts.newOrders, tone: 'bg-[#D45520] text-white' };
+      return { count: orderCounts.newOrders, tone: 'bg-[#E8CE5F] text-[#033528] ring-1 ring-[#033528]/25' };
     if (name === 'Incomplete Orders' && orderCounts.incomplete > 0)
       return { count: orderCounts.incomplete, tone: 'bg-amber-500 text-white' };
     return null;
@@ -224,37 +227,43 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F5F0] text-neutral-900 flex admin-shell antialiased">
+    <div className="min-h-screen bg-[#F7F2E6] text-neutral-900 flex admin-shell antialiased">
       {/* Sidebar - Desktop */}
       <aside
-        className={`hidden lg:flex flex-col bg-white border-r border-[#EAE4DC] transition-all duration-300 z-30 sticky top-0 h-screen ${
+        className={`hidden lg:flex flex-col bg-[#033528] text-[#F7F2E6] border-r border-[#022A20] transition-all duration-300 z-30 sticky top-0 h-screen ${
           isCollapsed ? 'w-20' : 'w-64'
         }`}
       >
         {/* Brand Header */}
-        <div className="h-16 px-5 border-b border-[#EAE4DC] flex items-center justify-between">
+        <div className="h-16 px-5 border-b border-[#E8CE5F]/15 flex items-center justify-between">
           <Link href="/admin" className="flex items-center gap-2.5 overflow-hidden">
-            {branding.adminLogoUrl ? (
+            {isBrandAdminLogo ? (
+              <img
+                src={isCollapsed ? '/brand/icon-gold.webp' : '/brand/logo-gold.webp'}
+                alt={branding.adminBrandTitle}
+                className={isCollapsed ? 'h-9 w-auto object-contain shrink-0' : 'h-9 w-auto max-w-[170px] object-contain shrink-0'}
+              />
+            ) : branding.adminLogoUrl ? (
               <img
                 src={branding.adminLogoUrl}
                 alt={branding.adminBrandTitle}
                 className={
                   branding.adminHideText && !isCollapsed
                     ? 'h-9 w-auto max-w-[160px] object-contain shrink-0'
-                    : 'w-8 h-8 rounded-lg object-contain bg-white border border-stone-200 shrink-0 p-0.5 shadow-xs'
+                    : 'w-8 h-8 rounded-lg object-contain bg-white/95 shrink-0 p-0.5 shadow-xs'
                 }
               />
             ) : (
-              <div className="w-8 h-8 rounded-lg bg-[#141312] text-[#FAF7F2] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+              <div className="w-8 h-8 rounded-lg bg-[#E8CE5F] text-[#033528] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
                 {(branding.adminBrandTitle || 'S').charAt(0)}
               </div>
             )}
-            {!isCollapsed && (!branding.adminHideText || !branding.adminLogoUrl) && (
+            {!isCollapsed && !isBrandAdminLogo && (!branding.adminHideText || !branding.adminLogoUrl) && (
               <div className="truncate">
-                <span className="font-bold text-sm tracking-tight text-neutral-900 block leading-tight">
+                <span className="font-bold text-sm tracking-tight text-[#F7F2E6] block leading-tight">
                   {branding.adminBrandTitle}
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#D45520] block">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#E8CE5F] block">
                   {branding.adminBrandSubtitle}
                 </span>
               </div>
@@ -263,7 +272,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1 rounded-md text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 transition-colors"
+            className="p-1 rounded-md text-[#F7F2E6]/60 hover:text-[#E8CE5F] hover:bg-white/10 transition-colors"
             title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -275,7 +284,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           {navGroups.map((group, gIdx) => (
             <div key={gIdx}>
               {!isCollapsed && (
-                <div className="px-3 mb-2 text-[10px] font-bold tracking-widest text-neutral-400 uppercase">
+                <div className="px-3 mb-2 text-[10px] font-bold tracking-widest text-[#E8CE5F]/70 uppercase">
                   {group.group}
                 </div>
               )}
@@ -295,15 +304,15 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                       href={item.href}
                       className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                         isActive
-                          ? 'bg-[#FDF3EE] text-[#D45520] shadow-2xs font-bold'
-                          : 'text-neutral-600 hover:bg-[#FAF7F2] hover:text-neutral-900'
+                          ? 'bg-[#E8CE5F] text-[#033528] shadow-2xs font-bold'
+                          : 'text-[#F7F2E6]/80 hover:bg-white/10 hover:text-[#F7F2E6]'
                       } ${isCollapsed ? 'justify-center px-0' : ''}`}
                       title={isCollapsed ? item.name : undefined}
                     >
                       <span className="relative shrink-0">
-                        <Icon className={`w-4 h-4 ${isActive ? 'text-[#D45520]' : 'text-neutral-500'}`} />
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-[#033528]' : 'text-[#E8CE5F]/80'}`} />
                         {isCollapsed && badgeFor(item.name) && (
-                          <span className={`absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full ring-2 ring-white ${badgeFor(item.name)!.tone}`} />
+                          <span className={`absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full ring-2 ring-[#033528] ${badgeFor(item.name)!.tone}`} />
                         )}
                       </span>
                       {!isCollapsed && <span className="truncate">{item.name}</span>}
@@ -324,15 +333,15 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* User Profile & Logout Bottom Bar */}
-        <div className="p-3 border-t border-[#EAE4DC] bg-[#FAF7F2]/50">
+        <div className="p-3 border-t border-[#E8CE5F]/15 bg-black/10">
           <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : 'px-2'}`}>
-            <div className="w-8 h-8 rounded-full bg-[#141312] text-white flex items-center justify-center font-bold text-xs shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#E8CE5F] text-[#033528] flex items-center justify-center font-bold text-xs shrink-0">
               {user.name.charAt(0)}
             </div>
             {!isCollapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-neutral-900 truncate leading-tight">{user.name}</p>
-                <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-[#EAE4DC] text-neutral-700 mt-0.5">
+                <p className="text-xs font-bold text-[#F7F2E6] truncate leading-tight">{user.name}</p>
+                <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-white/10 text-[#E8CE5F] mt-0.5">
                   {user.role}
                 </span>
               </div>
@@ -340,7 +349,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
             {!isCollapsed && (
               <button
                 onClick={logout}
-                className="p-1.5 rounded-lg text-neutral-400 hover:text-rose-600 hover:bg-white transition-colors"
+                className="p-1.5 rounded-lg text-[#F7F2E6]/60 hover:text-rose-300 hover:bg-white/10 transition-colors"
                 title="Sign out"
               >
                 <LogOut className="w-4 h-4" />
@@ -353,7 +362,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         {/* Top Bar (matching Shodai & FinSet references) */}
-        <header className="h-16 bg-white border-b border-[#EAE4DC] sticky top-0 z-20 px-4 sm:px-8 flex items-center justify-between">
+        <header className="h-16 bg-white border-b border-[#E8DFCB] sticky top-0 z-20 px-4 sm:px-8 flex items-center justify-between">
           <div className="flex items-center gap-4 flex-1 max-w-xl">
             {/* Mobile Menu Trigger */}
             <button
@@ -369,9 +378,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
               <input
                 type="text"
                 placeholder="Search orders, flacons, customers, SKU..."
-                className="w-full pl-9 pr-12 py-2 rounded-xl bg-[#F7F5F0] border border-transparent focus:border-[#D45520] focus:bg-white text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none transition-all"
+                className="w-full pl-9 pr-12 py-2 rounded-xl bg-[#F7F2E6] border border-transparent focus:border-[#033528] focus:bg-white text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none transition-all"
               />
-              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-white border border-[#D4CFCE] text-neutral-500 shadow-2xs">
+              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-white border border-[#D6CBB2] text-neutral-500 shadow-2xs">
                 ⌘K
               </kbd>
             </div>
@@ -387,11 +396,11 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${
                   isClearingCache
                     ? 'bg-amber-50 text-amber-800 border-amber-300'
-                    : 'bg-[#FAF7F2] hover:bg-[#F2ECE1] text-stone-700 border-[#EAE4DC] hover:border-stone-400 shadow-2xs active:scale-95'
+                    : 'bg-[#F7F2E6] hover:bg-[#EFE7D5] text-stone-700 border-[#E8DFCB] hover:border-stone-400 shadow-2xs active:scale-95'
                 }`}
                 title="Purge storefront & admin cache, synchronizing products & images immediately"
               >
-                <RotateCcw className={`w-3.5 h-3.5 text-[#D45520] ${isClearingCache ? 'animate-spin' : ''}`} />
+                <RotateCcw className={`w-3.5 h-3.5 text-[#033528] ${isClearingCache ? 'animate-spin' : ''}`} />
                 <span className="hidden md:inline">{isClearingCache ? 'Purging Cache...' : 'Clear Cache'}</span>
               </button>
 
@@ -408,7 +417,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
             <Link
               href="/"
               target="_blank"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-xs font-semibold text-neutral-700 transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F7F2E6] hover:bg-[#EFE7D5] border border-[#E8DFCB] text-xs font-semibold text-neutral-700 transition-colors"
             >
               <span>View Storefront</span>
               <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
@@ -426,7 +435,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
               >
                 <Bell className="w-4 h-4" />
                 {unreadCount > 0 && (
-                  <span className="w-2 h-2 rounded-full bg-[#D45520] absolute top-2 right-2 ring-2 ring-white" />
+                  <span className="w-2 h-2 rounded-full bg-[#033528] absolute top-2 right-2 ring-2 ring-white" />
                 )}
               </button>
 
@@ -436,29 +445,29 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                     className="fixed inset-0 z-40"
                     onClick={() => setNotificationsOpen(false)}
                   />
-                  <div className="absolute right-0 top-11 z-50 w-80 sm:w-96 bg-white rounded-2xl border border-[#EAE4DC] shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="p-3.5 bg-[#FAF7F2] border-b border-[#EAE4DC] flex items-center justify-between">
+                  <div className="absolute right-0 top-11 z-50 w-80 sm:w-96 bg-white rounded-2xl border border-[#E8DFCB] shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="p-3.5 bg-[#F7F2E6] border-b border-[#E8DFCB] flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Bell className="w-4 h-4 text-[#D45520]" />
+                        <Bell className="w-4 h-4 text-[#033528]" />
                         <h4 className="font-bold text-xs text-neutral-900 uppercase tracking-wider">
                           Atelier Notifications
                         </h4>
                       </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FDF3EE] text-[#D45520]">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EAF1ED] text-[#033528]">
                         {notifications.length} updates
                       </span>
                     </div>
 
-                    <div className="divide-y divide-[#F7F4EE] max-h-80 overflow-y-auto">
+                    <div className="divide-y divide-[#F7F2E6] max-h-80 overflow-y-auto">
                       {notifications.length > 0 ? (
                         notifications.map((item) => (
                           <Link
                             key={item.id}
                             href={item.link}
                             onClick={() => setNotificationsOpen(false)}
-                            className="p-3 hover:bg-[#FAF7F2] transition-colors flex items-start gap-3 block"
+                            className="p-3 hover:bg-[#F7F2E6] transition-colors flex items-start gap-3 block"
                           >
-                            <span className="w-2 h-2 rounded-full bg-[#D45520] shrink-0 mt-1.5" />
+                            <span className="w-2 h-2 rounded-full bg-[#033528] shrink-0 mt-1.5" />
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between text-xs">
                                 <span className="font-bold text-neutral-900 truncate">{item.title}</span>
@@ -477,13 +486,13 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                       )}
                     </div>
 
-                    <div className="p-2.5 bg-[#FAF7F2] border-t border-[#EAE4DC] text-center">
+                    <div className="p-2.5 bg-[#F7F2E6] border-t border-[#E8DFCB] text-center">
                       <button
                         onClick={() => {
                           setUnreadCount(0);
                           setNotificationsOpen(false);
                         }}
-                        className="text-[11px] font-bold text-[#D45520] hover:underline"
+                        className="text-[11px] font-bold text-[#033528] hover:underline"
                       >
                         Dismiss / Mark all as acknowledged
                       </button>
@@ -494,8 +503,8 @@ function AdminShell({ children }: { children: React.ReactNode }) {
             </div>
 
             {/* User Profile Pill */}
-            <div className="flex items-center gap-2 pl-3 border-l border-[#EAE4DC]">
-              <div className="w-8 h-8 rounded-full bg-[#141312] text-white flex items-center justify-center font-bold text-xs shadow-2xs">
+            <div className="flex items-center gap-2 pl-3 border-l border-[#E8DFCB]">
+              <div className="w-8 h-8 rounded-full bg-[#033528] text-white flex items-center justify-center font-bold text-xs shadow-2xs">
                 {user.name.charAt(0)}
               </div>
               <div className="hidden md:block text-left">
@@ -516,32 +525,34 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 flex lg:hidden">
           <div className="fixed inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setMobileMenuOpen(false)} />
-          <div className="relative w-4/5 max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 border-r border-[#EAE4DC]">
-            <div className="h-16 px-6 border-b border-[#EAE4DC] flex items-center justify-between">
+          <div className="relative w-4/5 max-w-xs bg-[#033528] text-[#F7F2E6] h-full shadow-2xl flex flex-col z-10">
+            <div className="h-16 px-6 border-b border-[#E8CE5F]/15 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                {branding.adminLogoUrl ? (
+                {isBrandAdminLogo ? (
+                  <img src="/brand/logo-gold.webp" alt={branding.adminBrandTitle} className="h-9 w-auto object-contain" />
+                ) : branding.adminLogoUrl ? (
                   <img
                     src={branding.adminLogoUrl}
                     alt={branding.adminBrandTitle}
-                    className="w-7 h-7 rounded-md object-contain bg-white border border-stone-200 shrink-0 p-0.5"
+                    className="w-7 h-7 rounded-md object-contain bg-white/95 shrink-0 p-0.5"
                   />
                 ) : (
-                  <div className="w-7 h-7 rounded-md bg-[#141312] text-[#FAF7F2] flex items-center justify-center font-bold text-xs shrink-0">
+                  <div className="w-7 h-7 rounded-md bg-[#E8CE5F] text-[#033528] flex items-center justify-center font-bold text-xs shrink-0">
                     {(branding.adminBrandTitle || 'R').charAt(0)}
                   </div>
                 )}
-                <span className="font-bold text-base text-neutral-900 tracking-tight">
-                  {branding.adminBrandTitle}
-                </span>
+                {!isBrandAdminLogo && (
+                  <span className="font-bold text-base text-[#F7F2E6] tracking-tight">{branding.adminBrandTitle}</span>
+                )}
               </div>
-              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-neutral-400">
+              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-[#F7F2E6]/70">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-4 space-y-6">
               {navGroups.map((group, idx) => (
                 <div key={idx}>
-                  <div className="px-3 mb-2 text-[10px] font-bold tracking-widest text-neutral-400 uppercase">
+                  <div className="px-3 mb-2 text-[10px] font-bold tracking-widest text-[#E8CE5F]/70 uppercase">
                     {group.group}
                   </div>
                   <div className="space-y-1">
@@ -559,7 +570,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                           href={item.href}
                           onClick={() => setMobileMenuOpen(false)}
                           className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold ${
-                            isActive ? 'bg-[#FDF3EE] text-[#D45520] font-bold' : 'text-neutral-700'
+                            isActive ? 'bg-[#E8CE5F] text-[#033528] font-bold' : 'text-[#F7F2E6]/85'
                           }`}
                         >
                           <Icon className="w-4 h-4" />
@@ -578,10 +589,10 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 </div>
               ))}
             </div>
-            <div className="p-4 border-t border-[#EAE4DC]">
+            <div className="p-4 border-t border-[#E8CE5F]/15">
               <button
                 onClick={logout}
-                className="w-full py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-bold text-neutral-800 flex items-center justify-center gap-2"
+                className="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-bold text-[#F7F2E6] flex items-center justify-center gap-2"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Sign Out</span>
@@ -597,7 +608,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AdminAuthProvider>
-      <React.Suspense fallback={<div className="min-h-screen bg-[#FBF9F5]" />}>
+      <React.Suspense fallback={<div className="min-h-screen bg-[#FAF6EC]" />}>
         <AdminShell>{children}</AdminShell>
       </React.Suspense>
     </AdminAuthProvider>

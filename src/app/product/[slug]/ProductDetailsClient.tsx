@@ -116,7 +116,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
   const rightFaqs = productFaqs.slice(midpoint);
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC]">
+    <div className="bg-[#F7F2E6] min-h-screen py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB]">
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumb Navigation with subtle fade entrance */}
         <motion.nav
@@ -146,7 +146,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
         {/* =========================================================================
             SECTION 1: HERO PRODUCT SHOWCASE (MATCHING USER'S SHOE REFERENCE LAYOUT)
            ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 pb-16 border-b border-[#EAE4DC] items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 pb-16 border-b border-[#E8DFCB] items-start">
           {/* Left Side: Featured Showcase Box + Thumbnails Row Below */}
           <motion.div
             initial={{ opacity: 0, scale: 0.985 }}
@@ -154,7 +154,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
             transition={{ duration: 0.6, ease: LUXURY_EASE }}
             className="lg:col-span-6 space-y-4"
           >
-            <div className="relative aspect-square w-full bg-white rounded-3xl border border-[#EAE4DC] flex items-center justify-center overflow-hidden shadow-xs group">
+            <div className="relative aspect-square w-full bg-white rounded-3xl border border-[#E8DFCB] flex items-center justify-center overflow-hidden shadow-xs group">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeImageIndex}
@@ -182,10 +182,10 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                 <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-[#F4EFEB] border-2 transition-all duration-200 p-2 shrink-0 active:scale-95 ${
+                  className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-[#EFE7D5] border-2 transition-all duration-200 p-2 shrink-0 active:scale-95 ${
                     activeImageIndex === idx
-                      ? 'border-neutral-900 ring-2 ring-neutral-900/10 shadow-xs'
-                      : 'border-[#EAE4DC] opacity-70 hover:opacity-100 hover:border-neutral-400'
+                      ? 'border-[#033528] ring-2 ring-[#033528]/15 shadow-xs'
+                      : 'border-[#E8DFCB] opacity-70 hover:opacity-100 hover:border-neutral-400'
                   }`}
                   aria-label={`View photo ${idx + 1}`}
                 >
@@ -210,7 +210,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               transition={{ duration: 0.5, ease: LUXURY_EASE }}
             >
               <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="w-4 h-4 text-[#D45520]" />
+                <Sparkles className="w-4 h-4 text-[#033528]" />
                 <span className="text-xs font-bold uppercase tracking-wider text-neutral-800">
                   Scent Palace BD
                 </span>
@@ -222,9 +222,9 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
 
               {product.reviewsCount > 0 && (
               <div className="flex items-center gap-2 mt-3 text-xs">
-                <div className="flex text-amber-400">
+                <div className="flex text-[#E8CE5F]">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-[#E8CE5F]" />
                   ))}
                 </div>
                 <span className="font-semibold text-neutral-800">{product.rating}</span>
@@ -264,20 +264,20 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                     {formatPrice(selectedVariant.originalPrice)}
                   </span>
                 )}
-                <span className="px-2.5 py-1 rounded-md bg-[#FAF7F2] border border-[#EAE4DC] text-xs font-bold text-[#D45520] uppercase tracking-wider">
+                <span className="px-2.5 py-1 rounded-md bg-[#F7F2E6] border border-[#E8DFCB] text-xs font-bold text-[#B88556] uppercase tracking-wider">
                   {selectedVariant.size}
                 </span>
               </div>
 
               {/* Specification Badges - Compact Luxury Strip */}
               <div className="mt-3 flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
-                <span className="px-2.5 py-1 rounded-full bg-white border border-[#EAE4DC] font-medium text-neutral-700 shadow-2xs">
+                <span className="px-2.5 py-1 rounded-full bg-white border border-[#E8DFCB] font-medium text-neutral-700 shadow-2xs">
                   Concentration: <strong className="text-neutral-900">{product.concentration}</strong>
                 </span>
-                <span className="px-2.5 py-1 rounded-full bg-white border border-[#EAE4DC] font-medium text-neutral-700 shadow-2xs">
+                <span className="px-2.5 py-1 rounded-full bg-white border border-[#E8DFCB] font-medium text-neutral-700 shadow-2xs">
                   Olfactive: <strong className="text-neutral-900">{product.scentFamily}</strong>
                 </span>
-                <span className="px-2.5 py-1 rounded-full bg-[#FDF3EE] border border-[#D45520]/25 font-bold text-[#D45520] shadow-2xs">
+                <span className="px-2.5 py-1 rounded-full bg-[#EAF1ED] border border-[#033528]/25 font-bold text-[#033528] shadow-2xs">
                   Sovereign Flacon
                 </span>
               </div>
@@ -288,7 +288,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3, ease: LUXURY_EASE }}
-              className="mt-6 p-4 sm:p-5 rounded-2xl bg-white border border-[#EAE4DC] shadow-xs"
+              className="mt-6 p-4 sm:p-5 rounded-2xl bg-white border border-[#E8DFCB] shadow-xs"
             >
               {/* Flacon Volume / Size Selection */}
               {product.variants && product.variants.length > 0 && (
@@ -297,7 +297,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                     <label className="text-xs font-bold uppercase tracking-wider text-neutral-900 font-sans">
                       Select Flacon Size
                     </label>
-                    <span className="text-xs text-[#D45520] font-bold font-sans">
+                    <span className="text-xs text-[#033528] font-bold font-sans">
                       {selectedVariant.size}
                     </span>
                   </div>
@@ -317,8 +317,8 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                           }}
                           className={`group relative py-2 px-3 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between sm:justify-start gap-2 cursor-pointer ${
                             isSelected
-                              ? 'border-[#141312] bg-[#141312] text-white shadow-sm ring-1 ring-[#141312]'
-                              : 'border-[#EAE4DC] bg-[#FAF7F2]/60 text-neutral-800 hover:border-neutral-400 hover:bg-white'
+                              ? 'border-[#033528] bg-[#033528] text-white shadow-sm ring-1 ring-[#033528]'
+                              : 'border-[#E8DFCB] bg-[#F7F2E6]/60 text-neutral-800 hover:border-neutral-400 hover:bg-white'
                           } ${!isAvailable ? 'opacity-40 cursor-not-allowed line-through' : ''}`}
                         >
                           <span className="text-xs sm:text-sm font-bold tracking-tight">{v.size}</span>
@@ -337,8 +337,8 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               )}
 
               {/* Stepper + Stock Status */}
-              <div className="mt-4 pt-4 border-t border-[#F4EFEB] flex items-center justify-between">
-                <div className="flex items-center border border-[#D4CFCE] rounded-full bg-[#FAF7F2] px-2.5 py-1 shadow-2xs">
+              <div className="mt-4 pt-4 border-t border-[#EFE7D5] flex items-center justify-between">
+                <div className="flex items-center border border-[#D6CBB2] rounded-full bg-[#F7F2E6] px-2.5 py-1 shadow-2xs">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                     disabled={quantity <= 1}
@@ -375,7 +375,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                 <button
                   onClick={handleBuyNow}
                   disabled={isOutOfStock}
-                  className="flex-1 py-3.5 px-4 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-40 cursor-pointer text-center"
+                  className="flex-1 py-3.5 px-4 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-40 cursor-pointer text-center"
                 >
                   Buy Now
                 </button>
@@ -388,7 +388,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                       ? 'border-emerald-600 bg-emerald-50 text-emerald-800'
                       : isOutOfStock
                       ? 'border-neutral-200 bg-neutral-100 text-neutral-400 cursor-not-allowed'
-                      : 'border-neutral-900 bg-white hover:bg-neutral-900 hover:text-white text-neutral-900'
+                      : 'border-[#033528] bg-white hover:bg-[#033528] hover:text-[#F7F2E6] text-[#033528]'
                   }`}
                 >
                   {added ? (
@@ -409,7 +409,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                   className={`p-3.5 rounded-xl border-2 transition-all duration-200 active:scale-95 flex items-center justify-center shrink-0 cursor-pointer ${
                     isWishlisted
                       ? 'border-rose-500 bg-rose-50 text-rose-500'
-                      : 'border-[#D4CFCE] bg-white text-neutral-500 hover:text-neutral-900 hover:border-neutral-400'
+                      : 'border-[#D6CBB2] bg-white text-neutral-500 hover:text-neutral-900 hover:border-neutral-400'
                   }`}
                   aria-label="Save to wishlist"
                   title={isWishlisted ? 'Saved in Wishlist' : 'Add to Wishlist'}
@@ -419,7 +419,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               </div>
 
               <div className="mt-5 flex items-center gap-2 text-xs text-neutral-500 font-sans">
-                <Truck className="w-4 h-4 text-[#D45520] shrink-0" />
+                <Truck className="w-4 h-4 text-[#033528] shrink-0" />
                 <span>Free Express Delivery On Orders Over ৳5,000 across Bangladesh</span>
               </div>
             </motion.div>
@@ -430,7 +430,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
             SECTION 2: SCENT PROFILE & PERFORMANCE (HARMONIOUS & PURE ENGLISH)
             Clean, balanced, matching warm cream aesthetic. No black blocks, no voids!
            ========================================================================= */}
-        <div className="py-20 border-b border-[#EAE4DC]">
+        <div className="py-20 border-b border-[#E8DFCB]">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -438,7 +438,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
             transition={{ duration: 0.6, ease: LUXURY_EASE }}
             className="text-center max-w-2xl mx-auto mb-14"
           >
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#D45520] block mb-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#B88556] block mb-2">
               Performance & Architecture
             </span>
             <h2 className="font-serif italic text-3xl sm:text-4xl font-normal text-neutral-900 tracking-tight">
@@ -456,9 +456,9 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.05, ease: LUXURY_EASE }}
-              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#EAE4DC] shadow-xs flex items-start gap-4 hover:-translate-y-1 transition-transform duration-200"
+              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E8DFCB] shadow-xs flex items-start gap-4 hover:-translate-y-1 transition-transform duration-200"
             >
-              <div className="w-12 h-12 rounded-2xl bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-[#D45520] shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-[#033528] shrink-0">
                 <Clock className="w-6 h-6" />
               </div>
               <div>
@@ -479,9 +479,9 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.12, ease: LUXURY_EASE }}
-              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#EAE4DC] shadow-xs flex items-start gap-4 hover:-translate-y-1 transition-transform duration-200"
+              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E8DFCB] shadow-xs flex items-start gap-4 hover:-translate-y-1 transition-transform duration-200"
             >
-              <div className="w-12 h-12 rounded-2xl bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-[#C5A059] shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-[#B88556] shrink-0">
                 <Droplets className="w-6 h-6" />
               </div>
               <div>
@@ -502,9 +502,9 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.19, ease: LUXURY_EASE }}
-              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#EAE4DC] shadow-xs flex items-start gap-4 hover:-translate-y-1 transition-transform duration-200"
+              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E8DFCB] shadow-xs flex items-start gap-4 hover:-translate-y-1 transition-transform duration-200"
             >
-              <div className="w-12 h-12 rounded-2xl bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-neutral-800 shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-neutral-800 shrink-0">
                 <Wind className="w-6 h-6" />
               </div>
               <div>
@@ -529,10 +529,10 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.05, ease: LUXURY_EASE }}
-              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#EAE4DC] shadow-xs hover:-translate-y-1 transition-transform duration-200"
+              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E8DFCB] shadow-xs hover:-translate-y-1 transition-transform duration-200"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#F4EFEB] mb-4">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#D45520]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#EFE7D5] mb-4">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#B88556]">
                   The Opening
                 </span>
                 <span className="text-xs text-neutral-400 font-sans">0 – 30 Mins</span>
@@ -554,10 +554,10 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.12, ease: LUXURY_EASE }}
-              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#EAE4DC] shadow-xs hover:-translate-y-1 transition-transform duration-200"
+              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E8DFCB] shadow-xs hover:-translate-y-1 transition-transform duration-200"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#F4EFEB] mb-4">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#EFE7D5] mb-4">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#B88556]">
                   The Heart
                 </span>
                 <span className="text-xs text-neutral-400 font-sans">2 – 6 Hours</span>
@@ -579,9 +579,9 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.19, ease: LUXURY_EASE }}
-              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#EAE4DC] shadow-xs hover:-translate-y-1 transition-transform duration-200"
+              className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E8DFCB] shadow-xs hover:-translate-y-1 transition-transform duration-200"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#F4EFEB] mb-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#EFE7D5] mb-4">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-800">
                   The Soul
                 </span>
@@ -603,7 +603,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
         {/* =========================================================================
             SECTION 3: FAQ SECTION (100% IN ENGLISH, MATCHING 2-COLUMN REFERENCE)
            ========================================================================= */}
-        <div className="py-20 border-b border-[#EAE4DC]">
+        <div className="py-20 border-b border-[#E8DFCB]">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -611,8 +611,8 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
             transition={{ duration: 0.6, ease: LUXURY_EASE }}
             className="text-center max-w-2xl mx-auto mb-14"
           >
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#EAE4DC] text-xs font-semibold text-neutral-800 shadow-2xs mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#D45520]" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E8DFCB] text-xs font-semibold text-neutral-800 shadow-2xs mb-4">
+              <span className="w-2 h-2 rounded-full bg-[#033528]" />
               <span>FAQs</span>
             </div>
 
@@ -638,7 +638,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.45, delay: i * 0.06, ease: LUXURY_EASE }}
-                    className="bg-white rounded-2xl border border-[#EAE4DC] p-6 shadow-2xs transition-all hover:border-neutral-300"
+                    className="bg-white rounded-2xl border border-[#E8DFCB] p-6 shadow-2xs transition-all hover:border-neutral-300"
                   >
                     <div
                       onClick={() => toggleFaq(actualIdx)}
@@ -652,7 +652,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                         type="button"
                         aria-expanded={isOpen}
                         aria-label={isOpen ? 'Collapse answer' : 'Expand answer'}
-                        className="w-8 h-8 rounded-full bg-[#141312] hover:bg-neutral-800 text-white flex items-center justify-center shrink-0 transition-transform active:scale-90"
+                        className="w-8 h-8 rounded-full bg-[#033528] hover:bg-[#022A20] text-white flex items-center justify-center shrink-0 transition-transform active:scale-90"
                       >
                         {isOpen ? (
                           <Minus className="w-4 h-4 stroke-[2.5]" />
@@ -672,7 +672,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                           transition={{ duration: 0.28, ease: LUXURY_EASE }}
                           className="overflow-hidden"
                         >
-                          <div className="pt-3 mt-3 border-t border-[#F4EFEB] text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
+                          <div className="pt-3 mt-3 border-t border-[#EFE7D5] text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                             {faq.a}
                           </div>
                         </motion.div>
@@ -695,7 +695,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.45, delay: i * 0.06, ease: LUXURY_EASE }}
-                    className="bg-white rounded-2xl border border-[#EAE4DC] p-6 shadow-2xs transition-all hover:border-neutral-300"
+                    className="bg-white rounded-2xl border border-[#E8DFCB] p-6 shadow-2xs transition-all hover:border-neutral-300"
                   >
                     <div
                       onClick={() => toggleFaq(actualIdx)}
@@ -709,7 +709,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                         type="button"
                         aria-expanded={isOpen}
                         aria-label={isOpen ? 'Collapse answer' : 'Expand answer'}
-                        className="w-8 h-8 rounded-full bg-[#141312] hover:bg-neutral-800 text-white flex items-center justify-center shrink-0 transition-transform active:scale-90"
+                        className="w-8 h-8 rounded-full bg-[#033528] hover:bg-[#022A20] text-white flex items-center justify-center shrink-0 transition-transform active:scale-90"
                       >
                         {isOpen ? (
                           <Minus className="w-4 h-4 stroke-[2.5]" />
@@ -729,7 +729,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
                           transition={{ duration: 0.28, ease: LUXURY_EASE }}
                           className="overflow-hidden"
                         >
-                          <div className="pt-3 mt-3 border-t border-[#F4EFEB] text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
+                          <div className="pt-3 mt-3 border-t border-[#EFE7D5] text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                             {faq.a}
                           </div>
                         </motion.div>
@@ -755,7 +755,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               className="flex flex-col sm:flex-row items-baseline justify-between mb-8 gap-4"
             >
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#D45520] block mb-1">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#B88556] block mb-1">
                   Complementary Olfactive Works
                 </span>
                 <h2 className="font-serif italic text-2xl sm:text-3xl text-neutral-900 font-normal">
@@ -764,7 +764,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
               </div>
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-700 hover:text-[#D45520] transition-colors group"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-700 hover:text-[#B88556] transition-colors group"
               >
                 <span>View Full Catalog</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -807,7 +807,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
       </div>
 
       {/* Sticky Mobile Quick Order Bar (Docked cleanly at bottom on mobile) */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/98 backdrop-blur-md border-t border-[#EAE4DC] px-4 py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.12)] flex items-center justify-between gap-2 safe-area-pb">
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/98 backdrop-blur-md border-t border-[#E8DFCB] px-4 py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.12)] flex items-center justify-between gap-2 safe-area-pb">
         <div className="min-w-0 flex-1">
           <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block truncate">
             {selectedVariant.size} • {selectedVariant.stock > 0 ? 'In Stock' : 'Out of Stock'}
@@ -819,7 +819,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
 
         <div className="flex items-center gap-1.5 shrink-0">
           {/* Quantity Stepper */}
-          <div className="flex items-center border border-[#D4CFCE] rounded-lg bg-[#FAF7F2] px-1.5 py-1 shadow-2xs">
+          <div className="flex items-center border border-[#D6CBB2] rounded-lg bg-[#F7F2E6] px-1.5 py-1 shadow-2xs">
             <button
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
               disabled={quantity <= 1}
@@ -853,7 +853,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
           <button
             onClick={handleBuyNow}
             disabled={isOutOfStock}
-            className="px-4 py-2.5 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer whitespace-nowrap"
+            className="px-4 py-2.5 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer whitespace-nowrap"
           >
             Buy Now
           </button>

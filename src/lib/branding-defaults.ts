@@ -17,10 +17,11 @@ export interface Branding {
 export const DEFAULT_STORE_NAME = 'Scent Palace BD';
 
 export const DEFAULT_BRANDING: Branding = {
-  storefrontLogoUrl: '',
-  storefrontLogoDarkUrl: '',
+  // Official brand assets (Brand Identity Guidelines): gold on Deep Emerald, emerald on Ivory.
+  storefrontLogoUrl: '/brand/logo-gold.webp',
+  storefrontLogoDarkUrl: '/brand/logo-emerald.webp',
   faviconUrl: '',
-  adminLogoUrl: '',
+  adminLogoUrl: '/brand/icon-gold.webp',
   adminBrandTitle: DEFAULT_STORE_NAME,
   adminBrandSubtitle: 'Admin Console',
   adminHideText: false,

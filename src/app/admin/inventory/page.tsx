@@ -131,7 +131,7 @@ export default function AdminInventoryPage() {
 
           <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
             <span className="text-xs uppercase tracking-wider text-stone-500 font-medium block">Warehouse Valuation</span>
-            <div className="text-2xl text-[#D45520] mt-1 font-bold">
+            <div className="text-2xl text-[#033528] mt-1 font-bold">
               ৳{(summary.totalValuationCost || 0).toLocaleString()}
             </div>
             <span className="text-[11px] text-stone-400 mt-0.5 block">
@@ -180,7 +180,7 @@ export default function AdminInventoryPage() {
               placeholder="Search by SKU, fragrance name, size..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#D45520]"
+              className="w-full pl-9 pr-4 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#033528]"
             />
           </form>
         </div>
@@ -204,7 +204,7 @@ export default function AdminInventoryPage() {
               {loading ? (
                 <tr>
                   <td colSpan={8} className="py-12 text-center text-stone-400">
-                    <div className="w-6 h-6 border-2 border-stone-200 border-t-[#D45520] rounded-full animate-spin mx-auto mb-2" />
+                    <div className="w-6 h-6 border-2 border-stone-200 border-t-[#033528] rounded-full animate-spin mx-auto mb-2" />
                     Loading stock records...
                   </td>
                 </tr>
@@ -331,7 +331,7 @@ export default function AdminInventoryPage() {
                 <select
                   value={adjustType}
                   onChange={(e) => setAdjustType(e.target.value)}
-                  className="w-full p-2.5 border border-stone-200 rounded-lg bg-stone-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg bg-stone-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
                 >
                   <option value="RESTOCK">RESTOCK (+ Atelier Intake / Restock)</option>
                   <option value="CORRECTION">CORRECTION (Physical Stock Count Audit)</option>
@@ -348,7 +348,7 @@ export default function AdminInventoryPage() {
                     type="number"
                     value={quantityDelta}
                     onChange={(e) => setQuantityDelta(parseInt(e.target.value, 10) || 0)}
-                    className="w-full p-2.5 border border-stone-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                    className="w-full p-2.5 border border-stone-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-1 focus:ring-[#033528]"
                   />
                   <div className="text-stone-500 text-[11px] whitespace-nowrap">
                     New Stock: <strong>{Math.max(0, selectedVariant.stock.physical + quantityDelta)}</strong>
@@ -364,7 +364,7 @@ export default function AdminInventoryPage() {
                   value={adjustReason}
                   onChange={(e) => setAdjustReason(e.target.value)}
                   required
-                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
                 />
               </div>
 
@@ -379,7 +379,7 @@ export default function AdminInventoryPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || quantityDelta === 0}
-                  className="px-4 py-2 bg-[#D45520] text-white rounded-lg hover:bg-[#B34316] font-medium disabled:opacity-50"
+                  className="px-4 py-2 bg-[#033528] text-white rounded-lg hover:bg-[#022A20] font-medium disabled:opacity-50"
                 >
                   {isSubmitting ? 'Recording Ledger...' : 'Confirm Adjustment'}
                 </button>

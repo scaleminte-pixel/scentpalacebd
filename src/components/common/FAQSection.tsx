@@ -77,15 +77,15 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
   const rightCol = displayItems.slice(midpoint);
 
   return (
-    <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC]">
+    <section className="bg-[#F7F2E6] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB]">
       <div className="max-w-6xl mx-auto">
         {/* =====================================================================
             TOP BADGE & TITLE: DIRECTLY MATCHING USER'S REFERENCE IMAGE
            ===================================================================== */}
         <div className="text-center max-w-2xl mx-auto mb-14">
           {/* Red/Orange Dot Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#EAE4DC] text-xs font-semibold text-neutral-800 shadow-2xs mb-4">
-            <span className="w-2 h-2 rounded-full bg-[#D45520]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E8DFCB] text-xs font-semibold text-neutral-800 shadow-2xs mb-4">
+            <span className="w-2 h-2 rounded-full bg-[#033528]" />
             <span>FAQs</span>
           </div>
 
@@ -112,7 +112,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
               return (
                 <div
                   key={actualIdx}
-                  className="bg-white rounded-2xl border border-[#EAE4DC] p-6 shadow-2xs transition-all hover:border-neutral-300"
+                  className="bg-white rounded-2xl border border-[#E8DFCB] p-6 shadow-2xs transition-all hover:border-neutral-300"
                 >
                   <div
                     onClick={() => toggleItem(actualIdx)}
@@ -127,7 +127,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
                       type="button"
                       aria-expanded={isOpen}
                       aria-label={isOpen ? 'Collapse answer' : 'Expand answer'}
-                      className="w-8 h-8 rounded-full bg-[#141312] hover:bg-neutral-800 text-white flex items-center justify-center shrink-0 transition-transform active:scale-95"
+                      className="w-8 h-8 rounded-full bg-[#033528] hover:bg-[#022A20] text-white flex items-center justify-center shrink-0 transition-transform active:scale-95"
                     >
                       {isOpen ? (
                         <Minus className="w-4 h-4 stroke-[2.5]" />
@@ -139,7 +139,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
 
                   {/* Expandable Answer */}
                   {isOpen && (
-                    <div className="pt-3 mt-3 border-t border-[#F4EFEB] text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans animate-fade-in">
+                    <div className="pt-3 mt-3 border-t border-[#EFE7D5] text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans animate-fade-in">
                       {faq.a}
                     </div>
                   )}
@@ -156,7 +156,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
               return (
                 <div
                   key={actualIdx}
-                  className="bg-white rounded-2xl border border-[#EAE4DC] p-6 shadow-2xs transition-all hover:border-neutral-300"
+                  className="bg-white rounded-2xl border border-[#E8DFCB] p-6 shadow-2xs transition-all hover:border-neutral-300"
                 >
                   <div
                     onClick={() => toggleItem(actualIdx)}
@@ -171,7 +171,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
                       type="button"
                       aria-expanded={isOpen}
                       aria-label={isOpen ? 'Collapse answer' : 'Expand answer'}
-                      className="w-8 h-8 rounded-full bg-[#141312] hover:bg-neutral-800 text-white flex items-center justify-center shrink-0 transition-transform active:scale-95"
+                      className="w-8 h-8 rounded-full bg-[#033528] hover:bg-[#022A20] text-white flex items-center justify-center shrink-0 transition-transform active:scale-95"
                     >
                       {isOpen ? (
                         <Minus className="w-4 h-4 stroke-[2.5]" />
@@ -183,7 +183,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({
 
                   {/* Expandable Answer */}
                   {isOpen && (
-                    <div className="pt-3 mt-3 border-t border-[#F4EFEB] text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans animate-fade-in">
+                    <div className="pt-3 mt-3 border-t border-[#EFE7D5] text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans animate-fade-in">
                       {faq.a}
                     </div>
                   )}

@@ -152,7 +152,7 @@ export default function AdminPaymentsPage() {
               {loading ? (
                 <tr>
                   <td colSpan={8} className="py-12 text-center text-stone-400">
-                    <div className="w-6 h-6 border-2 border-stone-200 border-t-[#D45520] rounded-full animate-spin mx-auto mb-2" />
+                    <div className="w-6 h-6 border-2 border-stone-200 border-t-[#033528] rounded-full animate-spin mx-auto mb-2" />
                     Loading payment records...
                   </td>
                 </tr>
@@ -169,7 +169,7 @@ export default function AdminPaymentsPage() {
                       {new Date(tx.createdAt).toLocaleDateString()}
                     </td>
                     <td className="py-3 px-4 font-mono font-semibold text-stone-900">
-                      <Link href={`/admin/orders/${tx.orderId}`} className="hover:text-[#D45520] flex items-center gap-1">
+                      <Link href={`/admin/orders/${tx.orderId}`} className="hover:text-[#033528] flex items-center gap-1">
                         {tx.orderNumber}
                         <ExternalLink className="w-3 h-3 text-stone-400" />
                       </Link>
@@ -210,7 +210,7 @@ export default function AdminPaymentsPage() {
                             setVerifyTrxId(tx.trxId || '');
                             setVerifyNotes('');
                           }}
-                          className="px-2.5 py-1 bg-[#D45520] text-white rounded-lg text-[11px] font-semibold hover:bg-[#B34316] transition"
+                          className="px-2.5 py-1 bg-[#033528] text-white rounded-lg text-[11px] font-semibold hover:bg-[#022A20] transition"
                         >
                           Verify TrxID
                         </button>
@@ -253,7 +253,7 @@ export default function AdminPaymentsPage() {
                   placeholder="e.g. BKASH98410291"
                   value={verifyTrxId}
                   onChange={(e) => setVerifyTrxId(e.target.value)}
-                  className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#033528]"
                 />
               </div>
 
@@ -264,7 +264,7 @@ export default function AdminPaymentsPage() {
                   placeholder="Checked against bKash Merchant statement..."
                   value={verifyNotes}
                   onChange={(e) => setVerifyNotes(e.target.value)}
-                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
                 />
               </div>
 

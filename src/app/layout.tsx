@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Bodoni_Moda, Plus_Jakarta_Sans, Inter } from 'next/font/google';
 import './globals.css';
 import { CurrencyProvider } from '@/context/CurrencyContext';
@@ -35,6 +35,11 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 export const fetchCache = 'force-no-store';
 
+// Mobile browser bar in Deep Emerald (brand primary)
+export const viewport: Viewport = {
+  themeColor: '#033528',
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const [branding, tracking] = await Promise.all([getBranding(), getTrackingConfig()]);
   const favicon = branding.faviconUrl || '/favicon.ico';
@@ -66,7 +71,7 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: [{ url: favicon, type: faviconType }],
       shortcut: favicon,
-      apple: favicon,
+      apple: branding.faviconUrl || '/brand/apple-touch-icon.png',
     },
     verification: {
       ...(tracking.googleVerification ? { google: tracking.googleVerification } : {}),
@@ -94,7 +99,7 @@ export default async function RootLayout({
       className={`${bodoniModa.variable} ${plusJakartaSans.variable} ${inter.variable} h-full antialiased scroll-smooth`}
       data-scroll-behavior="smooth"
     >
-      <body className="min-h-full flex flex-col bg-[#FAF7F2] text-[#141312] selection:bg-[#D45520] selection:text-white font-sans">
+      <body className="min-h-full flex flex-col bg-[#F7F2E6] text-[#1C1C1C] selection:bg-[#033528] selection:text-white font-sans">
         {/* Tells trackEvent() which tags will load, so early events wait for them */}
         <script
           dangerouslySetInnerHTML={{

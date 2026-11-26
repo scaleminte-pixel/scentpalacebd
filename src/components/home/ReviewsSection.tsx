@@ -33,7 +33,7 @@ export const ReviewsSection: React.FC = () => {
   const titleLine2 = commaAt > 0 ? fullTitle.slice(commaAt + 1).trim() : '';
 
   return (
-    <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
+    <section className="bg-[#F7F2E6] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* TOP CENTER HEADER: Reveal heading first, then rating strip */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -84,7 +84,7 @@ export const ReviewsSection: React.FC = () => {
           >
             <div>
               {/* Decorative Big Quotation Icon */}
-              <div className="w-14 h-14 rounded-2xl bg-[#F4EFEB] border border-[#EAE4DC] flex items-center justify-center text-neutral-400 mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#EFE7D5] border border-[#E8DFCB] flex items-center justify-center text-neutral-400 mb-6">
                 <Quote className="w-7 h-7 rotate-180 text-neutral-500 fill-neutral-300" />
               </div>
 
@@ -137,7 +137,7 @@ export const ReviewsSection: React.FC = () => {
               {REVIEWS.map((review) => (
                 <div
                   key={review.id}
-                  className="w-full md:w-[calc(50%-12px)] shrink-0 h-[260px] sm:h-[280px] bg-white rounded-3xl p-7 border border-[#EAE4DC] shadow-xs flex flex-col justify-between relative group hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
+                  className="w-full md:w-[calc(50%-12px)] shrink-0 h-[260px] sm:h-[280px] bg-white rounded-3xl p-7 border border-[#E8DFCB] shadow-xs flex flex-col justify-between relative group hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
                 >
                   <div className="overflow-hidden">
                     {/* Review Comment Text */}
@@ -154,9 +154,9 @@ export const ReviewsSection: React.FC = () => {
                   </div>
 
                   {/* Reviewer Profile */}
-                  <div className="pt-4 border-t border-[#F4EFEB] flex items-center gap-3">
+                  <div className="pt-4 border-t border-[#EFE7D5] flex items-center gap-3">
                     {/* Avatar Initials Circle */}
-                    <div className="w-10 h-10 rounded-full bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-xs font-bold text-neutral-800 shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-xs font-bold text-neutral-800 shrink-0">
                       {review.author
                         .split(' ')
                         .map((n) => n[0])
@@ -173,7 +173,7 @@ export const ReviewsSection: React.FC = () => {
                       </p>
                     </div>
 
-                    <span className="text-[10px] px-2 py-1 rounded-full bg-[#FDF3EE] text-[#D45520] font-semibold shrink-0">
+                    <span className="text-[10px] px-2 py-1 rounded-full bg-[#EAF1ED] text-[#033528] font-semibold shrink-0">
                       {review.productName}
                     </span>
                   </div>

@@ -69,7 +69,7 @@ export default function AdminCustomersPage() {
             placeholder="Search clients by name, phone, email, or city..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#D45520]"
+            className="w-full pl-9 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#033528]"
           />
         </form>
       </div>
@@ -92,7 +92,7 @@ export default function AdminCustomersPage() {
               {loading ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-stone-400">
-                    <div className="w-6 h-6 border-2 border-stone-200 border-t-[#D45520] rounded-full animate-spin mx-auto mb-2" />
+                    <div className="w-6 h-6 border-2 border-stone-200 border-t-[#033528] rounded-full animate-spin mx-auto mb-2" />
                     Loading client roster...
                   </td>
                 </tr>
@@ -214,13 +214,13 @@ export default function AdminCustomersPage() {
               <h4 className="font-semibold uppercase tracking-wider text-stone-400 text-[10px]">Contact Particulars</h4>
               <div className="flex items-center gap-3 text-stone-700">
                 <Phone className="w-4 h-4 text-stone-400" />
-                <a href={`tel:${selectedCustomer.phone}`} className="hover:text-[#D45520] font-medium">
+                <a href={`tel:${selectedCustomer.phone}`} className="hover:text-[#033528] font-medium">
                   {selectedCustomer.phone}
                 </a>
               </div>
               <div className="flex items-center gap-3 text-stone-700">
                 <Mail className="w-4 h-4 text-stone-400" />
-                <a href={`mailto:${selectedCustomer.email}`} className="hover:text-[#D45520]">
+                <a href={`mailto:${selectedCustomer.email}`} className="hover:text-[#033528]">
                   {selectedCustomer.email}
                 </a>
               </div>

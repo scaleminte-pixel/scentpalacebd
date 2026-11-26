@@ -182,7 +182,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[60vh]">
-        <div className="w-8 h-8 border-2 border-stone-300 border-t-[#D45520] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-stone-300 border-t-[#033528] rounded-full animate-spin" />
       </div>
     );
   }
@@ -299,7 +299,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                   handleDispatchCourier(select?.value || 'STEADFAST');
                 }}
                 disabled={isDispatching}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#D45520] text-white rounded-lg text-sm font-medium hover:bg-[#B34316] transition shadow-sm disabled:opacity-50 cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#033528] text-white rounded-lg text-sm font-medium hover:bg-[#022A20] transition shadow-sm disabled:opacity-50 cursor-pointer"
               >
                 <Truck className="w-4 h-4" />
                 {isDispatching ? 'Booking Consignment...' : 'Submit to Courier'}
@@ -332,8 +332,8 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           <div id="printable-invoice" className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 sm:p-8 space-y-6">
             <div className="flex justify-between items-start border-b border-stone-200 pb-6">
               <div>
-                <span className="text-xl tracking-wider text-stone-900 block font-bold">SCENT PALACE BD</span>
-                <span className="text-[10px] tracking-widest text-stone-400 uppercase">Haute Parfumerie Atelier</span>
+                {/* Brand guideline: Deep Emerald logo on light backgrounds */}
+                <img src="/brand/logo-emerald.webp" alt="Scent Palace BD" className="h-12 w-auto object-contain" />
                 <p className="text-xs text-stone-500 mt-2">
                   Road 11, Block D, Gulshan-2, Dhaka 1212<br />
                   concierge@scentpalacebd.com | +880 1711-000000
@@ -352,7 +352,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
             {order.courierTrackingNumber && (
               <div className="bg-stone-50 border border-stone-200 rounded-xl p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#D45520]/10 flex items-center justify-center text-[#D45520]">
+                  <div className="w-10 h-10 rounded-lg bg-[#033528]/10 flex items-center justify-center text-[#033528]">
                     <Truck className="w-5 h-5" />
                   </div>
                   <div>
@@ -461,7 +461,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
             <div className="border-t border-stone-100 pt-6 text-[11px] text-stone-400 flex items-center justify-between">
               <span>Complimentary 2ml testing vial included with every flacon.</span>
               <span className="flex items-center gap-1 text-stone-500">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#D45520]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#033528]" />
                 100% Authentic Extrait de Parfum
               </span>
             </div>
@@ -506,7 +506,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
               <select
                 value={fulfillmentStatus}
                 onChange={(e) => setFulfillmentStatus(e.target.value)}
-                className="w-full text-sm border border-stone-200 rounded-lg p-2.5 bg-stone-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full text-sm border border-stone-200 rounded-lg p-2.5 bg-stone-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
               >
                 <option value="PENDING">PENDING (Awaiting Review)</option>
                 <option value="CONFIRMED">CONFIRMED (Call Verified)</option>
@@ -549,7 +549,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
               <select
                 value={paymentStatus}
                 onChange={(e) => setPaymentStatus(e.target.value)}
-                className="w-full text-sm border border-stone-200 rounded-lg p-2.5 bg-stone-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full text-sm border border-stone-200 rounded-lg p-2.5 bg-stone-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
               >
                 <option value="UNPAID">UNPAID (Pending Cash On Delivery)</option>
                 <option value="PAID">PAID (Online Gateway or Cash Settled)</option>
@@ -565,7 +565,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                 placeholder="Private team notes (e.g., VIP client, requested evening delivery)..."
                 value={internalNotes}
                 onChange={(e) => setInternalNotes(e.target.value)}
-                className="w-full text-xs border border-stone-200 rounded-lg p-2.5 focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full text-xs border border-stone-200 rounded-lg p-2.5 focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
 
@@ -584,7 +584,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-900">Client Dossier</h3>
               {!editingCustomer && (
-                <button onClick={startEditCustomer} className="text-xs font-semibold text-[#D45520] hover:underline">
+                <button onClick={startEditCustomer} className="text-xs font-semibold text-[#033528] hover:underline">
                   Edit details
                 </button>
               )}
@@ -638,7 +638,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                     <input
                       value={(cust as any)[key]}
                       onChange={(e) => setCust({ ...cust, [key]: e.target.value })}
-                      className="w-full p-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                      className="w-full p-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
                     />
                   </div>
                 ))}
@@ -654,7 +654,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                     <button
                       onClick={() => saveCustomer(true)}
                       disabled={savingCustomer}
-                      className="flex-1 py-2 rounded-lg bg-[#D45520] text-white font-semibold hover:opacity-90 disabled:opacity-50"
+                      className="flex-1 py-2 rounded-lg bg-[#033528] text-white font-semibold hover:opacity-90 disabled:opacity-50"
                     >
                       Save &amp; confirm
                     </button>
@@ -681,7 +681,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
 
               <div className="flex items-center gap-2.5 text-stone-600">
                 <Phone className="w-4 h-4 text-stone-400 shrink-0" />
-                <a href={`tel:${order.customerPhone}`} className="hover:text-[#D45520] transition">
+                <a href={`tel:${order.customerPhone}`} className="hover:text-[#033528] transition">
                   {order.customerPhone}
                 </a>
               </div>
@@ -689,7 +689,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
               {order.customerEmail && (
                 <div className="flex items-center gap-2.5 text-stone-600 truncate">
                   <Mail className="w-4 h-4 text-stone-400 shrink-0" />
-                  <a href={`mailto:${order.customerEmail}`} className="hover:text-[#D45520] transition truncate">
+                  <a href={`mailto:${order.customerEmail}`} className="hover:text-[#033528] transition truncate">
                     {order.customerEmail}
                   </a>
                 </div>

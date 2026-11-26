@@ -216,7 +216,7 @@ export default function AdminOrdersPage() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAE4DC]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E8DFCB]">
         <div>
           <div className="flex items-center gap-2 text-xs text-neutral-400 mb-1 font-sans">
             <span>Admin</span>
@@ -234,7 +234,7 @@ export default function AdminOrdersPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={openManualOrderModal}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer"
           >
             <PhoneCall className="w-4 h-4" />
             <span>Create Concierge Order</span>
@@ -248,7 +248,7 @@ export default function AdminOrdersPage() {
           href="/admin/orders"
           className={`px-4 py-2.5 rounded-xl transition flex items-center gap-2 ${
             tab === 'all'
-              ? 'bg-[#141312] text-white shadow-xs'
+              ? 'bg-[#033528] text-white shadow-xs'
               : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50'
           }`}
         >
@@ -303,7 +303,7 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* Filter Tabs Toolbar */}
-      <div className="bg-white rounded-2xl border border-[#EAE4DC] p-4 shadow-xs space-y-4">
+      <div className="bg-white rounded-2xl border border-[#E8DFCB] p-4 shadow-xs space-y-4">
         {/* Status Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
           {[
@@ -320,8 +320,8 @@ export default function AdminOrdersPage() {
               onClick={() => setStatus(statusTab.key)}
               className={`px-3 py-1.5 rounded-xl font-semibold transition-all shrink-0 cursor-pointer ${
                 status === statusTab.key
-                  ? 'bg-[#141312] text-white shadow-2xs font-bold'
-                  : 'text-neutral-600 hover:bg-[#FAF7F2] hover:text-neutral-900'
+                  ? 'bg-[#033528] text-white shadow-2xs font-bold'
+                  : 'text-neutral-600 hover:bg-[#F7F2E6] hover:text-neutral-900'
               }`}
             >
               {statusTab.label}
@@ -330,7 +330,7 @@ export default function AdminOrdersPage() {
         </div>
 
         {/* Sub-Filters: Search, Payment Status, Payment Method */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#F4EFEB]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#EFE7D5]">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -344,7 +344,7 @@ export default function AdminOrdersPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by RDH-#, customer, phone, tracking..."
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#FAF7F2] border border-transparent focus:border-[#D45520] focus:bg-white text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none transition-all"
+              className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#F7F2E6] border border-transparent focus:border-[#033528] focus:bg-white text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none transition-all"
             />
           </form>
 
@@ -353,7 +353,7 @@ export default function AdminOrdersPage() {
             <select
               value={paymentStatus}
               onChange={(e) => setPaymentStatus(e.target.value)}
-              className="bg-[#FAF7F2] border border-[#EAE4DC] rounded-xl px-3 py-2 text-xs font-semibold text-neutral-800 focus:outline-none cursor-pointer"
+              className="bg-[#F7F2E6] border border-[#E8DFCB] rounded-xl px-3 py-2 text-xs font-semibold text-neutral-800 focus:outline-none cursor-pointer"
             >
               <option value="ALL">Payment: All</option>
               <option value="PAID">Paid</option>
@@ -365,7 +365,7 @@ export default function AdminOrdersPage() {
             <select
               value={method}
               onChange={(e) => setMethod(e.target.value)}
-              className="bg-[#FAF7F2] border border-[#EAE4DC] rounded-xl px-3 py-2 text-xs font-semibold text-neutral-800 focus:outline-none cursor-pointer"
+              className="bg-[#F7F2E6] border border-[#E8DFCB] rounded-xl px-3 py-2 text-xs font-semibold text-neutral-800 focus:outline-none cursor-pointer"
             >
               <option value="ALL">Method: All</option>
               <option value="BKASH">bKash</option>
@@ -377,11 +377,11 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* Orders Table */}
-      <div className="bg-white rounded-2xl border border-[#EAE4DC] shadow-xs overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#E8DFCB] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="bg-[#FAF7F2]/60 border-b border-[#EAE4DC] text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+              <tr className="bg-[#F7F2E6]/60 border-b border-[#E8DFCB] text-[10px] font-bold uppercase tracking-wider text-neutral-400">
                 <th className="py-3 px-4">Order #</th>
                 <th className="py-3 px-4">Customer & Phone</th>
                 <th className="py-3 px-4">Items Summary</th>
@@ -392,21 +392,21 @@ export default function AdminOrdersPage() {
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F4EFEB]">
+            <tbody className="divide-y divide-[#EFE7D5]">
               {loading ? (
                 <tr>
                   <td colSpan={8} className="py-12 text-center text-neutral-400">
                     <div className="flex flex-col items-center gap-2">
-                      <div className="w-6 h-6 border-2 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+                      <div className="w-6 h-6 border-2 border-[#033528] border-t-transparent rounded-full animate-spin" />
                       <span>Loading orders...</span>
                     </div>
                   </td>
                 </tr>
               ) : orders.length > 0 ? (
                 orders.map((o) => (
-                  <tr key={o.id} className="hover:bg-[#FAF7F2]/60 transition-colors">
+                  <tr key={o.id} className="hover:bg-[#F7F2E6]/60 transition-colors">
                     <td className="py-3.5 px-4 font-mono font-bold text-neutral-900">
-                      <Link href={`/admin/orders/${o.id}`} className="hover:text-[#D45520] hover:underline">
+                      <Link href={`/admin/orders/${o.id}`} className="hover:text-[#033528] hover:underline">
                         #{o.orderNumber}
                       </Link>
                       <div className="text-[10px] text-neutral-400 font-sans mt-0.5">
@@ -474,7 +474,7 @@ export default function AdminOrdersPage() {
                     <td className="py-3.5 px-4 text-xs font-mono">
                       {o.courierTrackingNumber ? (
                         <div className="flex items-center gap-1.5 text-neutral-800">
-                          <Truck className="w-3.5 h-3.5 text-[#D45520]" />
+                          <Truck className="w-3.5 h-3.5 text-[#033528]" />
                           <span>{o.courierTrackingNumber}</span>
                         </div>
                       ) : (
@@ -510,7 +510,7 @@ export default function AdminOrdersPage() {
                             </button>
                             <Link
                               href={`/admin/orders/${o.id}`}
-                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] font-semibold text-neutral-800 text-[11px] transition-colors"
+                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F7F2E6] hover:bg-[#EFE7D5] border border-[#E8DFCB] font-semibold text-neutral-800 text-[11px] transition-colors"
                             >
                               <span>Edit</span>
                               <ArrowRight className="w-3 h-3 text-neutral-400" />
@@ -527,7 +527,7 @@ export default function AdminOrdersPage() {
                           <>
                             <Link
                               href={`/admin/orders/${o.id}`}
-                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] font-semibold text-neutral-800 text-[11px] transition-colors"
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#F7F2E6] hover:bg-[#EFE7D5] border border-[#E8DFCB] font-semibold text-neutral-800 text-[11px] transition-colors"
                             >
                               <span>Inspect</span>
                               <ArrowRight className="w-3 h-3 text-neutral-400" />
@@ -557,7 +557,7 @@ export default function AdminOrdersPage() {
         </div>
 
         {/* Pagination Bar */}
-        <div className="p-4 border-t border-[#EAE4DC] flex items-center justify-between text-xs text-neutral-500">
+        <div className="p-4 border-t border-[#E8DFCB] flex items-center justify-between text-xs text-neutral-500">
           <div>
             Showing <strong>{orders.length}</strong> of <strong>{pagination.total}</strong> orders
           </div>
@@ -565,7 +565,7 @@ export default function AdminOrdersPage() {
             <button
               disabled={pagination.page <= 1}
               onClick={() => fetchOrders(pagination.page - 1)}
-              className="p-2 rounded-lg border border-[#EAE4DC] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+              className="p-2 rounded-lg border border-[#E8DFCB] hover:bg-[#F7F2E6] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -575,7 +575,7 @@ export default function AdminOrdersPage() {
             <button
               disabled={pagination.page >= pagination.totalPages}
               onClick={() => fetchOrders(pagination.page + 1)}
-              className="p-2 rounded-lg border border-[#EAE4DC] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+              className="p-2 rounded-lg border border-[#E8DFCB] hover:bg-[#F7F2E6] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -589,7 +589,7 @@ export default function AdminOrdersPage() {
           <div className="bg-white rounded-3xl max-w-2xl w-full border border-stone-200 shadow-2xl overflow-hidden my-auto animate-in zoom-in-95 duration-200">
             <div className="p-5 border-b border-stone-200 flex items-center justify-between bg-stone-50/50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#D45520]/10 text-[#D45520] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-2xl bg-[#033528]/10 text-[#033528] flex items-center justify-center shrink-0">
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div>
@@ -724,7 +724,7 @@ export default function AdminOrdersPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#D45520] hover:bg-[#B34316] text-white rounded-xl font-semibold shadow-xs cursor-pointer"
+                  className="px-5 py-2 bg-[#033528] hover:bg-[#022A20] text-white rounded-xl font-semibold shadow-xs cursor-pointer"
                 >
                   Create & Confirm Order
                 </button>

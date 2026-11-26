@@ -46,7 +46,7 @@ export const ShopByScent: React.FC = () => {
   }));
 
   return (
-    <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
+    <section className="bg-[#F7F2E6] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Minimalist Section Header */}
         <motion.div
@@ -62,7 +62,7 @@ export const ShopByScent: React.FC = () => {
 
           <Link
             href="/shop"
-            className="text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-[#D45520] transition-colors flex items-center gap-1 group"
+            className="text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-[#B88556] transition-colors flex items-center gap-1 group"
           >
             <span>View All</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -93,7 +93,7 @@ export const ShopByScent: React.FC = () => {
             >
               <Link
                 href={scent.link}
-                className="group relative rounded-2xl overflow-hidden bg-white border border-[#EAE4DC] shadow-xs hover:shadow-xl transition-all duration-300 h-72 sm:h-88 flex flex-col justify-end p-5 block"
+                className="group relative rounded-2xl overflow-hidden bg-white border border-[#E8DFCB] shadow-xs hover:shadow-xl transition-all duration-300 h-72 sm:h-88 flex flex-col justify-end p-5 block"
               >
                 {/* Background Image with contained hover zoom */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
@@ -109,9 +109,9 @@ export const ShopByScent: React.FC = () => {
 
                 {/* Minimalist Label with 2px lift on hover */}
                 <div className="relative z-10 text-white transform group-hover:-translate-y-0.5 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
-                  <h3 className="font-serif text-lg sm:text-xl font-normal tracking-tight group-hover:text-amber-200 transition-colors flex items-center justify-between">
+                  <h3 className="font-serif text-lg sm:text-xl font-normal tracking-tight group-hover:text-[#E8CE5F] transition-colors flex items-center justify-between">
                     <span>{scent.name}</span>
-                    <ArrowUpRight className="w-4 h-4 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all text-[#D45520]" />
+                    <ArrowUpRight className="w-4 h-4 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all text-[#033528]" />
                   </h3>
                 </div>
               </Link>

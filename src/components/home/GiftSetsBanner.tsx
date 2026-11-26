@@ -29,9 +29,9 @@ export const GiftSetsBanner: React.FC = () => {
   const bannerImage = content.imageUrl || content.bgImage || defaultBanner.image;
 
   return (
-    <section className="bg-[#FAF7F2] py-16 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
+    <section className="bg-[#F7F2E6] py-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="relative rounded-3xl overflow-hidden bg-neutral-900 text-white min-h-[340px] sm:min-h-[380px] flex items-center p-8 sm:p-12 lg:p-16 shadow-lg border border-[#EAE4DC]">
+        <div className="relative rounded-3xl overflow-hidden bg-[#033528] text-white min-h-[340px] sm:min-h-[380px] flex items-center p-8 sm:p-12 lg:p-16 shadow-lg border border-[#E8DFCB]">
           {/* Background Image: soft scale settle inside rounded container */}
           <motion.div
             initial={{ scale: 1.04, opacity: 0.85 }}
@@ -58,7 +58,7 @@ export const GiftSetsBanner: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.22, ease: LUXURY_EASE }}
             className="relative z-10 max-w-lg"
           >
-            <span className="text-[10px] uppercase tracking-[0.3em] text-amber-300 mb-2 block font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#E8CE5F] mb-2 block font-semibold">
               {content.tagline}
             </span>
 
@@ -73,7 +73,7 @@ export const GiftSetsBanner: React.FC = () => {
             <div className="mt-7">
               <Link
                 href={content.ctaLink || '/shop?category=Gift+Sets'}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#E8CE5F] hover:bg-[#F2DC7A] text-[#033528] text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 <span>{content.ctaText || 'Explore Gift Sets'}</span>
                 <ArrowRight className="w-4 h-4" />

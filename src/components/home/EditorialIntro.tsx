@@ -62,20 +62,20 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
   if (sec && !sec.isVisible) return null;
 
   return (
-    <section className="bg-[#FAF7F2] py-10 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
+    <section className="bg-[#F7F2E6] py-10 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Top Asymmetrical Editorial Statement matching Reference Image */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pb-10 sm:pb-14 border-b border-[#EAE4DC]"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pb-10 sm:pb-14 border-b border-[#E8DFCB]"
         >
           {/* Left Column: Editorial Statement + 3 Fragrance Showcase Tiles */}
           <div className="lg:col-span-6 relative">
             <div className="flex items-center gap-2 mb-2 sm:mb-3">
-              <span className="text-[#C5A059] text-base select-none">✦</span>
-              <span className="text-[10px] sm:text-xs uppercase font-bold tracking-widest text-[#C5A059] font-sans">
+              <span className="text-[#B88556] text-base select-none">✦</span>
+              <span className="text-[10px] sm:text-xs uppercase font-bold tracking-widest text-[#B88556] font-sans">
                 Haute Parfumerie Atelier
               </span>
             </div>
@@ -126,7 +126,7 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
                 >
                   <Link
                     href={tile.link}
-                    className="group relative aspect-square rounded-2xl overflow-hidden bg-white border border-[#EAE4DC] shadow-xs hover:shadow-md transition-all flex flex-col items-center justify-between p-2 block text-center"
+                    className="group relative aspect-square rounded-2xl overflow-hidden bg-white border border-[#E8DFCB] shadow-xs hover:shadow-md transition-all flex flex-col items-center justify-between p-2 block text-center"
                   >
                     <div className="relative w-full flex-1">
                       <Image
@@ -154,14 +154,14 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
             transition={{ duration: 0.65, delay: 0.35, ease: LUXURY_EASE }}
             className="lg:col-span-6"
           >
-            <div className="p-4 sm:p-6 rounded-2xl bg-white/70 border border-[#EAE4DC] shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+            <div className="p-4 sm:p-6 rounded-2xl bg-white/70 border border-[#E8DFCB] shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
               <div className="flex items-center gap-3 shrink-0">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={viewportOnce}
                   transition={{ duration: 0.5, delay: 0.4, ease: LUXURY_EASE }}
-                  className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shadow-xs border border-[#EAE4DC] bg-white shrink-0"
+                  className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shadow-xs border border-[#E8DFCB] bg-white shrink-0"
                 >
                   <Image
                     src="/images/ingredient-amber.webp"
@@ -177,7 +177,7 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={viewportOnce}
                   transition={{ duration: 0.5, delay: 0.48, ease: LUXURY_EASE }}
-                  className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shadow-xs border border-[#EAE4DC] bg-white shrink-0"
+                  className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shadow-xs border border-[#E8DFCB] bg-white shrink-0"
                 >
                   <Image
                     src="/images/ingredient-saffron.webp"
@@ -194,11 +194,11 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={viewportOnce}
                 transition={{ duration: 0.55, delay: 0.52, ease: LUXURY_EASE }}
-                className="border-t sm:border-t-0 sm:border-l border-[#EAE4DC] pt-3 sm:pt-0 sm:pl-5 flex-1"
+                className="border-t sm:border-t-0 sm:border-l border-[#E8DFCB] pt-3 sm:pt-0 sm:pl-5 flex-1"
               >
                 <div className="flex items-center gap-1.5 mb-1">
-                  <span className="text-[#C5A059] text-xs select-none">✦</span>
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-[#C5A059]">
+                  <span className="text-[#B88556] text-xs select-none">✦</span>
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-[#B88556]">
                     Pure Formulation
                   </span>
                 </div>
@@ -227,7 +227,7 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
             </h3>
             <Link
               href="/shop"
-              className="text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-[#D45520] transition-colors flex items-center gap-1 group"
+              className="text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-[#B88556] transition-colors flex items-center gap-1 group"
             >
               <span>View All</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -257,7 +257,7 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
               >
                 <Link
                   href={`/shop?category=${encodeURIComponent(cat.name || cat.id)}`}
-                  className="group relative rounded-2xl overflow-hidden bg-white border border-[#EAE4DC] shadow-xs hover:shadow-xl transition-all duration-300 aspect-square flex flex-col justify-end p-3 sm:p-5"
+                  className="group relative rounded-2xl overflow-hidden bg-white border border-[#E8DFCB] shadow-xs hover:shadow-xl transition-all duration-300 aspect-square flex flex-col justify-end p-3 sm:p-5"
                 >
                   <div className="absolute inset-0 z-0 overflow-hidden">
                     <Image
@@ -272,9 +272,9 @@ export const EditorialIntro: React.FC<EditorialIntroProps> = ({ initialCategorie
 
                   {/* On hover lift the label by 2px (-translate-y-0.5) */}
                   <div className="relative z-10 text-white transform group-hover:-translate-y-0.5 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
-                    <h4 className="font-serif text-lg sm:text-xl font-normal tracking-tight group-hover:text-amber-200 transition-colors flex items-center justify-between">
+                    <h4 className="font-serif text-lg sm:text-xl font-normal tracking-tight group-hover:text-[#E8CE5F] transition-colors flex items-center justify-between">
                       <span>{cat.name}</span>
-                      <ArrowUpRight className="w-4 h-4 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all text-[#D45520]" />
+                      <ArrowUpRight className="w-4 h-4 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all text-[#033528]" />
                     </h4>
                   </div>
                 </Link>

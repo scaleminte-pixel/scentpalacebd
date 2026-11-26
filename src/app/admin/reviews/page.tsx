@@ -92,7 +92,7 @@ export default function AdminReviewsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {loading ? (
           <div className="col-span-2 py-12 text-center text-stone-400">
-            <div className="w-6 h-6 border-2 border-stone-200 border-t-[#D45520] rounded-full animate-spin mx-auto mb-2" />
+            <div className="w-6 h-6 border-2 border-stone-200 border-t-[#033528] rounded-full animate-spin mx-auto mb-2" />
             Loading testimonials...
           </div>
         ) : filtered.length === 0 ? (
@@ -131,7 +131,7 @@ export default function AdminReviewsPage() {
                     <span className="font-semibold text-stone-800">{r.author}</span>
                     <span className="text-stone-400 ml-1.5">({r.city})</span>
                   </div>
-                  <span className="text-[11px] text-[#D45520] font-medium">{r.productName}</span>
+                  <span className="text-[11px] text-[#033528] font-medium">{r.productName}</span>
                 </div>
               </div>
 
@@ -149,7 +149,7 @@ export default function AdminReviewsPage() {
                   className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition ${
                     r.isApproved
                       ? 'bg-stone-100 text-stone-700 hover:bg-stone-200'
-                      : 'bg-[#D45520] text-white hover:bg-[#B34316]'
+                      : 'bg-[#033528] text-white hover:bg-[#022A20]'
                   }`}
                 >
                   {r.isApproved ? (

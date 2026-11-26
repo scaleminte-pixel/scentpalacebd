@@ -40,10 +40,10 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen py-16 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC]">
+    <div className="bg-[#F7F2E6] min-h-screen py-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D45520]">
+          <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#B88556]">
             Private Concierge
           </span>
           <h1 className="font-serif italic text-3xl sm:text-4xl lg:text-5xl font-normal text-neutral-900 mt-1">
@@ -56,9 +56,9 @@ export default function ContactPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left Column: Flagship Showroom Details (5 cols) */}
-          <div className="lg:col-span-5 bg-white rounded-3xl p-8 border border-[#EAE4DC] shadow-xs space-y-8">
+          <div className="lg:col-span-5 bg-white rounded-3xl p-8 border border-[#E8DFCB] shadow-xs space-y-8">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#D45520] block mb-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#B88556] block mb-1">
                 Dhaka Flagship
               </span>
               <h2 className="font-serif text-2xl font-normal text-neutral-900">
@@ -71,7 +71,7 @@ export default function ContactPage() {
 
             <div className="space-y-5 text-xs text-neutral-700">
               <div className="flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-[#D45520] shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-[#033528] shrink-0">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
@@ -83,7 +83,7 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-[#D45520] shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-[#033528] shrink-0">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
@@ -95,7 +95,7 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-[#D45520] shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-[#033528] shrink-0">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
@@ -105,7 +105,7 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EAE4DC] flex items-center justify-center text-[#D45520] shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#F7F2E6] border border-[#E8DFCB] flex items-center justify-center text-[#033528] shrink-0">
                   <Clock className="w-4 h-4" />
                 </div>
                 <div>
@@ -118,7 +118,7 @@ export default function ContactPage() {
             </div>
 
             {/* Direct WhatsApp Concierge Button */}
-            <div className="pt-4 border-t border-[#EAE4DC]">
+            <div className="pt-4 border-t border-[#E8DFCB]">
               <a
                 href="https://wa.me/8801711000000?text=Hello%20Scent%20Palace%20BD%2C%20I%20would%20like%20to%20inquire%20about%20your%20perfumes."
                 target="_blank"
@@ -132,7 +132,7 @@ export default function ContactPage() {
           </div>
 
           {/* Right Column: Interactive Consultation Form (7 cols) */}
-          <div className="lg:col-span-7 bg-white rounded-3xl p-8 sm:p-10 border border-[#EAE4DC] shadow-xs">
+          <div className="lg:col-span-7 bg-white rounded-3xl p-8 sm:p-10 border border-[#E8DFCB] shadow-xs">
             <h2 className="font-serif text-2xl font-normal text-neutral-900 mb-1">
               Send a Private Message
             </h2>
@@ -141,7 +141,7 @@ export default function ContactPage() {
             </p>
 
             {submitted ? (
-              <div className="p-8 text-center bg-[#FAF7F2] rounded-2xl border border-[#EAE4DC]">
+              <div className="p-8 text-center bg-[#F7F2E6] rounded-2xl border border-[#E8DFCB]">
                 <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-3">
                   <CheckCircle className="w-8 h-8" />
                 </div>
@@ -165,7 +165,7 @@ export default function ContactPage() {
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="e.g. Barrister Nabil Hossain"
-                      className="w-full px-4 py-3 rounded-lg border border-[#D4CFCE] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#D45520]"
+                      className="w-full px-4 py-3 rounded-lg border border-[#D6CBB2] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#033528]"
                     />
                   </div>
 
@@ -178,7 +178,7 @@ export default function ContactPage() {
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder="017XXXXXXXX"
-                      className="w-full px-4 py-3 rounded-lg border border-[#D4CFCE] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#D45520]"
+                      className="w-full px-4 py-3 rounded-lg border border-[#D6CBB2] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#033528]"
                     />
                   </div>
                 </div>
@@ -193,7 +193,7 @@ export default function ContactPage() {
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="name@example.com"
-                    className="w-full px-4 py-3 rounded-lg border border-[#D4CFCE] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#D45520]"
+                    className="w-full px-4 py-3 rounded-lg border border-[#D6CBB2] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#033528]"
                   />
                 </div>
 
@@ -204,7 +204,7 @@ export default function ContactPage() {
                   <select
                     value={form.subject}
                     onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-[#D4CFCE] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#D45520]"
+                    className="w-full px-4 py-3 rounded-lg border border-[#D6CBB2] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#033528]"
                   >
                     <option value="Fragrance Recommendation Consultation">
                       Personalized Fragrance Consultation
@@ -231,13 +231,13 @@ export default function ContactPage() {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="Tell us about the scent profile or assistance you are seeking..."
-                    className="w-full px-4 py-3 rounded-lg border border-[#D4CFCE] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#D45520]"
+                    className="w-full px-4 py-3 rounded-lg border border-[#D6CBB2] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#033528]"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 px-6 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
+                  className="w-full py-4 px-6 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
                   <span>Send Message to Atelier</span>

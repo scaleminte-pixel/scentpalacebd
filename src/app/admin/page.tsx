@@ -59,9 +59,9 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-7 max-w-7xl mx-auto pb-8">
       {/* Page Title & Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAE4DC]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E8DFCB]">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D45520] block">
+          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B88556] block">
             Executive Intelligence
           </span>
           <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
@@ -74,7 +74,7 @@ export default function AdminDashboardPage() {
 
         {/* Quick Range Selector */}
         <div className="flex items-center gap-2">
-          <div className="inline-flex items-center p-1 bg-white border border-[#EAE4DC] rounded-xl shadow-2xs text-xs font-semibold">
+          <div className="inline-flex items-center p-1 bg-white border border-[#E8DFCB] rounded-xl shadow-2xs text-xs font-semibold">
             {[
               { label: 'Today', key: 'today' },
               { label: 'Last 7 Days', key: '7d' },
@@ -86,8 +86,8 @@ export default function AdminDashboardPage() {
                 onClick={() => setRange(tab.key)}
                 className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                   range === tab.key
-                    ? 'bg-[#141312] text-white shadow-xs font-bold'
-                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-[#FAF7F2]'
+                    ? 'bg-[#033528] text-white shadow-xs font-bold'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-[#F7F2E6]'
                 }`}
               >
                 {tab.label}
@@ -129,7 +129,7 @@ export default function AdminDashboardPage() {
           <button
             onClick={fetchDashboard}
             disabled={!startDate || !endDate}
-            className="px-3.5 py-1.5 bg-[#D45520] hover:bg-[#B34316] text-white font-semibold rounded-lg text-xs transition disabled:opacity-50 cursor-pointer"
+            className="px-3.5 py-1.5 bg-[#033528] hover:bg-[#022A20] text-white font-semibold rounded-lg text-xs transition disabled:opacity-50 cursor-pointer"
           >
             Apply Range Filter
           </button>
@@ -139,7 +139,7 @@ export default function AdminDashboardPage() {
       {loading && !data ? (
         <div className="h-96 flex items-center justify-center">
           <div className="flex flex-col items-center gap-3">
-            <div className="w-8 h-8 border-3 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-3 border-[#033528] border-t-transparent rounded-full animate-spin" />
             <span className="text-xs text-neutral-500 font-medium">Aggregating real-time transactions...</span>
           </div>
         </div>
@@ -155,7 +155,7 @@ export default function AdminDashboardPage() {
                 <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">
                   Today&apos;s Orders
                 </span>
-                <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-[#D45520]">
+                <div className="w-9 h-9 rounded-xl bg-[#FBF6E4] border border-[#F1E4B8] flex items-center justify-center text-[#033528]">
                   <ShoppingBag className="w-4 h-4" />
                 </div>
               </div>
@@ -165,7 +165,7 @@ export default function AdminDashboardPage() {
                 </span>
                 <span className="text-xs font-semibold text-stone-400">orders today</span>
               </div>
-              <div className="mt-2 text-[11px] font-semibold text-[#D45520] flex items-center gap-1">
+              <div className="mt-2 text-[11px] font-semibold text-[#033528] flex items-center gap-1">
                 <span>Value: ৳{(overview.todayOrders?.gross ?? 0).toLocaleString()}</span>
               </div>
             </div>
@@ -250,11 +250,11 @@ export default function AdminDashboardPage() {
               {/* Card 1: Total Orders */}
               <Link
                 href="/admin/orders"
-                className="bg-white rounded-2xl border border-stone-200 p-4 shadow-2xs hover:border-[#D45520] hover:shadow-xs transition block group"
+                className="bg-white rounded-2xl border border-stone-200 p-4 shadow-2xs hover:border-[#033528] hover:shadow-xs transition block group"
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] font-bold text-stone-500">Total Orders</span>
-                  <div className="w-7 h-7 rounded-lg bg-stone-100 flex items-center justify-center text-stone-700 group-hover:bg-orange-50 group-hover:text-[#D45520] transition">
+                  <div className="w-7 h-7 rounded-lg bg-stone-100 flex items-center justify-center text-stone-700 group-hover:bg-[#FBF6E4] group-hover:text-[#033528] transition">
                     <ShoppingBag className="w-3.5 h-3.5" />
                   </div>
                 </div>
@@ -388,10 +388,10 @@ export default function AdminDashboardPage() {
           {/* =========================================================================
               RANGE ANALYTICS SUMMARY
              ========================================================================= */}
-          <div className="bg-stone-900 text-white rounded-3xl p-6 sm:p-7 shadow-md">
+          <div className="bg-[#033528] text-white rounded-3xl p-6 sm:p-7 shadow-md">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-white/10">
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#D45520]">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#E8CE5F]">
                   Period Performance Filter ({range.replace('_', ' ').toUpperCase()})
                 </span>
                 <h3 className="text-lg sm:text-xl font-bold text-white mt-0.5">
@@ -452,7 +452,7 @@ export default function AdminDashboardPage() {
                   </div>
                   <Link
                     href="/admin/products"
-                    className="text-xs font-semibold text-[#D45520] hover:underline flex items-center gap-1"
+                    className="text-xs font-semibold text-[#033528] hover:underline flex items-center gap-1"
                   >
                     <span>Catalog</span>
                     <ArrowRight className="w-3 h-3" />
@@ -501,7 +501,7 @@ export default function AdminDashboardPage() {
                   </div>
                   <Link
                     href="/admin/orders"
-                    className="text-xs font-semibold text-[#D45520] hover:underline flex items-center gap-1"
+                    className="text-xs font-semibold text-[#033528] hover:underline flex items-center gap-1"
                   >
                     <span>All Orders</span>
                     <ArrowRight className="w-3 h-3" />
@@ -530,7 +530,7 @@ export default function AdminDashboardPage() {
                         recentOrders.map((ord: any) => (
                           <tr key={ord.id} className="hover:bg-stone-50/70 transition">
                             <td className="py-3 font-mono font-bold text-stone-900">
-                              <Link href={`/admin/orders/${ord.id}`} className="hover:text-[#D45520]">
+                              <Link href={`/admin/orders/${ord.id}`} className="hover:text-[#033528]">
                                 #{ord.orderNumber}
                               </Link>
                             </td>
@@ -578,7 +578,7 @@ export default function AdminDashboardPage() {
                 <span>Showing latest 8 orders</span>
                 <Link
                   href="/admin/orders"
-                  className="font-semibold text-[#D45520] hover:text-[#B34316] flex items-center gap-1"
+                  className="font-semibold text-[#033528] hover:text-[#022A20] flex items-center gap-1"
                 >
                   <span>Go to Orders Management</span>
                   <ArrowRight className="w-3.5 h-3.5" />

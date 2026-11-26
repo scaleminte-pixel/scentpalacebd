@@ -118,7 +118,7 @@ export default function AdminReportsPage() {
               </div>
               <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
                 <span className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold block">Cost Valuation (COGS)</span>
-                <span className="text-2xl font-bold text-[#D45520] mt-1 block">
+                <span className="text-2xl font-bold text-[#033528] mt-1 block">
                   ৳{(reportData.totalValuationBDT || 0).toLocaleString()}
                 </span>
               </div>

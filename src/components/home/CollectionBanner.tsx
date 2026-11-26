@@ -29,7 +29,7 @@ export const CollectionBanner: React.FC = () => {
   const bannerImage = content.imageUrl || content.bgImage || defaultBanner.image;
 
   return (
-    <section className="relative w-full h-[400px] sm:h-[440px] md:h-[480px] overflow-hidden bg-neutral-950 text-white flex items-center justify-center">
+    <section className="relative w-full h-[400px] sm:h-[440px] md:h-[480px] overflow-hidden bg-[#033528] text-white flex items-center justify-center">
       {/* Background Image with soft scale settle */}
       <motion.div
         initial={{ scale: 1.04, opacity: 0.85 }}
@@ -55,7 +55,7 @@ export const CollectionBanner: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ duration: 0.5, delay: 0.15, ease: LUXURY_EASE }}
-          className="text-[10px] uppercase tracking-[0.3em] text-amber-300 mb-3 block font-semibold"
+          className="text-[10px] uppercase tracking-[0.3em] text-[#E8CE5F] mb-3 block font-semibold"
         >
           {content.tagline}
         </motion.span>
@@ -89,7 +89,7 @@ export const CollectionBanner: React.FC = () => {
         >
           <Link
             href={content.ctaLink || '/shop'}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg bg-[#E8CE5F] hover:bg-[#F2DC7A] text-[#033528] text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0"
           >
             <span>{content.ctaText || 'Explore Collection'}</span>
             <ArrowRight className="w-4 h-4" />

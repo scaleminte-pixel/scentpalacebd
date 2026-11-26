@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 
 export default function ShippingReturnsPage() {
   return (
-    <div className="bg-[#FAF7F2] min-h-screen py-16 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC]">
+    <div className="bg-[#F7F2E6] min-h-screen py-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB]">
       <div className="max-w-4xl mx-auto space-y-12">
         <div className="text-center max-w-2xl mx-auto">
-          <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D45520]">
+          <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#B88556]">
             Atelier Logistics
           </span>
           <h1 className="font-serif italic text-3xl sm:text-4xl lg:text-5xl font-normal text-neutral-900 mt-1">
@@ -26,8 +26,8 @@ export default function ShippingReturnsPage() {
 
         {/* 3 Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-2xl p-6 border border-[#EAE4DC] shadow-xs">
-            <Truck className="w-8 h-8 text-[#D45520] mb-3 stroke-[1.8]" />
+          <div className="bg-white rounded-2xl p-6 border border-[#E8DFCB] shadow-xs">
+            <Truck className="w-8 h-8 text-[#033528] mb-3 stroke-[1.8]" />
             <h3 className="font-serif text-lg font-medium text-neutral-900 mb-1">
               Complimentary Delivery
             </h3>
@@ -36,8 +36,8 @@ export default function ShippingReturnsPage() {
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 border border-[#EAE4DC] shadow-xs">
-            <Clock className="w-8 h-8 text-[#D45520] mb-3 stroke-[1.8]" />
+          <div className="bg-white rounded-2xl p-6 border border-[#E8DFCB] shadow-xs">
+            <Clock className="w-8 h-8 text-[#033528] mb-3 stroke-[1.8]" />
             <h3 className="font-serif text-lg font-medium text-neutral-900 mb-1">
               Dhaka Same-Day Express
             </h3>
@@ -46,8 +46,8 @@ export default function ShippingReturnsPage() {
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 border border-[#EAE4DC] shadow-xs">
-            <ShieldCheck className="w-8 h-8 text-[#D45520] mb-3 stroke-[1.8]" />
+          <div className="bg-white rounded-2xl p-6 border border-[#E8DFCB] shadow-xs">
+            <ShieldCheck className="w-8 h-8 text-[#033528] mb-3 stroke-[1.8]" />
             <h3 className="font-serif text-lg font-medium text-neutral-900 mb-1">
               Sample First Guarantee
             </h3>
@@ -58,15 +58,15 @@ export default function ShippingReturnsPage() {
         </div>
 
         {/* Detailed Sections */}
-        <div className="bg-white rounded-3xl p-8 sm:p-10 border border-[#EAE4DC] space-y-8 shadow-xs">
+        <div className="bg-white rounded-3xl p-8 sm:p-10 border border-[#E8DFCB] space-y-8 shadow-xs">
           <div>
-            <h2 className="font-serif text-2xl font-normal text-neutral-900 pb-3 border-b border-[#EAE4DC] mb-4">
+            <h2 className="font-serif text-2xl font-normal text-neutral-900 pb-3 border-b border-[#E8DFCB] mb-4">
               1. Delivery Options & Rates
             </h2>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-[#EAE4DC] text-neutral-500 uppercase tracking-wider">
+                  <tr className="border-b border-[#E8DFCB] text-neutral-500 uppercase tracking-wider">
                     <th className="pb-3 font-semibold">Service Level</th>
                     <th className="pb-3 font-semibold">Destination</th>
                     <th className="pb-3 font-semibold">Timeline</th>
@@ -74,7 +74,7 @@ export default function ShippingReturnsPage() {
                     <th className="pb-3 font-semibold">Fee (Over ৳5,000)</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#F4EFEB] text-neutral-700">
+                <tbody className="divide-y divide-[#EFE7D5] text-neutral-700">
                   <tr>
                     <td className="py-3 font-medium text-neutral-900">Standard Concierge</td>
                     <td className="py-3">Dhaka Metropolitan</td>
@@ -102,14 +102,14 @@ export default function ShippingReturnsPage() {
           </div>
 
           <div>
-            <h2 className="font-serif text-2xl font-normal text-neutral-900 pb-3 border-b border-[#EAE4DC] mb-4">
+            <h2 className="font-serif text-2xl font-normal text-neutral-900 pb-3 border-b border-[#E8DFCB] mb-4">
               2. The Sample First Exchange & Return Guarantee
             </h2>
             <div className="text-xs text-neutral-600 space-y-3 leading-relaxed font-sans">
               <p>
                 We understand that purchasing an haute parfumerie masterpiece online requires total trust. To ensure you find your perfect olfactive match, every 50ml, 100ml, and 200ml flacon arrives packaged alongside a complimentary 2ml spray vial of the identical formulation.
               </p>
-              <div className="bg-[#FAF7F2] p-5 rounded-2xl border border-[#EAE4DC] space-y-2">
+              <div className="bg-[#F7F2E6] p-5 rounded-2xl border border-[#E8DFCB] space-y-2">
                 <h4 className="font-semibold text-neutral-900 text-sm">How to return or exchange:</h4>
                 <ol className="list-decimal list-inside space-y-1.5 text-neutral-700">
                   <li>Upon delivery, open the discovery sample vial and test on clean skin for 24-48 hours.</li>

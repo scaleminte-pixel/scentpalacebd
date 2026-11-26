@@ -80,9 +80,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
       {/* Backdrop click to close */}
       <div className="fixed inset-0" onClick={onClose} />
 
-      <div className="relative w-full max-w-2xl bg-[#FAF7F2] rounded-xl shadow-2xl border border-[#E5DFD7] overflow-hidden z-10">
+      <div className="relative w-full max-w-2xl bg-[#F7F2E6] rounded-xl shadow-2xl border border-[#E3D8C1] overflow-hidden z-10">
         {/* Search Input Bar */}
-        <div className="flex items-center px-6 py-4 border-b border-[#E5DFD7] bg-white transition-all duration-200 focus-within:ring-2 focus-within:ring-[#D45520]/20 focus-within:border-[#D45520]">
+        <div className="flex items-center px-6 py-4 border-b border-[#E3D8C1] bg-white transition-all duration-200 focus-within:ring-2 focus-within:ring-[#033528]/20 focus-within:border-[#033528]">
           <Search className="w-5 h-5 text-neutral-400 mr-3 shrink-0" />
           <input
             ref={inputRef}
@@ -113,7 +113,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         {!query && (
           <div className="p-6">
             <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-3 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#D45520]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#033528]" />
               Popular Fragrance Searches
             </p>
             <div className="flex flex-wrap gap-2">
@@ -122,7 +122,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                   <button
                     key={term}
                     onClick={() => setQuery(term)}
-                    className="px-3 py-1.5 rounded-full bg-[#F2ECE1] text-xs text-neutral-700 hover:bg-[#D45520] hover:text-white transition-colors"
+                    className="px-3 py-1.5 rounded-full bg-[#EFE7D5] text-xs text-neutral-700 hover:bg-[#033528] hover:text-white transition-colors"
                   >
                     {term}
                   </button>
@@ -134,7 +134,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
 
         {/* Results List */}
         {query && (
-          <div className="max-h-[60vh] overflow-y-auto divide-y divide-[#EAE4DC] p-2">
+          <div className="max-h-[60vh] overflow-y-auto divide-y divide-[#E8DFCB] p-2">
             {results.length > 0 ? (
               <>
                 <div className="p-2 text-xs font-medium text-neutral-500 uppercase tracking-wider">
@@ -145,7 +145,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                     key={product.id}
                     href={`/product/${product.slug}`}
                     onClick={onClose}
-                    className="flex items-center gap-4 p-3 rounded-lg hover:bg-[#F2ECE1]/60 transition-colors group"
+                    className="flex items-center gap-4 p-3 rounded-lg hover:bg-[#EFE7D5]/60 transition-colors group"
                   >
                     <div className="relative w-14 h-16 bg-white rounded-md p-1 border border-neutral-200 shrink-0 overflow-hidden">
                       <Image
@@ -161,7 +161,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                         <h4 className="font-serif text-base font-medium text-neutral-900 truncate">
                           {product.name}
                         </h4>
-                        <span className="text-sm font-semibold text-[#D45520]">
+                        <span className="text-sm font-semibold text-[#033528]">
                           {formatPrice(product.variants[0].price)}
                         </span>
                       </div>
@@ -172,14 +172,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                         Notes: {product.notes.top.join(', ')}
                       </p>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-[#D45520] transition-colors shrink-0" />
+                    <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-[#033528] transition-colors shrink-0" />
                   </Link>
                 ))}
-                <div className="p-3 text-center border-t border-[#EAE4DC] mt-2">
+                <div className="p-3 text-center border-t border-[#E8DFCB] mt-2">
                   <Link
                     href={`/shop?q=${encodeURIComponent(query)}`}
                     onClick={onClose}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D45520] hover:underline uppercase tracking-wider"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#B88556] hover:underline uppercase tracking-wider"
                   >
                     View all matching results in Shop Catalog <ArrowRight className="w-3.5 h-3.5" />
                   </Link>

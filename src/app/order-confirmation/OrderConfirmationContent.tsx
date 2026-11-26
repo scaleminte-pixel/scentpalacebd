@@ -134,14 +134,14 @@ export const OrderConfirmationContent: React.FC = () => {
 
   if (notFound) {
     return (
-      <div className="min-h-[70vh] bg-[#FAF7F2] flex items-center justify-center p-6">
-        <div className="bg-white rounded-3xl border border-[#EAE4DC] p-8 max-w-md text-center space-y-4">
+      <div className="min-h-[70vh] bg-[#F7F2E6] flex items-center justify-center p-6">
+        <div className="bg-white rounded-3xl border border-[#E8DFCB] p-8 max-w-md text-center space-y-4">
           <h1 className="font-serif text-2xl text-neutral-900">Order not found</h1>
           <p className="text-sm text-neutral-600">
             We couldn&apos;t find this order. Check your order number on the Track Order page, or contact us.
           </p>
           <div className="flex gap-3 justify-center">
-            <a href="/track-order" className="px-5 py-2.5 rounded-xl bg-[#D45520] text-white text-xs font-semibold uppercase tracking-wider">
+            <a href="/track-order" className="px-5 py-2.5 rounded-xl bg-[#033528] text-white text-xs font-semibold uppercase tracking-wider">
               Track Order
             </a>
             <a href="/shop" className="px-5 py-2.5 rounded-xl border border-neutral-300 text-xs font-semibold uppercase tracking-wider">
@@ -155,8 +155,8 @@ export const OrderConfirmationContent: React.FC = () => {
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-8">
-        <div className="w-10 h-10 border-2 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#F7F2E6] flex items-center justify-center p-8">
+        <div className="w-10 h-10 border-2 border-[#033528] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -212,11 +212,11 @@ export const OrderConfirmationContent: React.FC = () => {
       {/* =========================================================================
           SCREEN-ONLY CONFIRMATION PAGE (HIDDEN WHEN PRINTING)
           ========================================================================= */}
-      <div className="no-print order-confirmation-screen-view print:hidden bg-[#FAF7F2] min-h-screen py-12 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC]">
+      <div className="no-print order-confirmation-screen-view print:hidden bg-[#F7F2E6] min-h-screen py-12 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB]">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Celebration Header Card */}
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-[#EAE4DC] text-center shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#D45520] via-[#C5A059] to-[#D45520]" />
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-[#E8DFCB] text-center shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#033528] via-[#B88556] to-[#033528]" />
 
             <div className="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center mx-auto mb-5 text-emerald-600 shadow-sm">
               <CheckCircle className="w-10 h-10" />
@@ -236,8 +236,8 @@ export const OrderConfirmationContent: React.FC = () => {
             </p>
 
             {/* Quick Metrics Bar */}
-            <div className="mt-8 pt-6 border-t border-[#EAE4DC] grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
-              <div className="p-3 bg-[#FAF7F2] rounded-xl border border-[#EAE4DC]">
+            <div className="mt-8 pt-6 border-t border-[#E8DFCB] grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
+              <div className="p-3 bg-[#F7F2E6] rounded-xl border border-[#E8DFCB]">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                   Order Reference
                 </span>
@@ -246,7 +246,7 @@ export const OrderConfirmationContent: React.FC = () => {
                 </span>
               </div>
 
-              <div className="p-3 bg-[#FAF7F2] rounded-xl border border-[#EAE4DC]">
+              <div className="p-3 bg-[#F7F2E6] rounded-xl border border-[#E8DFCB]">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                   Delivery Zone
                 </span>
@@ -255,16 +255,16 @@ export const OrderConfirmationContent: React.FC = () => {
                 </span>
               </div>
 
-              <div className="p-3 bg-[#FAF7F2] rounded-xl border border-[#EAE4DC]">
+              <div className="p-3 bg-[#F7F2E6] rounded-xl border border-[#E8DFCB]">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                   Total Amount Due
                 </span>
-                <span className="text-sm font-bold text-[#D45520] block mt-0.5">
+                <span className="text-sm font-bold text-[#033528] block mt-0.5">
                   {formatPrice(order.total)}
                 </span>
               </div>
 
-              <div className="p-3 bg-[#FAF7F2] rounded-xl border border-[#EAE4DC]">
+              <div className="p-3 bg-[#F7F2E6] rounded-xl border border-[#E8DFCB]">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block">
                   Payment Type
                 </span>
@@ -278,7 +278,7 @@ export const OrderConfirmationContent: React.FC = () => {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <button
                 onClick={() => window.print()}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#D4CFCE] bg-white text-xs font-semibold uppercase tracking-wider text-neutral-800 hover:bg-neutral-50 shadow-2xs transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#D6CBB2] bg-white text-xs font-semibold uppercase tracking-wider text-neutral-800 hover:bg-neutral-50 shadow-2xs transition-colors"
               >
                 <Printer className="w-4 h-4 text-neutral-600" />
                 <span>Print Official Invoice</span>
@@ -286,7 +286,7 @@ export const OrderConfirmationContent: React.FC = () => {
 
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-all"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-all"
               >
                 <span>Continue Shopping</span>
                 <ArrowRight className="w-4 h-4" />
@@ -295,8 +295,8 @@ export const OrderConfirmationContent: React.FC = () => {
           </div>
 
           {/* Tracking Timeline */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#EAE4DC] shadow-sm">
-            <div className="flex flex-wrap items-center justify-between pb-4 border-b border-[#EAE4DC] mb-6 gap-2">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8DFCB] shadow-sm">
+            <div className="flex flex-wrap items-center justify-between pb-4 border-b border-[#E8DFCB] mb-6 gap-2">
               <div>
                 <h2 className="font-serif text-xl font-normal text-neutral-900">
                   Fulfillment & Courier Timeline
@@ -319,7 +319,7 @@ export const OrderConfirmationContent: React.FC = () => {
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold mb-2 shadow-2xs ${
                       step.completed
                         ? 'bg-emerald-600 text-white'
-                        : 'bg-[#F2ECE1] text-neutral-400 border border-[#D4CFCE]'
+                        : 'bg-[#EFE7D5] text-neutral-400 border border-[#D6CBB2]'
                     }`}
                   >
                     {step.completed ? '✓' : idx + 1}
@@ -334,8 +334,8 @@ export const OrderConfirmationContent: React.FC = () => {
           {/* Order Details & Summary Breakdown */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             {/* Purchased Items */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#EAE4DC] shadow-sm space-y-6">
-              <div className="flex items-center justify-between pb-3 border-b border-[#EAE4DC]">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8DFCB] shadow-sm space-y-6">
+              <div className="flex items-center justify-between pb-3 border-b border-[#E8DFCB]">
                 <h3 className="font-serif text-lg font-normal text-neutral-900">
                   Purchased Perfumes ({order.items?.length || 0})
                 </h3>
@@ -346,8 +346,8 @@ export const OrderConfirmationContent: React.FC = () => {
 
               <div className="space-y-4 max-h-72 overflow-y-auto pr-1">
                 {order.items.map((item: any, idx: number) => (
-                  <div key={idx} className="flex items-center gap-4 py-2 border-b border-[#FAF7F2] last:border-b-0">
-                    <div className="relative w-14 h-16 bg-[#FAF7F2] rounded-lg p-1 border border-[#EAE4DC] shrink-0">
+                  <div key={idx} className="flex items-center gap-4 py-2 border-b border-[#F7F2E6] last:border-b-0">
+                    <div className="relative w-14 h-16 bg-[#F7F2E6] rounded-lg p-1 border border-[#E8DFCB] shrink-0">
                       <Image
                         src={item.image || '/images/products/lattafa-blue-oud.webp'}
                         alt={item.name}
@@ -372,14 +372,14 @@ export const OrderConfirmationContent: React.FC = () => {
               </div>
 
               {/* Financial Totals */}
-              <div className="pt-4 border-t border-[#EAE4DC] space-y-2 text-xs text-neutral-600">
+              <div className="pt-4 border-t border-[#E8DFCB] space-y-2 text-xs text-neutral-600">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span className="font-medium text-neutral-900">{formatPrice(order.subtotal)}</span>
                 </div>
 
                 {order.discount > 0 && (
-                  <div className="flex justify-between text-[#D45520]">
+                  <div className="flex justify-between text-[#033528]">
                     <span>Discount {order.couponCode ? `(${order.couponCode})` : ''}</span>
                     <span>−{formatPrice(order.discount)}</span>
                   </div>
@@ -398,19 +398,19 @@ export const OrderConfirmationContent: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="flex justify-between text-base font-bold text-neutral-900 pt-3 border-t border-[#EAE4DC]">
+                <div className="flex justify-between text-base font-bold text-neutral-900 pt-3 border-t border-[#E8DFCB]">
                   <span>Total Amount</span>
-                  <span className="text-[#D45520]">{formatPrice(order.total)}</span>
+                  <span className="text-[#033528]">{formatPrice(order.total)}</span>
                 </div>
               </div>
             </div>
 
             {/* Delivery & Payment Details */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#EAE4DC] shadow-sm space-y-6">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8DFCB] shadow-sm space-y-6">
               {/* Delivery Recipient */}
               <div>
-                <div className="flex items-center gap-2 pb-3 border-b border-[#EAE4DC] mb-3">
-                  <MapPin className="w-4 h-4 text-[#D45520]" />
+                <div className="flex items-center gap-2 pb-3 border-b border-[#E8DFCB] mb-3">
+                  <MapPin className="w-4 h-4 text-[#033528]" />
                   <h3 className="font-serif text-lg font-normal text-neutral-900">
                     Delivery Destination
                   </h3>
@@ -431,8 +431,8 @@ export const OrderConfirmationContent: React.FC = () => {
                     {order.customer.postalCode ? ` - ${order.customer.postalCode}` : ''}
                   </p>
                   {order.customer.notes && (
-                    <div className="mt-2 p-2.5 bg-[#FAF7F2] rounded-lg border border-[#EAE4DC] text-[11px] text-neutral-600 flex items-start gap-2">
-                      <FileText className="w-3.5 h-3.5 text-[#D45520] shrink-0 mt-0.5" />
+                    <div className="mt-2 p-2.5 bg-[#F7F2E6] rounded-lg border border-[#E8DFCB] text-[11px] text-neutral-600 flex items-start gap-2">
+                      <FileText className="w-3.5 h-3.5 text-[#033528] shrink-0 mt-0.5" />
                       <span><strong>Note:</strong> {order.customer.notes}</span>
                     </div>
                   )}
@@ -440,9 +440,9 @@ export const OrderConfirmationContent: React.FC = () => {
               </div>
 
               {/* Payment Method */}
-              <div className="pt-4 border-t border-[#EAE4DC]">
-                <div className="flex items-center gap-2 pb-3 border-b border-[#EAE4DC] mb-3">
-                  <CreditCard className="w-4 h-4 text-[#D45520]" />
+              <div className="pt-4 border-t border-[#E8DFCB]">
+                <div className="flex items-center gap-2 pb-3 border-b border-[#E8DFCB] mb-3">
+                  <CreditCard className="w-4 h-4 text-[#033528]" />
                   <h3 className="font-serif text-lg font-normal text-neutral-900">
                     Payment Method
                   </h3>
@@ -464,9 +464,9 @@ export const OrderConfirmationContent: React.FC = () => {
               </div>
 
               {/* Sample First Guarantee Badge */}
-              <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-[#EAE4DC] text-xs text-neutral-600 space-y-2">
+              <div className="p-4 bg-[#F7F2E6] rounded-2xl border border-[#E8DFCB] text-xs text-neutral-600 space-y-2">
                 <div className="flex items-center gap-2 text-neutral-900 font-semibold">
-                  <Sparkles className="w-4 h-4 text-[#C5A059]" />
+                  <Sparkles className="w-4 h-4 text-[#B88556]" />
                   <span>Scent Palace BD Sample First Policy</span>
                 </div>
                 <p className="text-[11px] leading-relaxed text-neutral-500">
@@ -592,7 +592,7 @@ export const OrderConfirmationContent: React.FC = () => {
             </div>
 
             {order.discount > 0 && (
-              <div className="flex justify-between text-[#D45520]">
+              <div className="flex justify-between text-[#033528]">
                 <span>Discount {order.couponCode ? `(${order.couponCode})` : ''}:</span>
                 <span>−{formatPrice(order.discount)}</span>
               </div>
@@ -607,7 +607,7 @@ export const OrderConfirmationContent: React.FC = () => {
 
             <div className="flex justify-between text-sm font-bold text-neutral-900 pt-2 border-t-2 border-neutral-800">
               <span>Total Amount Due:</span>
-              <span className="text-[#D45520]">{formatPrice(order.total)}</span>
+              <span className="text-[#033528]">{formatPrice(order.total)}</span>
             </div>
           </div>
         </div>

@@ -109,20 +109,20 @@ export default function AdminLoginPage() {
 
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-4 admin-shell">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-[#EAE4DC] shadow-xl p-8 sm:p-10">
+    <div className="min-h-screen bg-[#F7F2E6] flex items-center justify-center p-4 admin-shell">
+      <div className="w-full max-w-md bg-white rounded-3xl border border-[#E8DFCB] shadow-xl p-8 sm:p-10">
         {/* Brand Crest */}
         <div className="text-center mb-8">
           {branding.adminLogoUrl ? (
-            <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-4 shadow-md flex items-center justify-center bg-white border border-stone-200">
+            <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-4 shadow-md flex items-center justify-center bg-[#033528]">
               <img src={branding.adminLogoUrl} alt={branding.adminBrandTitle} className="w-12 h-12 object-contain" />
             </div>
           ) : (
-            <div className="w-12 h-12 rounded-2xl bg-[#141312] text-[#FAF7F2] flex items-center justify-center mx-auto font-bold text-2xl mb-4 shadow-md">
+            <div className="w-12 h-12 rounded-2xl bg-[#033528] text-[#E8CE5F] flex items-center justify-center mx-auto font-bold text-2xl mb-4 shadow-md">
               {(branding.adminBrandTitle || 'S').charAt(0)}
             </div>
           )}
-          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#D45520] block mb-1">
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#B88556] block mb-1">
             {branding.adminBrandTitle}
           </span>
           <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">
@@ -153,7 +153,7 @@ export default function AdminLoginPage() {
                 autoComplete="new-password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-[#EAE4DC] text-sm focus:outline-none focus:border-[#D45520]"
+                className="w-full px-4 py-3 rounded-xl border border-[#E8DFCB] text-sm focus:outline-none focus:border-[#033528]"
                 required
               />
             </div>
@@ -164,7 +164,7 @@ export default function AdminLoginPage() {
                 autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-[#EAE4DC] text-sm focus:outline-none focus:border-[#D45520]"
+                className="w-full px-4 py-3 rounded-xl border border-[#E8DFCB] text-sm focus:outline-none focus:border-[#033528]"
                 required
               />
             </div>
@@ -182,7 +182,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-[#D45520] text-white text-sm font-semibold hover:opacity-90 disabled:opacity-50"
+              className="w-full py-3 rounded-xl bg-[#033528] text-white text-sm font-semibold hover:opacity-90 disabled:opacity-50"
             >
               {loading ? 'Saving…' : 'Save new password & continue'}
             </button>
@@ -200,7 +200,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#D4CFCE] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#D45520]"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#D6CBB2] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#033528]"
                 placeholder="admin@scentpalacebd.com"
               />
             </div>
@@ -217,7 +217,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#D4CFCE] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#D45520]"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#D6CBB2] text-sm text-neutral-900 bg-white focus:outline-none focus:border-[#033528]"
                 placeholder="••••••••••••"
               />
             </div>
@@ -227,7 +227,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 px-6 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-4 px-6 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <>

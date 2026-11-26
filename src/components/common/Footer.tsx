@@ -16,6 +16,8 @@ export const Footer: React.FC = () => {
 
   // Footer shows the MAIN storefront logo (same as the header).
   const footerLogo = branding.storefrontLogoUrl || branding.storefrontLogoDarkUrl;
+  // Big watermark: brand wordmark when the official logo is used, otherwise the uploaded logo.
+  const watermarkImg = footerLogo === '/brand/logo-gold.webp' ? '/brand/wordmark-gold.webp' : footerLogo;
 
   // Big background wordmark: admin-configurable, defaults to the store name.
   const watermarkText = (
@@ -28,24 +30,24 @@ export const Footer: React.FC = () => {
   ).toUpperCase();
 
   return (
-    <footer className="no-print relative bg-[#141312] text-[#E0DDD7] border-t border-neutral-800 pt-16 sm:pt-20 pb-6 px-4 sm:px-6 lg:px-8 overflow-hidden print:hidden">
+    <footer className="no-print relative bg-[#033528] text-[#F7F2E6] border-t border-[#E8CE5F]/20 pt-16 sm:pt-20 pb-6 px-4 sm:px-6 lg:px-8 overflow-hidden print:hidden">
       <div className="max-w-7xl mx-auto relative z-10">
         {/* =====================================================================
             BRAND HEADER WITH LOGO & STATEMENT
            ===================================================================== */}
-        <div className="pb-10 border-b border-neutral-800/80 mb-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="pb-10 border-b border-[#E8CE5F]/15 mb-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <Link href="/" className="inline-flex items-center gap-3 group" aria-label="Footer Home">
             {footerLogo ? (
               <img
                 src={footerLogo}
                 alt={storeName}
-                className="h-9 sm:h-11 w-auto object-contain max-w-[200px]"
+                className="h-12 sm:h-14 w-auto object-contain max-w-[240px]"
               />
             ) : (
-              <RawdahLogo variant="light" showSubtitle={true} asLink={false} />
+              <RawdahLogo variant="light" showSubtitle={true} asLink={false} imgClassName="h-11 sm:h-12" />
             )}
           </Link>
-          <p className="text-xs text-neutral-400 font-sans max-w-md sm:text-right leading-relaxed">
+          <p className="text-xs text-[#F7F2E6]/70 font-sans max-w-md sm:text-right leading-relaxed">
             Artisanal luxury fragrances, rare royal ouds, and bespoke extrait formulations. Crafted for modern elegance.
           </p>
         </div>
@@ -73,27 +75,27 @@ export const Footer: React.FC = () => {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: LUXURY_EASE } },
             }}
           >
-            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-[#E8CE5F] mb-4">
               Maison
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-400">
+            <ul className="space-y-2.5 text-xs text-[#F7F2E6]/70">
               <li>
-                <Link href="/our-story" className="hover:text-white transition-colors duration-200">
+                <Link href="/our-story" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/our-story" className="hover:text-white transition-colors duration-200">
+                <Link href="/our-story" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Heritage & Craft
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-white transition-colors duration-200">
+                <Link href="/faq" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   FAQs
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition-colors duration-200">
+                <Link href="/contact" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Contact Concierge
                 </Link>
               </li>
@@ -107,32 +109,32 @@ export const Footer: React.FC = () => {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: LUXURY_EASE } },
             }}
           >
-            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-[#E8CE5F] mb-4">
               Collections
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-400">
+            <ul className="space-y-2.5 text-xs text-[#F7F2E6]/70">
               <li>
-                <Link href="/shop" className="hover:text-white transition-colors duration-200">
+                <Link href="/shop" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   All Fragrances
                 </Link>
               </li>
               <li>
-                <Link href="/shop?scent=Oud+%26+Woody" className="hover:text-white transition-colors duration-200">
+                <Link href="/shop?scent=Oud+%26+Woody" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   The Oud Royale
                 </Link>
               </li>
               <li>
-                <Link href="/shop?category=Men" className="hover:text-white transition-colors duration-200">
+                <Link href="/shop?category=Men" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Men&apos;s Extrait
                 </Link>
               </li>
               <li>
-                <Link href="/shop?category=Women" className="hover:text-white transition-colors duration-200">
+                <Link href="/shop?category=Women" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Women&apos;s Extrait
                 </Link>
               </li>
               <li>
-                <Link href="/shop?category=Gift+Sets" className="hover:text-white transition-colors duration-200">
+                <Link href="/shop?category=Gift+Sets" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Discovery Coffrets
                 </Link>
               </li>
@@ -146,27 +148,27 @@ export const Footer: React.FC = () => {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: LUXURY_EASE } },
             }}
           >
-            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-[#E8CE5F] mb-4">
               Experience
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-400">
+            <ul className="space-y-2.5 text-xs text-[#F7F2E6]/70">
               <li>
-                <Link href="/shop" className="hover:text-white transition-colors duration-200">
+                <Link href="/shop" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Scent Notes Guide
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-white transition-colors duration-200">
+                <Link href="/faq" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Sample First Policy
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition-colors duration-200">
+                <Link href="/contact" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   VIP Salon Tasting
                 </Link>
               </li>
               <li>
-                <Link href="/our-story" className="hover:text-white transition-colors duration-200">
+                <Link href="/our-story" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Artisanal Distillation
                 </Link>
               </li>
@@ -180,32 +182,32 @@ export const Footer: React.FC = () => {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: LUXURY_EASE } },
             }}
           >
-            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-[#E8CE5F] mb-4">
               Client Care
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-400">
+            <ul className="space-y-2.5 text-xs text-[#F7F2E6]/70">
               <li>
-                <Link href="/privacy-policy" className="hover:text-white transition-colors duration-200">
+                <Link href="/privacy-policy" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/shipping-returns" className="hover:text-white transition-colors duration-200">
+                <Link href="/shipping-returns" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Shipping & Returns
                 </Link>
               </li>
               <li>
-                <Link href="/shipping-returns" className="hover:text-white transition-colors duration-200">
+                <Link href="/shipping-returns" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/track-order" className="hover:text-[#D45520] transition-colors duration-200 font-medium">
+                <Link href="/track-order" className="hover:text-[#E8CE5F] transition-colors duration-200 font-medium">
                   Track Your Order
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-white transition-colors duration-200">
+                <Link href="/faq" className="hover:text-[#E8CE5F] transition-colors duration-200">
                   Authenticity Guarantee
                 </Link>
               </li>
@@ -220,14 +222,14 @@ export const Footer: React.FC = () => {
             }}
             className="col-span-2 sm:col-span-1"
           >
-            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h4 className="font-sans text-xs font-bold uppercase tracking-wider text-[#E8CE5F] mb-4">
               Contact
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-400 font-sans">
+            <ul className="space-y-2.5 text-xs text-[#F7F2E6]/70 font-sans">
               <li>
                 <a
                   href="mailto:concierge@scentpalacebd.com"
-                  className="hover:text-white transition-colors duration-200 truncate block"
+                  className="hover:text-[#E8CE5F] transition-colors duration-200 truncate block"
                 >
                   concierge@scentpalacebd.com
                 </a>
@@ -235,15 +237,15 @@ export const Footer: React.FC = () => {
               <li>
                 <a
                   href="tel:+8801711000000"
-                  className="hover:text-white transition-colors duration-200 block"
+                  className="hover:text-[#E8CE5F] transition-colors duration-200 block"
                 >
                   +880 1711-000000
                 </a>
               </li>
-              <li className="text-neutral-500 text-[11px] pt-1">
+              <li className="text-[#F7F2E6]/55 text-[11px] pt-1">
                 Road 11, Block D, Gulshan-2, Dhaka
               </li>
-              <li className="text-[#D45520] font-medium text-[11px]">
+              <li className="text-[#E8CE5F] font-medium text-[11px]">
                 Everyday: 11:00 AM – 10:00 PM
               </li>
             </ul>
@@ -253,18 +255,18 @@ export const Footer: React.FC = () => {
         {/* =====================================================================
             THIN HAIRLINE HORIZONTAL DIVIDER
            ===================================================================== */}
-        <div className="border-t border-neutral-800 my-8" />
+        <div className="border-t border-[#E8CE5F]/15 my-8" />
 
         {/* =====================================================================
             MIDDLE INFO BAR: ADDRESS & COPYRIGHT (LEFT) + CIRCULAR SOCIALS (RIGHT)
            ===================================================================== */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-12">
           {/* Left: Physical Address + Copyright */}
-          <div className="space-y-1 text-xs text-neutral-400 font-sans max-w-xl">
+          <div className="space-y-1 text-xs text-[#F7F2E6]/70 font-sans max-w-xl">
             <p>
               {branding.storeAddress || 'Scent Palace BD Atelier HQ, Road 11, Block D, Gulshan-2, Dhaka 1212, Bangladesh.'}
             </p>
-            <p className="text-neutral-500 text-[11px]">
+            <p className="text-[#F7F2E6]/50 text-[11px]">
               © {currentYear} {storeName}. All rights reserved.
             </p>
           </div>
@@ -276,7 +278,7 @@ export const Footer: React.FC = () => {
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full bg-white text-neutral-900 hover:bg-[#D45520] hover:text-white hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center shadow-xs focus:ring-2 focus:ring-[#D45520]/40 outline-hidden"
+              className="w-8 h-8 rounded-full bg-[#E8CE5F] text-[#033528] hover:bg-[#F7F2E6] hover:text-[#033528] hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center shadow-xs focus:ring-2 focus:ring-[#E8CE5F]/50 outline-hidden"
               aria-label="Facebook"
             >
               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -289,7 +291,7 @@ export const Footer: React.FC = () => {
               href="https://x.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full bg-white text-neutral-900 hover:bg-[#D45520] hover:text-white hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center shadow-xs focus:ring-2 focus:ring-[#D45520]/40 outline-hidden"
+              className="w-8 h-8 rounded-full bg-[#E8CE5F] text-[#033528] hover:bg-[#F7F2E6] hover:text-[#033528] hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center shadow-xs focus:ring-2 focus:ring-[#E8CE5F]/50 outline-hidden"
               aria-label="X / Twitter"
             >
               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -302,7 +304,7 @@ export const Footer: React.FC = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full bg-white text-neutral-900 hover:bg-[#D45520] hover:text-white hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center shadow-xs focus:ring-2 focus:ring-[#D45520]/40 outline-hidden"
+              className="w-8 h-8 rounded-full bg-[#E8CE5F] text-[#033528] hover:bg-[#F7F2E6] hover:text-[#033528] hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center shadow-xs focus:ring-2 focus:ring-[#E8CE5F]/50 outline-hidden"
               aria-label="Instagram"
             >
               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -315,7 +317,7 @@ export const Footer: React.FC = () => {
               href="https://wa.me/8801711000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full bg-white text-neutral-900 hover:bg-[#D45520] hover:text-white hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center shadow-xs focus:ring-2 focus:ring-[#D45520]/40 outline-hidden"
+              className="w-8 h-8 rounded-full bg-[#E8CE5F] text-[#033528] hover:bg-[#F7F2E6] hover:text-[#033528] hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center shadow-xs focus:ring-2 focus:ring-[#E8CE5F]/50 outline-hidden"
               aria-label="WhatsApp"
             >
               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -337,13 +339,13 @@ export const Footer: React.FC = () => {
         transition={{ duration: 0.85, ease: LUXURY_EASE }}
         className="w-full select-none pointer-events-none flex flex-col items-center justify-center pt-8 pb-4 sm:pb-6 overflow-hidden"
       >
-        {footerLogo ? (
+        {watermarkImg ? (
           // Same logo as the header — updates automatically when it changes in admin.
           <img
-            src={footerLogo}
+            src={watermarkImg}
             alt=""
             aria-hidden="true"
-            className="w-[86%] max-w-6xl h-auto max-h-[22vw] object-contain opacity-[0.07] sm:opacity-[0.09]"
+            className="w-[86%] max-w-6xl h-auto max-h-[22vw] object-contain opacity-[0.10] sm:opacity-[0.12]"
           />
         ) : (
           <>
@@ -355,7 +357,7 @@ export const Footer: React.FC = () => {
               {watermarkText}
             </span>
             <span
-              className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 lg:w-6 lg:h-6 rounded-full bg-[#D45520]/40 inline-block mb-[1.2vw] shrink-0"
+              className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 lg:w-6 lg:h-6 rounded-full bg-[#E8CE5F]/40 inline-block mb-[1.2vw] shrink-0"
               aria-hidden="true"
             />
           </div>

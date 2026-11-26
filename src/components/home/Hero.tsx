@@ -74,9 +74,9 @@ export const Hero: React.FC = () => {
         transition={{ duration: 0.55, delay: 0.95, ease: LUXURY_EASE }}
         className="absolute top-20 right-4 sm:top-24 sm:right-8 md:top-28 md:right-16 z-20 pointer-events-auto"
       >
-        <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 rounded-full bg-[#83E1DF]/90 backdrop-blur-md shadow-xl flex flex-col items-center justify-center p-2 text-center border border-white/40 transform hover:scale-105 transition-transform duration-300">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 rounded-full bg-[#E8CE5F]/90 backdrop-blur-md shadow-xl flex flex-col items-center justify-center p-2 text-center border border-white/40 transform hover:scale-105 transition-transform duration-300">
           <svg
-            className="w-4 h-4 md:w-5 md:h-5 text-[#143B39] mb-0.5"
+            className="w-4 h-4 md:w-5 md:h-5 text-[#033528] mb-0.5"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -89,7 +89,7 @@ export const Hero: React.FC = () => {
             <path d="M12 2v7" />
             <circle cx="12" cy="15" r="2" />
           </svg>
-          <span className="text-[9px] md:text-[10px] font-black uppercase tracking-tight text-[#143B39] leading-tight font-sans">
+          <span className="text-[9px] md:text-[10px] font-black uppercase tracking-tight text-[#033528] leading-tight font-sans">
             {heroContent.badgeText ? (
               heroContent.badgeText.includes(' ') ? (
                 heroContent.badgeText.split(' ').map((w: string, i: number) => (
@@ -153,7 +153,7 @@ export const Hero: React.FC = () => {
             >
               <Link
                 href={ctaButtonLink}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#D45520] hover:bg-[#BD4616] text-white text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-200 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#E8CE5F] hover:bg-[#F2DC7A] text-[#033528] text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-200 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0"
               >
                 <span>{ctaButtonText}</span>
                 <ArrowRight className="w-4 h-4" />

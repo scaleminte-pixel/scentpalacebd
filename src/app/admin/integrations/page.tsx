@@ -122,7 +122,7 @@ export default function AdminIntegrationsPage() {
     return (
       <div className="p-8 flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-stone-300 border-t-[#D45520] rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-stone-300 border-t-[#033528] rounded-full animate-spin" />
           <p className="text-xs text-stone-500 font-medium">Loading integration providers...</p>
         </div>
       </div>
@@ -207,7 +207,7 @@ export default function AdminIntegrationsPage() {
               onClick={() => setActiveTab(tab.id as TabKey)}
               className={`px-4 py-2.5 rounded-xl transition cursor-pointer flex items-center gap-2 whitespace-nowrap ${
                 isActive
-                  ? 'bg-[#D45520] text-white shadow-xs font-semibold'
+                  ? 'bg-[#033528] text-white shadow-xs font-semibold'
                   : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50'
               }`}
             >
@@ -235,7 +235,7 @@ export default function AdminIntegrationsPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-[#D45520] font-bold text-sm">
+                  <div className="w-10 h-10 rounded-xl bg-[#FBF6E4] border border-[#F1E4B8] flex items-center justify-center text-[#033528] font-bold text-sm">
                     ST
                   </div>
                   <div>
@@ -615,7 +615,7 @@ export default function AdminIntegrationsPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 font-bold text-sm">
+                  <div className="w-10 h-10 rounded-xl bg-[#FBF6E4] border border-[#F1E4B8] flex items-center justify-center text-[#B88556] font-bold text-sm">
                     NG
                   </div>
                   <div>
@@ -1058,7 +1058,7 @@ export default function AdminIntegrationsPage() {
             {/* Modal Header */}
             <div className="p-5 sm:p-6 border-b border-stone-200 flex items-center justify-between bg-stone-50/50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#D45520]/10 text-[#D45520] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-2xl bg-[#033528]/10 text-[#033528] flex items-center justify-center shrink-0">
                   <Sliders className="w-5 h-5" />
                 </div>
                 <div>
@@ -1113,7 +1113,7 @@ export default function AdminIntegrationsPage() {
                       <select
                         value={String(value)}
                         onChange={(e) => setModalForm({ ...modalForm, [key]: e.target.value })}
-                        className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                        className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
                       >
                         <option value="sandbox">Sandbox / Testing (Simulation)</option>
                         <option value="production">Production (Live Bangladesh Banking/Logistics)</option>
@@ -1141,7 +1141,7 @@ export default function AdminIntegrationsPage() {
                         })
                       }
                       placeholder={`Enter ${label}...`}
-                      className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-mono focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                      className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-mono focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
                     />
                   </div>
                 );
@@ -1159,7 +1159,7 @@ export default function AdminIntegrationsPage() {
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="px-5 py-2 bg-[#D45520] hover:bg-[#B34316] text-white rounded-xl font-semibold shadow-xs transition flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="px-5 py-2 bg-[#033528] hover:bg-[#022A20] text-white rounded-xl font-semibold shadow-xs transition flex items-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                   {isSaving ? (
                     <>

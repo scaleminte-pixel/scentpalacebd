@@ -28,7 +28,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   if (loading) {
     return (
       <div className="h-96 flex items-center justify-center">
-        <div className="w-8 h-8 border-3 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-[#033528] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }

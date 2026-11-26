@@ -25,7 +25,7 @@ export const InstagramSection: React.FC = () => {
   if ((sec && !sec.isVisible) || instaPosts.length === 0) return null;
 
   return (
-    <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
+    <section className="bg-[#F7F2E6] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
@@ -42,7 +42,7 @@ export const InstagramSection: React.FC = () => {
             href={profileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-[#D45520] transition-colors"
+            className="group inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-neutral-500 hover:text-[#B88556] transition-colors"
           >
             <span>Instagram</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
@@ -75,7 +75,7 @@ export const InstagramSection: React.FC = () => {
                 href={post.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative rounded-xl overflow-hidden aspect-square bg-neutral-200 border border-[#EAE4DC] shadow-xs block"
+                className="group relative rounded-xl overflow-hidden aspect-square bg-neutral-200 border border-[#E8DFCB] shadow-xs block"
               >
                 <div className="absolute inset-0 overflow-hidden">
                   <Image

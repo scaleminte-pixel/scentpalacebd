@@ -219,7 +219,7 @@ export default function AdminMediaPage() {
       )}
 
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#EAE4DC] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#E8DFCB] pb-6">
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-serif text-neutral-900 font-normal">Media Storage & Assets</h1>
@@ -239,7 +239,7 @@ export default function AdminMediaPage() {
             className="p-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-700 hover:text-neutral-900 hover:border-neutral-400 transition-colors shadow-2xs"
             title="Refresh Assets"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#D45520]' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#033528]' : ''}`} />
           </button>
 
           <input
@@ -256,7 +256,7 @@ export default function AdminMediaPage() {
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-sm hover:shadow active:scale-98 disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-sm hover:shadow active:scale-98 disabled:opacity-50"
           >
             <UploadCloud className="w-4 h-4" />
             <span>{isUploading ? 'Uploading...' : 'Upload New Assets'}</span>
@@ -266,16 +266,16 @@ export default function AdminMediaPage() {
 
       {/* Storage Health Stats Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-[#EAE4DC] shadow-xs">
+        <div className="bg-white p-5 rounded-2xl border border-[#E8DFCB] shadow-xs">
           <div className="flex items-center justify-between text-neutral-500 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Total Assets</span>
-            <FolderOpen className="w-4 h-4 text-[#D45520]" />
+            <FolderOpen className="w-4 h-4 text-[#033528]" />
           </div>
           <div className="text-2xl font-serif text-neutral-900">{stats?.totalImages || 0}</div>
           <div className="text-[11px] text-neutral-400 mt-1">Saved inside project folder</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-[#EAE4DC] shadow-xs">
+        <div className="bg-white p-5 rounded-2xl border border-[#E8DFCB] shadow-xs">
           <div className="flex items-center justify-between text-neutral-500 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Storage Consumed</span>
             <HardDrive className="w-4 h-4 text-neutral-600" />
@@ -284,7 +284,7 @@ export default function AdminMediaPage() {
           <div className="text-[11px] text-neutral-400 mt-1">Total disk footprint</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-[#EAE4DC] shadow-xs">
+        <div className="bg-white p-5 rounded-2xl border border-[#E8DFCB] shadow-xs">
           <div className="flex items-center justify-between text-neutral-500 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">In Store Use</span>
             <CheckCircle className="w-4 h-4 text-emerald-600" />
@@ -293,7 +293,7 @@ export default function AdminMediaPage() {
           <div className="text-[11px] text-neutral-400 mt-1">Linked in products & banners</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-[#EAE4DC] shadow-xs">
+        <div className="bg-white p-5 rounded-2xl border border-[#E8DFCB] shadow-xs">
           <div className="flex items-center justify-between text-neutral-500 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Unused / Cleanable</span>
             <Trash2 className="w-4 h-4 text-amber-600" />
@@ -305,14 +305,14 @@ export default function AdminMediaPage() {
 
       {/* Real-time Upload & Conversion Progress Card */}
       {currentUpload && (
-        <div className="p-4 bg-[#FAF7F2] border border-[#EAE4DC] rounded-2xl space-y-2 shadow-xs transition-all animate-in fade-in">
+        <div className="p-4 bg-[#F7F2E6] border border-[#E8DFCB] rounded-2xl space-y-2 shadow-xs transition-all animate-in fade-in">
           <div className="flex items-center justify-between text-xs">
             <div className="flex items-center gap-2 font-medium">
               {currentUpload.stage === 'uploading' && (
                 <>
-                  <UploadCloud className="w-4 h-4 text-[#D45520] animate-bounce" />
+                  <UploadCloud className="w-4 h-4 text-[#033528] animate-bounce" />
                   <span className="text-stone-800">
-                    {overallProgress || 'Uploading'}: <strong className="text-[#D45520]">{currentUpload.percent}%</strong>
+                    {overallProgress || 'Uploading'}: <strong className="text-[#033528]">{currentUpload.percent}%</strong>
                   </span>
                 </>
               )}
@@ -350,7 +350,7 @@ export default function AdminMediaPage() {
                   ? 'bg-rose-500'
                   : currentUpload.stage === 'converting'
                   ? 'bg-amber-500 animate-pulse'
-                  : 'bg-[#D45520]'
+                  : 'bg-[#033528]'
               }`}
               style={{ width: `${currentUpload.percent}%` }}
             />
@@ -372,13 +372,13 @@ export default function AdminMediaPage() {
         }}
         className={`border-2 border-dashed rounded-3xl p-8 text-center transition-all duration-200 cursor-pointer ${
           dragOver
-            ? 'border-[#D45520] bg-orange-50/50 scale-[1.005]'
-            : 'border-[#DCD6CD] hover:border-[#D45520] bg-white/70'
+            ? 'border-[#033528] bg-[#FBF6E4]/50 scale-[1.005]'
+            : 'border-[#DDD2BB] hover:border-[#033528] bg-white/70'
         }`}
         onClick={() => fileInputRef.current?.click()}
       >
         <div className="max-w-md mx-auto space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-orange-100 text-[#D45520] flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-2xl bg-[#F6ECC8] text-[#033528] flex items-center justify-center mx-auto">
             <UploadCloud className="w-6 h-6" />
           </div>
           <h3 className="text-base font-serif font-medium text-neutral-900">
@@ -391,7 +391,7 @@ export default function AdminMediaPage() {
       </div>
 
       {/* Filter, Search & Sort Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-[#EAE4DC] shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="bg-white p-4 rounded-2xl border border-[#E8DFCB] shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         {/* Search */}
         <div className="relative flex-1 max-w-md">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
@@ -400,7 +400,7 @@ export default function AdminMediaPage() {
             placeholder="Search by file name or usage..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#D45520]/20 focus:border-[#D45520] transition-colors"
+            className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#033528]/20 focus:border-[#033528] transition-colors"
           />
           {searchQuery && (
             <button
@@ -450,7 +450,7 @@ export default function AdminMediaPage() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-1.5 rounded-xl border border-neutral-300 bg-white text-xs text-neutral-800 focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+            className="px-3 py-1.5 rounded-xl border border-neutral-300 bg-white text-xs text-neutral-800 focus:outline-none focus:ring-1 focus:ring-[#033528]"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -462,12 +462,12 @@ export default function AdminMediaPage() {
 
       {/* Image Grid */}
       {loading ? (
-        <div className="bg-white rounded-3xl border border-[#EAE4DC] p-16 text-center space-y-3">
-          <div className="w-10 h-10 border-3 border-[#D45520] border-t-transparent rounded-full animate-spin mx-auto" />
+        <div className="bg-white rounded-3xl border border-[#E8DFCB] p-16 text-center space-y-3">
+          <div className="w-10 h-10 border-3 border-[#033528] border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-xs text-neutral-500 font-sans">Scanning local media files and cross-referencing database...</p>
         </div>
       ) : filteredMedia.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-[#EAE4DC] p-16 text-center space-y-3">
+        <div className="bg-white rounded-3xl border border-[#E8DFCB] p-16 text-center space-y-3">
           <ImageIcon className="w-12 h-12 text-neutral-300 mx-auto" />
           <h4 className="text-base font-serif text-neutral-800">No matching assets found</h4>
           <p className="text-xs text-neutral-500 max-w-sm mx-auto">
@@ -482,11 +482,11 @@ export default function AdminMediaPage() {
             return (
               <div
                 key={item.url}
-                className="group relative bg-white rounded-2xl border border-[#EAE4DC] shadow-2xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between"
+                className="group relative bg-white rounded-2xl border border-[#E8DFCB] shadow-2xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between"
               >
                 {/* Thumbnail Container */}
                 <div
-                  className="relative aspect-square w-full bg-[#F4EFEB] overflow-hidden cursor-pointer flex items-center justify-center"
+                  className="relative aspect-square w-full bg-[#EFE7D5] overflow-hidden cursor-pointer flex items-center justify-center"
                   onClick={() => setPreviewItem(item)}
                 >
                   <Image
@@ -553,7 +553,7 @@ export default function AdminMediaPage() {
                 </div>
 
                 {/* Metadata Details Bottom Bar */}
-                <div className="p-3 bg-white border-t border-[#EAE4DC]/60 flex flex-col gap-1">
+                <div className="p-3 bg-white border-t border-[#E8DFCB]/60 flex flex-col gap-1">
                   <div className="truncate text-xs font-semibold text-neutral-900" title={item.fileName}>
                     {item.fileName}
                   </div>
@@ -578,7 +578,7 @@ export default function AdminMediaPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
           <div className="relative bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-neutral-700">
             {/* Header */}
-            <div className="p-4 sm:p-5 border-b border-[#EAE4DC] flex items-center justify-between">
+            <div className="p-4 sm:p-5 border-b border-[#E8DFCB] flex items-center justify-between">
               <div>
                 <h3 className="font-serif text-lg text-neutral-900 font-medium truncate max-w-md">
                   {previewItem.fileName}
@@ -595,7 +595,7 @@ export default function AdminMediaPage() {
             </div>
 
             {/* Image Stage */}
-            <div className="relative flex-1 min-h-[300px] max-h-[460px] bg-[#0E0E0E] flex items-center justify-center p-4 overflow-hidden">
+            <div className="relative flex-1 min-h-[300px] max-h-[460px] bg-[#1C1C1C] flex items-center justify-center p-4 overflow-hidden">
               <Image
                 src={previewItem.url}
                 alt={previewItem.fileName}
@@ -606,7 +606,7 @@ export default function AdminMediaPage() {
             </div>
 
             {/* Metadata Footer */}
-            <div className="p-5 bg-neutral-50 border-t border-[#EAE4DC] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-5 bg-neutral-50 border-t border-[#E8DFCB] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="text-xs text-neutral-600 space-y-1">
                 <div>
                   <span className="font-medium text-neutral-800">File Size:</span> {previewItem.sizeFormatted}

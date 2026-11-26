@@ -11,8 +11,8 @@ export default function OrderConfirmationPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-8">
-          <div className="w-10 h-10 border-2 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+        <div className="min-h-screen bg-[#F7F2E6] flex items-center justify-center p-8">
+          <div className="w-10 h-10 border-2 border-[#033528] border-t-transparent rounded-full animate-spin" />
         </div>
       }
     >

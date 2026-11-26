@@ -197,7 +197,7 @@ export default function AdminOffersPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#D45520] text-white rounded-xl text-xs font-semibold hover:bg-[#bd4616] transition shadow-xs"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#033528] text-white rounded-xl text-xs font-semibold hover:bg-[#022A20] transition shadow-xs"
           >
             <Plus className="w-4 h-4" /> Create New Coupon
           </button>
@@ -285,7 +285,7 @@ export default function AdminOffersPage() {
                 {loading ? (
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-stone-400">
-                      <div className="w-6 h-6 border-2 border-stone-200 border-t-[#D45520] rounded-full animate-spin mx-auto mb-2" />
+                      <div className="w-6 h-6 border-2 border-stone-200 border-t-[#033528] rounded-full animate-spin mx-auto mb-2" />
                       Loading coupons...
                     </td>
                   </tr>
@@ -474,7 +474,7 @@ export default function AdminOffersPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-2 bg-[#D45520] text-white rounded-xl font-semibold hover:bg-[#bd4616] transition disabled:opacity-50"
+                  className="px-4 py-2 bg-[#033528] text-white rounded-xl font-semibold hover:bg-[#022A20] transition disabled:opacity-50"
                 >
                   {isSubmitting ? 'Creating...' : 'Create Coupon'}
                 </button>

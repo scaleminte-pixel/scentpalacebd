@@ -10,6 +10,8 @@ interface LogoProps {
   showSubtitle?: boolean;
   /** Set false when the logo is already inside a link (avoids nested <a>). */
   asLink?: boolean;
+  /** Height classes for the logo image (brand min. width: 160px horizontal lockup). */
+  imgClassName?: string;
 }
 
 export const RawdahLogo: React.FC<LogoProps> = ({
@@ -17,6 +19,7 @@ export const RawdahLogo: React.FC<LogoProps> = ({
   className = '',
   showSubtitle = true,
   asLink = true,
+  imgClassName = 'h-10 md:h-12',
 }) => {
   const isLight = variant === 'light';
   const branding = useBranding();
@@ -40,7 +43,7 @@ export const RawdahLogo: React.FC<LogoProps> = ({
   if (logoUrl) {
     return (
       <Wrapper className={`inline-flex items-center select-none group transition-opacity hover:opacity-90 ${className}`}>
-        <img src={logoUrl} alt={storeName} className="h-8 md:h-10 w-auto object-contain" />
+        <img src={logoUrl} alt={storeName} className={`${imgClassName} w-auto object-contain`} />
       </Wrapper>
     );
   }
@@ -57,12 +60,12 @@ export const RawdahLogo: React.FC<LogoProps> = ({
     <Wrapper className={`inline-flex flex-col items-start select-none group transition-opacity hover:opacity-90 ${className}`}>
       <span className="flex items-center gap-2">
         <span
-          className={`font-serif text-2xl md:text-3xl tracking-tight font-medium ${isLight ? 'text-white' : 'text-neutral-900'}`}
+          className={`font-serif text-2xl md:text-3xl tracking-tight font-medium ${isLight ? 'text-[#F7F2E6]' : 'text-[#033528]'}`}
           style={{ letterSpacing: '0.02em' }}
         >
           {main}
         </span>
-        <span className={`w-1.5 h-1.5 rounded-full ${isLight ? 'bg-amber-400' : 'bg-[#D45520]'}`} />
+        <span className={`w-1.5 h-1.5 rounded-full ${isLight ? 'bg-[#E8CE5F]' : 'bg-[#B88556]'}`} />
       </span>
       {showSubtitle && (
         <span

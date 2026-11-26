@@ -103,7 +103,7 @@ export default function AdminTeamPage() {
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#D45520] text-white rounded-xl text-xs font-semibold hover:bg-[#B34316] transition shadow-xs"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#033528] text-white rounded-xl text-xs font-semibold hover:bg-[#022A20] transition shadow-xs"
         >
           <Plus className="w-4 h-4" /> Add Team Member
         </button>
@@ -129,7 +129,7 @@ export default function AdminTeamPage() {
               {loading ? (
                 <tr>
                   <td colSpan={5} className="py-12 text-center text-stone-400">
-                    <div className="w-6 h-6 border-2 border-stone-200 border-t-[#D45520] rounded-full animate-spin mx-auto mb-2" />
+                    <div className="w-6 h-6 border-2 border-stone-200 border-t-[#033528] rounded-full animate-spin mx-auto mb-2" />
                     Loading staff members...
                   </td>
                 </tr>
@@ -239,7 +239,7 @@ export default function AdminTeamPage() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
                 />
               </div>
 
@@ -251,7 +251,7 @@ export default function AdminTeamPage() {
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
-                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                  className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
                 />
               </div>
 
@@ -306,7 +306,7 @@ export default function AdminTeamPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-2 bg-[#D45520] text-white rounded-lg hover:bg-[#B34316] font-medium disabled:opacity-50"
+                  className="px-4 py-2 bg-[#033528] text-white rounded-lg hover:bg-[#022A20] font-medium disabled:opacity-50"
                 >
                   {isSubmitting ? 'Creating...' : 'Grant Access'}
                 </button>

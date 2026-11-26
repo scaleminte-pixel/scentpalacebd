@@ -93,7 +93,7 @@ export default function ContentImageUploader({
           <button
             type="button"
             onClick={() => setMediaPickerOpen(true)}
-            className="text-[11px] text-neutral-800 hover:text-[#D45520] font-semibold flex items-center gap-1 cursor-pointer transition px-2 py-0.5 rounded-lg bg-neutral-100 hover:bg-neutral-200"
+            className="text-[11px] text-neutral-800 hover:text-[#033528] font-semibold flex items-center gap-1 cursor-pointer transition px-2 py-0.5 rounded-lg bg-neutral-100 hover:bg-neutral-200"
           >
             <FolderOpen className="w-3 h-3 text-neutral-600" />
             <span>Media Library</span>
@@ -101,7 +101,7 @@ export default function ContentImageUploader({
           <button
             type="button"
             onClick={() => setManualInputOpen(!manualInputOpen)}
-            className="text-[11px] text-[#D45520] hover:text-[#B34316] font-medium flex items-center gap-1 cursor-pointer transition"
+            className="text-[11px] text-[#033528] hover:text-[#022A20] font-medium flex items-center gap-1 cursor-pointer transition"
           >
             <LinkIcon className="w-3 h-3" />
             <span>{manualInputOpen ? 'Hide URL Box' : 'Enter URL Manually'}</span>
@@ -118,13 +118,13 @@ export default function ContentImageUploader({
 
       {/* Real-time Upload & Conversion Progress Card */}
       {uploadProgress && uploadProgress.stage !== 'idle' && (
-        <div className="p-3 bg-[#FAF7F2] border border-[#EAE4DC] rounded-xl space-y-1.5 transition-all">
+        <div className="p-3 bg-[#F7F2E6] border border-[#E8DFCB] rounded-xl space-y-1.5 transition-all">
           <div className="flex items-center justify-between text-xs">
             <div className="flex items-center gap-1.5 font-medium">
               {uploadProgress.stage === 'uploading' && (
                 <>
-                  <UploadCloud className="w-3.5 h-3.5 text-[#D45520] animate-bounce" />
-                  <span className="text-stone-800">Uploading: <strong className="text-[#D45520]">{uploadProgress.percent}%</strong></span>
+                  <UploadCloud className="w-3.5 h-3.5 text-[#033528] animate-bounce" />
+                  <span className="text-stone-800">Uploading: <strong className="text-[#033528]">{uploadProgress.percent}%</strong></span>
                 </>
               )}
               {uploadProgress.stage === 'converting' && (
@@ -159,7 +159,7 @@ export default function ContentImageUploader({
                   ? 'bg-rose-500'
                   : uploadProgress.stage === 'converting'
                   ? 'bg-amber-500 animate-pulse'
-                  : 'bg-[#D45520]'
+                  : 'bg-[#033528]'
               }`}
               style={{ width: `${uploadProgress.percent}%` }}
             />
@@ -175,7 +175,7 @@ export default function ContentImageUploader({
               value={imageUrl}
               onChange={(e) => onChange(e.target.value)}
               placeholder="/images/... or https://..."
-              className="flex-1 p-2 bg-white border border-stone-200 rounded-lg text-xs font-mono focus:ring-1 focus:ring-[#D45520] focus:outline-none"
+              className="flex-1 p-2 bg-white border border-stone-200 rounded-lg text-xs font-mono focus:ring-1 focus:ring-[#033528] focus:outline-none"
             />
             {imageUrl && (
               <button
@@ -240,7 +240,7 @@ export default function ContentImageUploader({
                 disabled={Boolean(isUploading)}
                 className="px-3 py-1.5 bg-white/90 hover:bg-white text-stone-900 rounded-lg text-xs font-semibold shadow-xs flex items-center gap-1.5 transition backdrop-blur-xs cursor-pointer hover:scale-102 active:scale-98"
               >
-                <RefreshCw className={`w-3 h-3 text-[#D45520] ${isUploading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-3 h-3 text-[#033528] ${isUploading ? 'animate-spin' : ''}`} />
                 <span>{isUploading ? 'Uploading...' : 'Replace'}</span>
               </button>
 
@@ -267,19 +267,19 @@ export default function ContentImageUploader({
           onClick={() => fileInputRef.current?.click()}
           className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2.5 ${
             dragOver
-              ? 'border-[#D45520] bg-orange-50/50 scale-[1.01]'
-              : 'border-stone-300 hover:border-[#D45520] bg-stone-50/60 hover:bg-stone-50'
+              ? 'border-[#033528] bg-[#FBF6E4]/50 scale-[1.01]'
+              : 'border-stone-300 hover:border-[#033528] bg-stone-50/60 hover:bg-stone-50'
           }`}
         >
           {isUploading ? (
             <div className="py-3 flex flex-col items-center gap-2">
-              <div className="w-7 h-7 border-2 border-stone-200 border-t-[#D45520] rounded-full animate-spin" />
+              <div className="w-7 h-7 border-2 border-stone-200 border-t-[#033528] rounded-full animate-spin" />
               <p className="text-xs font-semibold text-stone-700">Uploading image to server...</p>
               <p className="text-[10px] text-stone-400">Optimizing format and generating alt metadata</p>
             </div>
           ) : (
             <>
-              <div className="w-11 h-11 rounded-2xl bg-white border border-stone-200 shadow-xs flex items-center justify-center text-[#D45520]">
+              <div className="w-11 h-11 rounded-2xl bg-white border border-stone-200 shadow-xs flex items-center justify-center text-[#033528]">
                 <UploadCloud className="w-5 h-5" />
               </div>
               <div>

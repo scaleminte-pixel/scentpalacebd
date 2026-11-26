@@ -126,7 +126,7 @@ export default function AdminSettingsPage() {
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[60vh]">
-        <div className="w-8 h-8 border-2 border-stone-300 border-t-[#D45520] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-stone-300 border-t-[#033528] rounded-full animate-spin" />
       </div>
     );
   }
@@ -153,7 +153,7 @@ export default function AdminSettingsPage() {
       {/* Backup & Download */}
       <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-4">
         <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
-          <Shield className="w-5 h-5 text-[#D45520]" />
+          <Shield className="w-5 h-5 text-[#033528]" />
           <h3>Backup &amp; Download</h3>
         </div>
         <p className="text-xs text-stone-500 leading-relaxed">
@@ -164,7 +164,7 @@ export default function AdminSettingsPage() {
         <div className="flex flex-wrap gap-3">
           <a
             href="/api/admin/backup"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#D45520] text-white text-xs font-semibold hover:opacity-90"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#033528] text-white text-xs font-semibold hover:opacity-90"
           >
             <Upload className="w-4 h-4 rotate-180" />
             Download full backup (ZIP)
@@ -184,7 +184,7 @@ export default function AdminSettingsPage() {
         {/* Atelier Identity */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-4">
           <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
-            <Store className="w-4 h-4 text-[#D45520]" />
+            <Store className="w-4 h-4 text-[#033528]" />
             <h3>Atelier Brand Identity</h3>
           </div>
 
@@ -195,7 +195,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={form.storeName}
                 onChange={(e) => setForm({ ...form, storeName: e.target.value })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
             <div>
@@ -204,7 +204,7 @@ export default function AdminSettingsPage() {
                 type="email"
                 value={form.storeEmail}
                 onChange={(e) => setForm({ ...form, storeEmail: e.target.value })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
             <div>
@@ -213,7 +213,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={form.storePhone}
                 onChange={(e) => setForm({ ...form, storePhone: e.target.value })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
             <div>
@@ -222,7 +222,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={form.storeAddress}
                 onChange={(e) => setForm({ ...form, storeAddress: e.target.value })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function AdminSettingsPage() {
         {/* Branding & Visual Assets */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-5">
           <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
-            <Palette className="w-4 h-4 text-[#D45520]" />
+            <Palette className="w-4 h-4 text-[#033528]" />
             <h3>Branding & Visual Assets</h3>
           </div>
           <p className="text-xs text-stone-500 -mt-2">
@@ -242,25 +242,25 @@ export default function AdminSettingsPage() {
             {/* Storefront Logo (Light / Header) */}
             <BrandingUploadCard
               label="Main Storefront Logo (Header & Footer)"
-              description="Main logo shown on the dark header bar and the footer. Use a light or white logo."
+              description="Shown on the Deep Emerald header and footer. Brand file: gold logo (/brand/logo-gold.webp)."
               currentUrl={form.storefrontLogoUrl}
               fieldKey="storefrontLogoUrl"
               uploading={uploadingField === 'storefrontLogoUrl'}
               onUpload={handleBrandingUpload}
               onClear={() => { setForm((p: any) => ({ ...p, storefrontLogoUrl: '' })); persistBrandingField('storefrontLogoUrl', ''); }}
-              previewBg="bg-[#141312]"
+              previewBg="bg-[#033528]"
             />
 
             {/* Storefront Logo (Dark / Footer) */}
             <BrandingUploadCard
               label="Alternate Logo (Light Backgrounds)"
-              description="Optional. Used only on light backgrounds (mobile menu drawer). Use a dark logo."
+              description="Used on light (Ivory) backgrounds such as the mobile menu. Brand file: emerald logo."
               currentUrl={form.storefrontLogoDarkUrl}
               fieldKey="storefrontLogoDarkUrl"
               uploading={uploadingField === 'storefrontLogoDarkUrl'}
               onUpload={handleBrandingUpload}
               onClear={() => { setForm((p: any) => ({ ...p, storefrontLogoDarkUrl: '' })); persistBrandingField('storefrontLogoDarkUrl', ''); }}
-              previewBg="bg-[#FAF7F2]"
+              previewBg="bg-[#F7F2E6]"
             />
 
             {/* Favicon */}
@@ -279,13 +279,13 @@ export default function AdminSettingsPage() {
             {/* Admin Logo */}
             <BrandingUploadCard
               label="Admin Panel Logo"
-              description="Shown on admin login page and sidebar header."
+              description="Shown on the emerald admin sidebar and login page. Brand file: gold icon (/brand/icon-gold.webp)."
               currentUrl={form.adminLogoUrl}
               fieldKey="adminLogoUrl"
               uploading={uploadingField === 'adminLogoUrl'}
               onUpload={handleBrandingUpload}
               onClear={() => { setForm((p: any) => ({ ...p, adminLogoUrl: '' })); persistBrandingField('adminLogoUrl', ''); }}
-              previewBg="bg-white"
+              previewBg="bg-[#033528]"
               small
             />
           </div>
@@ -299,7 +299,7 @@ export default function AdminSettingsPage() {
                 value={form.footerWatermarkText || ''}
                 onChange={(e) => setForm({ ...form, footerWatermarkText: e.target.value })}
                 placeholder="SCENT PALACE"
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
               <span className="text-[10px] text-stone-500 mt-1 block">
                 Large faded text at the very bottom of the footer. Leave empty to use the Maison Name.
@@ -312,7 +312,7 @@ export default function AdminSettingsPage() {
                 value={form.footerWatermarkSubtitle || ''}
                 onChange={(e) => setForm({ ...form, footerWatermarkSubtitle: e.target.value })}
                 placeholder="HAUTE PARFUMERIE • BD"
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
               <span className="text-[10px] text-stone-500 mt-1 block">Small line under the footer big title (optional).</span>
             </div>
@@ -329,7 +329,7 @@ export default function AdminSettingsPage() {
                 value={form.adminBrandTitle || ''}
                 onChange={(e) => setForm({ ...form, adminBrandTitle: e.target.value })}
                 placeholder={form.storeName || 'Scent Palace BD'}
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
               <span className="text-[10px] text-stone-500 mt-1 block">
                 Shown in Admin Sidebar and Login Screen (e.g. your store or company name).
@@ -344,7 +344,7 @@ export default function AdminSettingsPage() {
                 value={form.adminBrandSubtitle || ''}
                 onChange={(e) => setForm({ ...form, adminBrandSubtitle: e.target.value })}
                 placeholder="Admin Console"
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
               <span className="text-[10px] text-stone-500 mt-1 block">
                 Sub-heading under brand name (e.g. &quot;Admin Console&quot; or &quot;Management Portal&quot;).
@@ -359,7 +359,7 @@ export default function AdminSettingsPage() {
                 type="checkbox"
                 checked={form.adminHideText || false}
                 onChange={(e) => setForm({ ...form, adminHideText: e.target.checked })}
-                className="w-4 h-4 rounded-md text-[#D45520] border-stone-300 focus:ring-[#D45520]"
+                className="w-4 h-4 rounded-md text-[#033528] border-stone-300 focus:ring-[#033528]"
               />
               <span>Display Logo Only in Admin Sidebar (Hide brand text when admin logo is uploaded)</span>
             </label>
@@ -372,7 +372,7 @@ export default function AdminSettingsPage() {
         {/* Shipping & Delivery Policies */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-4">
           <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
-            <Truck className="w-4 h-4 text-[#D45520]" />
+            <Truck className="w-4 h-4 text-[#033528]" />
             <h3>Logistics & Courier Delivery Fees</h3>
           </div>
 
@@ -383,7 +383,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 value={form.shippingFeeDhaka}
                 onChange={(e) => setForm({ ...form, shippingFeeDhaka: parseFloat(e.target.value) || 0 })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
             <div>
@@ -392,7 +392,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 value={form.shippingFeeOutside}
                 onChange={(e) => setForm({ ...form, shippingFeeOutside: parseFloat(e.target.value) || 0 })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
             <div>
@@ -401,7 +401,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 value={form.freeShippingThreshold}
                 onChange={(e) => setForm({ ...form, freeShippingThreshold: parseFloat(e.target.value) || 0 })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
           </div>
@@ -410,7 +410,7 @@ export default function AdminSettingsPage() {
         {/* Inventory & Operational Alerts */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 space-y-4">
           <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
-            <Bell className="w-4 h-4 text-[#D45520]" />
+            <Bell className="w-4 h-4 text-[#033528]" />
             <h3>Operational Alerts & Notifications</h3>
           </div>
 
@@ -421,7 +421,7 @@ export default function AdminSettingsPage() {
                 type="email"
                 value={form.orderNotificationEmail}
                 onChange={(e) => setForm({ ...form, orderNotificationEmail: e.target.value })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
             <div>
@@ -430,7 +430,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 value={form.lowStockThresholdDefault}
                 onChange={(e) => setForm({ ...form, lowStockThresholdDefault: parseInt(e.target.value, 10) || 10 })}
-                className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-2.5 border border-stone-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
           </div>
@@ -441,7 +441,7 @@ export default function AdminSettingsPage() {
           <button
             type="submit"
             disabled={isSaving}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#D45520] text-white rounded-xl text-xs font-semibold hover:bg-[#B34316] transition shadow-xs disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#033528] text-white rounded-xl text-xs font-semibold hover:bg-[#022A20] transition shadow-xs disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             {isSaving ? 'Saving Atelier Policies...' : 'Save Settings'}
@@ -522,7 +522,7 @@ function BrandingUploadCard({
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-semibold rounded-lg bg-[#D45520] text-white hover:bg-[#B34316] transition disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-semibold rounded-lg bg-[#033528] text-white hover:bg-[#022A20] transition disabled:opacity-50"
         >
           {uploading ? (
             <>

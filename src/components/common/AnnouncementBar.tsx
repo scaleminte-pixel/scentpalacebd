@@ -21,11 +21,11 @@ export const AnnouncementBar: React.FC = () => {
 
   const MessageInner = (
     <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-center text-[10px] sm:text-xs leading-tight font-medium tracking-wide text-neutral-200">
-      <Sparkles className="w-3 h-3 text-[#D45520] shrink-0" />
+      <Sparkles className="w-3 h-3 text-[#E8CE5F] shrink-0" />
       <span className="text-center">{content.text}</span>
       {content.highlightCode && (
-        <span className="font-mono text-[9px] sm:text-[10px] bg-amber-400/15 border border-amber-400/30 px-1.5 py-0.5 rounded text-amber-300 font-semibold shrink-0 inline-flex items-center">
-          Use code: <strong className="ml-1 text-amber-200 font-bold">{content.highlightCode}</strong>
+        <span className="font-mono text-[9px] sm:text-[10px] bg-[#E8CE5F]/15 border border-[#E8CE5F]/30 px-1.5 py-0.5 rounded text-[#E8CE5F] font-semibold shrink-0 inline-flex items-center">
+          Use code: <strong className="ml-1 text-[#E8CE5F] font-bold">{content.highlightCode}</strong>
         </span>
       )}
     </div>
@@ -34,7 +34,7 @@ export const AnnouncementBar: React.FC = () => {
   return (
     <aside
       aria-label="Announcement"
-      className="no-print announcement-bar bg-[#141312] text-[#ECE7DF] py-1.5 sm:py-2 px-3 sm:px-4 border-b border-neutral-800 transition-colors print:hidden relative z-40"
+      className="no-print announcement-bar bg-[#033528] text-[#F7F2E6] py-1.5 sm:py-2 px-3 sm:px-4 border-b border-[#E8CE5F]/15 transition-colors print:hidden relative z-40"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left balance spacer on desktop */}
@@ -45,7 +45,7 @@ export const AnnouncementBar: React.FC = () => {
           {content.linkUrl ? (
             <Link
               href={content.linkUrl}
-              className="hover:text-white transition-colors flex items-center justify-center"
+              className="hover:text-[#E8CE5F] transition-colors flex items-center justify-center"
             >
               {MessageInner}
             </Link>
@@ -59,7 +59,7 @@ export const AnnouncementBar: React.FC = () => {
           <button
             type="button"
             onClick={() => setCurrency(currency === 'BDT' ? 'USD' : 'BDT')}
-            className="text-neutral-400 hover:text-white transition-colors text-[11px] font-medium tracking-wider flex items-center gap-1 cursor-pointer"
+            className="text-[#F7F2E6]/60 hover:text-[#E8CE5F] transition-colors text-[11px] font-medium tracking-wider flex items-center gap-1 cursor-pointer"
             title="Switch currency"
           >
             <span>{currency}</span>

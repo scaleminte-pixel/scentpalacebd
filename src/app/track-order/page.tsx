@@ -78,10 +78,10 @@ export default function TrackOrderPage() {
   };
 
   return (
-    <div className="bg-[#FAF7F2] min-h-screen py-16 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC]">
+    <div className="bg-[#F7F2E6] min-h-screen py-16 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB]">
       <div className="max-w-3xl mx-auto space-y-10">
         <div className="text-center max-w-xl mx-auto">
-          <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D45520]">
+          <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#B88556]">
             Live Dispatch Tracking
           </span>
           <h1 className="font-serif italic text-3xl sm:text-4xl lg:text-5xl font-normal text-neutral-900 mt-1">
@@ -93,7 +93,7 @@ export default function TrackOrderPage() {
         </div>
 
         {/* Search Form */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#EAE4DC] shadow-xs">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8DFCB] shadow-xs">
           <form onSubmit={handleTrack} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
             <div className="sm:col-span-6">
               <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
@@ -104,7 +104,7 @@ export default function TrackOrderPage() {
                 value={orderId}
                 onChange={(e) => setOrderId(e.target.value)}
                 placeholder="e.g. RDH-84291"
-                className="w-full px-4 py-3 rounded-xl border border-[#D4CFCE] text-sm text-neutral-900 bg-[#FAF7F2] uppercase tracking-wider focus:outline-none focus:border-[#D45520]"
+                className="w-full px-4 py-3 rounded-xl border border-[#D6CBB2] text-sm text-neutral-900 bg-[#F7F2E6] uppercase tracking-wider focus:outline-none focus:border-[#033528]"
               />
             </div>
 
@@ -117,7 +117,7 @@ export default function TrackOrderPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="017XXXXXXXX"
-                className="w-full px-4 py-3 rounded-xl border border-[#D4CFCE] text-sm text-neutral-900 bg-[#FAF7F2] focus:outline-none focus:border-[#D45520]"
+                className="w-full px-4 py-3 rounded-xl border border-[#D6CBB2] text-sm text-neutral-900 bg-[#F7F2E6] focus:outline-none focus:border-[#033528]"
               />
             </div>
 
@@ -125,7 +125,7 @@ export default function TrackOrderPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 px-4 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                className="w-full py-3 px-4 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider shadow-md transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
               >
                 <Search className="w-4 h-4" />
                 <span>{isLoading ? 'Tracking...' : 'Track'}</span>
@@ -137,7 +137,7 @@ export default function TrackOrderPage() {
         {/* Error State */}
         {errorMessage && (
           <div className="bg-red-50/90 border border-red-200/80 rounded-3xl p-6 sm:p-8 text-center shadow-xs">
-            <div className="w-12 h-12 rounded-full bg-red-100 text-[#D45520] flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-full bg-red-100 text-[#033528] flex items-center justify-center mx-auto mb-3">
               <Package className="w-6 h-6" />
             </div>
             <h3 className="font-serif text-lg font-medium text-neutral-900 mb-1">
@@ -151,10 +151,10 @@ export default function TrackOrderPage() {
 
         {/* Live Result Details */}
         {trackedOrder && (
-          <div className="bg-white rounded-3xl p-8 border border-[#EAE4DC] shadow-xs space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EAE4DC]">
+          <div className="bg-white rounded-3xl p-8 border border-[#E8DFCB] shadow-xs space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E8DFCB]">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#D45520]">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#B88556]">
                   Consignment Status
                 </span>
                 <h3 className="font-serif text-2xl font-normal text-neutral-900 mt-0.5">
@@ -188,12 +188,12 @@ export default function TrackOrderPage() {
                       className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
                         st.completed
                           ? 'bg-emerald-600 text-white shadow-xs'
-                          : 'bg-[#F2ECE1] text-neutral-400 border border-[#D4CFCE]'
+                          : 'bg-[#EFE7D5] text-neutral-400 border border-[#D6CBB2]'
                       }`}
                     >
                       {st.completed ? '✓' : idx + 1}
                     </div>
-                    <div className="flex-1 pb-3 border-b border-[#F4EFEB]">
+                    <div className="flex-1 pb-3 border-b border-[#EFE7D5]">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-semibold text-neutral-900">{st.name}</span>
                         <span className="text-[11px] text-neutral-400">{st.date}</span>
@@ -205,8 +205,8 @@ export default function TrackOrderPage() {
             </div>
 
             {/* Delivery Destination */}
-            <div className="pt-4 border-t border-[#EAE4DC] flex items-center gap-3 text-xs text-neutral-600">
-              <MapPin className="w-4 h-4 text-[#D45520] shrink-0" />
+            <div className="pt-4 border-t border-[#E8DFCB] flex items-center gap-3 text-xs text-neutral-600">
+              <MapPin className="w-4 h-4 text-[#033528] shrink-0" />
               <span>
                 Delivering to: <strong className="text-neutral-900">{trackedOrder.recipient}</strong> — {trackedOrder.address}
               </span>

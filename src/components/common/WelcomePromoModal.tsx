@@ -88,13 +88,13 @@ export const WelcomePromoModal: React.FC = () => {
       <div className="no-print hidden md:block fixed bottom-6 left-6 z-40 transition-transform duration-300">
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#141312] text-white border border-neutral-700/80 shadow-2xl hover:border-[#D45520] hover:bg-neutral-900 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-xs font-medium"
+          className="group flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#033528] text-[#F7F2E6] border border-[#E8CE5F]/40 shadow-2xl hover:border-[#E8CE5F] hover:bg-[#022A20] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-xs font-medium"
           title="View Exclusive Discount Privilege"
         >
-          <span className="w-6 h-6 rounded-full bg-[#D45520] flex items-center justify-center text-white shrink-0 group-hover:rotate-12 transition-transform">
+          <span className="w-6 h-6 rounded-full bg-[#E8CE5F] flex items-center justify-center text-[#033528] shrink-0 group-hover:rotate-12 transition-transform">
             <Tag className="w-3.5 h-3.5" />
           </span>
-          <span className="font-serif tracking-wide text-amber-200 font-medium">
+          <span className="font-serif tracking-wide text-[#E8CE5F] font-medium">
             {appliedCoupon?.code === promo.couponCode ? (
               <span className="text-emerald-400 font-sans flex items-center gap-1">
                 <Check className="w-3.5 h-3.5" /> {promo.discountPercentage}% Off Applied
@@ -118,7 +118,7 @@ export const WelcomePromoModal: React.FC = () => {
           />
 
           {/* Modal Container */}
-          <div className="relative z-10 w-full max-w-xl bg-[#FAF7F2] rounded-3xl shadow-2xl border border-[#EAE4DC] overflow-hidden animate-in zoom-in-95 duration-300">
+          <div className="relative z-10 w-full max-w-xl bg-[#F7F2E6] rounded-3xl shadow-2xl border border-[#E8DFCB] overflow-hidden animate-in zoom-in-95 duration-300">
             {/* Top Close Button */}
             <button
               onClick={handleDismiss}
@@ -129,7 +129,7 @@ export const WelcomePromoModal: React.FC = () => {
             </button>
 
             {/* Header Banner Image with Celebratory Badge */}
-            <div className="relative h-44 sm:h-52 w-full bg-neutral-950 overflow-hidden flex items-end p-6">
+            <div className="relative h-44 sm:h-52 w-full bg-[#033528] overflow-hidden flex items-end p-6">
               <Image
                 src={promoImage}
                 alt="Luxury Perfume Welcome Privilege"
@@ -137,12 +137,12 @@ export const WelcomePromoModal: React.FC = () => {
                 className="object-cover object-center opacity-70 scale-105"
                 sizes="(max-width: 640px) 100vw, 600px"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#FAF7F2] via-black/40 to-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#F7F2E6] via-black/40 to-black/20" />
 
               {/* Sparkle Badge */}
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-200 text-[10px] sm:text-xs font-semibold tracking-widest uppercase backdrop-blur-md mb-2">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E8CE5F]/20 border border-[#E8CE5F]/40 text-[#E8CE5F] text-[10px] sm:text-xs font-semibold tracking-widest uppercase backdrop-blur-md mb-2">
+                  <Sparkles className="w-3.5 h-3.5 text-[#E8CE5F]" />
                   <span>{promo.tagline}</span>
                 </div>
                 <h3 className="font-serif italic text-2xl sm:text-3xl text-white font-normal drop-shadow-md">
@@ -156,10 +156,10 @@ export const WelcomePromoModal: React.FC = () => {
               {/* Giant Discount Number Highlight */}
               <div className="text-center mb-6">
                 <div className="inline-block">
-                  <span className="font-serif text-5xl sm:text-6xl font-normal text-[#141312] tracking-tight">
+                  <span className="font-serif text-5xl sm:text-6xl font-normal text-[#1C1C1C] tracking-tight">
                     {promo.discountPercentage}%
                   </span>
-                  <span className="font-serif italic text-3xl sm:text-4xl text-[#D45520] ml-2">
+                  <span className="font-serif italic text-3xl sm:text-4xl text-[#033528] ml-2">
                     OFF
                   </span>
                 </div>
@@ -169,10 +169,10 @@ export const WelcomePromoModal: React.FC = () => {
               </div>
 
               {/* 3 Luxury Perks */}
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#EAE4DC] shadow-xs mb-6 space-y-2.5">
+              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8DFCB] shadow-xs mb-6 space-y-2.5">
                 {promo.perks.map((perk, idx) => (
                   <div key={idx} className="flex items-center gap-3 text-xs sm:text-sm text-neutral-800 font-sans">
-                    <span className="w-5 h-5 rounded-full bg-[#D45520]/10 text-[#D45520] flex items-center justify-center shrink-0">
+                    <span className="w-5 h-5 rounded-full bg-[#033528]/10 text-[#033528] flex items-center justify-center shrink-0">
                       <Check className="w-3.5 h-3.5" />
                     </span>
                     <span>{perk}</span>
@@ -183,7 +183,7 @@ export const WelcomePromoModal: React.FC = () => {
               {/* Coupon Code Pill */}
               <div className="flex items-center justify-between gap-3 p-3 bg-neutral-100 rounded-xl border border-dashed border-neutral-300 mb-6">
                 <div className="flex items-center gap-2 pl-2">
-                  <Tag className="w-4 h-4 text-[#D45520]" />
+                  <Tag className="w-4 h-4 text-[#033528]" />
                   <span className="text-xs text-neutral-500 font-sans">Exclusive Code:</span>
                   <span className="font-mono font-bold text-sm text-neutral-900 tracking-wider">
                     {promo.couponCode}
@@ -212,7 +212,7 @@ export const WelcomePromoModal: React.FC = () => {
               <div className="space-y-3">
                 <button
                   onClick={handleClaimOffer}
-                  className="w-full py-4 px-6 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white font-semibold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-4 px-6 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white font-semibold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {appliedToast ? (
                     <>

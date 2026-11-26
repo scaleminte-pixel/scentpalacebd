@@ -153,7 +153,7 @@ export default function AdminProductsPage() {
   return (
     <div className="space-y-6 w-full max-w-full mx-auto px-1 sm:px-2">
       {/* Page Header & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAE4DC]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E8DFCB]">
         <div>
           <div className="flex items-center gap-2 text-xs text-neutral-400 mb-1 font-sans">
             <span>Admin</span>
@@ -173,12 +173,12 @@ export default function AdminProductsPage() {
             href="/admin/categories"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold uppercase tracking-wider transition-all shadow-xs"
           >
-            <Tags className="w-4 h-4 text-[#D45520]" />
+            <Tags className="w-4 h-4 text-[#033528]" />
             <span>Manage Categories</span>
           </Link>
           <Link
             href="/admin/products/new"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md active:scale-95"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md active:scale-95"
           >
             <Plus className="w-4 h-4" />
             <span>Add New Fragrance</span>
@@ -190,13 +190,13 @@ export default function AdminProductsPage() {
       <div className={`grid grid-cols-1 ${filterOpen ? 'lg:grid-cols-12' : 'grid-cols-1'} gap-4 xl:gap-5 items-start`}>
         {/* Left Filter Panel (Collapsible on PC & Mobile) */}
         {filterOpen && (
-          <aside className="lg:col-span-3 xl:col-span-2 bg-white rounded-2xl border border-[#EAE4DC] p-4 sm:p-5 shadow-xs space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-[#EAE4DC]">
+          <aside className="lg:col-span-3 xl:col-span-2 bg-white rounded-2xl border border-[#E8DFCB] p-4 sm:p-5 shadow-xs space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8DFCB]">
               <h3 className="text-base font-bold text-neutral-900 flex items-center gap-2">
-                <Filter className="w-4 h-4 text-[#D45520]" />
+                <Filter className="w-4 h-4 text-[#033528]" />
                 <span>Filter Catalog</span>
                 {activeFiltersCount > 0 && (
-                  <span className="w-5 h-5 rounded-full bg-[#D45520] text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="w-5 h-5 rounded-full bg-[#033528] text-white text-[10px] font-bold flex items-center justify-center">
                     {activeFiltersCount}
                   </span>
                 )}
@@ -210,7 +210,7 @@ export default function AdminProductsPage() {
                     setSelectedStock('all');
                     setSearchQuery('');
                   }}
-                  className="text-[11px] text-[#D45520] hover:underline font-semibold"
+                  className="text-[11px] text-[#033528] hover:underline font-semibold"
                 >
                   Reset
                 </button>
@@ -236,19 +236,19 @@ export default function AdminProductsPage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`w-full text-left px-3 py-1.5 rounded-lg transition-colors flex items-center justify-between ${
                     selectedCategory === cat
-                      ? 'bg-[#FDF3EE] text-[#D45520] font-bold'
-                      : 'text-neutral-600 hover:bg-[#FAF7F2]'
+                      ? 'bg-[#EAF1ED] text-[#033528] font-bold'
+                      : 'text-neutral-600 hover:bg-[#F7F2E6]'
                   }`}
                 >
                   <span>{cat === 'ALL' ? 'All Collections' : cat}</span>
-                  {selectedCategory === cat && <span className="w-1.5 h-1.5 rounded-full bg-[#D45520]" />}
+                  {selectedCategory === cat && <span className="w-1.5 h-1.5 rounded-full bg-[#033528]" />}
                 </button>
               ))}
             </div>
           </div>
 
           {/* Scent Family */}
-          <div className="pt-4 border-t border-[#EAE4DC]">
+          <div className="pt-4 border-t border-[#E8DFCB]">
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2.5">
               Scent Family
             </label>
@@ -259,19 +259,19 @@ export default function AdminProductsPage() {
                   onClick={() => setSelectedScent(scent)}
                   className={`w-full text-left px-3 py-1.5 rounded-lg transition-colors flex items-center justify-between ${
                     selectedScent === scent
-                      ? 'bg-[#FDF3EE] text-[#D45520] font-bold'
-                      : 'text-neutral-600 hover:bg-[#FAF7F2]'
+                      ? 'bg-[#EAF1ED] text-[#033528] font-bold'
+                      : 'text-neutral-600 hover:bg-[#F7F2E6]'
                   }`}
                 >
                   <span>{scent === 'ALL' ? 'All Olfactive Families' : scent}</span>
-                  {selectedScent === scent && <span className="w-1.5 h-1.5 rounded-full bg-[#D45520]" />}
+                  {selectedScent === scent && <span className="w-1.5 h-1.5 rounded-full bg-[#033528]" />}
                 </button>
               ))}
             </div>
           </div>
 
           {/* Status */}
-          <div className="pt-4 border-t border-[#EAE4DC]">
+          <div className="pt-4 border-t border-[#E8DFCB]">
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2.5">
               Publication Status
             </label>
@@ -282,8 +282,8 @@ export default function AdminProductsPage() {
                   onClick={() => setSelectedStatus(st)}
                   className={`py-1.5 px-1 rounded-md border text-center transition-all font-semibold capitalize ${
                     selectedStatus === st
-                      ? 'border-[#D45520] bg-[#FDF3EE] text-[#D45520]'
-                      : 'border-[#EAE4DC] text-neutral-600 hover:bg-neutral-50'
+                      ? 'border-[#033528] bg-[#EAF1ED] text-[#033528]'
+                      : 'border-[#E8DFCB] text-neutral-600 hover:bg-neutral-50'
                   }`}
                 >
                   {st.toLowerCase()}
@@ -293,7 +293,7 @@ export default function AdminProductsPage() {
           </div>
 
           {/* Stock Level */}
-          <div className="pt-4 border-t border-[#EAE4DC]">
+          <div className="pt-4 border-t border-[#E8DFCB]">
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2.5">
               Inventory State
             </label>
@@ -309,8 +309,8 @@ export default function AdminProductsPage() {
                   onClick={() => setSelectedStock(stk.val)}
                   className={`w-full text-left px-3 py-1.5 rounded-lg transition-colors flex items-center justify-between ${
                     selectedStock === stk.val
-                      ? 'bg-[#FDF3EE] text-[#D45520] font-bold'
-                      : 'text-neutral-600 hover:bg-[#FAF7F2]'
+                      ? 'bg-[#EAF1ED] text-[#033528] font-bold'
+                      : 'text-neutral-600 hover:bg-[#F7F2E6]'
                   }`}
                 >
                   <span>{stk.label}</span>
@@ -324,7 +324,7 @@ export default function AdminProductsPage() {
         {/* Right Section: Toolbar + Table or Grid (Matching Shodai ref) */}
         <div className={`${filterOpen ? 'lg:col-span-9 xl:col-span-10' : 'col-span-12'} space-y-5 min-w-0`}>
           {/* Toolbar */}
-          <div className="bg-white rounded-2xl border border-[#EAE4DC] p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-white rounded-2xl border border-[#E8DFCB] p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-1 min-w-[260px]">
               {/* Unified Filter Toggle Button */}
               <button
@@ -332,22 +332,22 @@ export default function AdminProductsPage() {
                 onClick={() => setFilterOpen(!filterOpen)}
                 className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                   filterOpen || activeFiltersCount > 0
-                    ? 'bg-[#FDF3EE] text-[#D45520] border-[#D45520]'
+                    ? 'bg-[#EAF1ED] text-[#033528] border-[#033528]'
                     : 'bg-white hover:bg-stone-50 text-stone-700 border-stone-300'
                 }`}
                 title={filterOpen ? 'Hide filter sidebar' : 'Open filter sidebar'}
               >
-                <Filter className="w-3.5 h-3.5 text-[#D45520]" />
+                <Filter className="w-3.5 h-3.5 text-[#033528]" />
                 <span>{filterOpen ? 'Hide Filters' : 'Filters'}</span>
                 {activeFiltersCount > 0 && (
-                  <span className="w-4 h-4 rounded-full bg-[#D45520] text-white text-[9px] font-bold flex items-center justify-center">
+                  <span className="w-4 h-4 rounded-full bg-[#033528] text-white text-[9px] font-bold flex items-center justify-center">
                     {activeFiltersCount}
                   </span>
                 )}
               </button>
 
               {/* View Mode Toggle (Table / Grid) */}
-              <div className="flex items-center p-1 bg-[#FAF7F2] border border-[#EAE4DC] rounded-xl text-neutral-500">
+              <div className="flex items-center p-1 bg-[#F7F2E6] border border-[#E8DFCB] rounded-xl text-neutral-500">
                 <button
                   onClick={() => setViewMode('table')}
                   className={`p-1.5 rounded-lg transition-all ${
@@ -376,7 +376,7 @@ export default function AdminProductsPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search fragrances, SKU..."
-                  className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#FAF7F2] border border-transparent focus:border-[#D45520] focus:bg-white text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none transition-all"
+                  className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#F7F2E6] border border-transparent focus:border-[#033528] focus:bg-white text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none transition-all"
                 />
               </form>
             </div>
@@ -392,13 +392,13 @@ export default function AdminProductsPage() {
                 className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold shadow-2xs transition-all"
                 title="Manage Fragrance Categories"
               >
-                <Tags className="w-3.5 h-3.5 text-[#D45520]" />
+                <Tags className="w-3.5 h-3.5 text-[#033528]" />
                 <span>Categories</span>
               </Link>
 
               <Link
                 href="/admin/products/new"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-bold uppercase tracking-wider shadow-sm hover:shadow transition-all shrink-0 active:scale-95"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-bold uppercase tracking-wider shadow-sm hover:shadow transition-all shrink-0 active:scale-95"
                 title="Add New Fragrance Formulation"
               >
                 <Plus className="w-4 h-4" />
@@ -409,15 +409,15 @@ export default function AdminProductsPage() {
 
           {/* Top subtle loading indicator if refreshing existing data */}
           {loading && products.length > 0 && (
-            <div className="w-full bg-[#FAF7F2] rounded-full h-1 overflow-hidden">
-              <div className="bg-[#D45520] h-full w-1/3 animate-pulse" />
+            <div className="w-full bg-[#F7F2E6] rounded-full h-1 overflow-hidden">
+              <div className="bg-[#033528] h-full w-1/3 animate-pulse" />
             </div>
           )}
 
           {loading && products.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-[#EAE4DC] p-16 flex items-center justify-center">
+            <div className="bg-white rounded-2xl border border-[#E8DFCB] p-16 flex items-center justify-center">
               <div className="flex flex-col items-center gap-3">
-                <div className="w-8 h-8 border-3 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+                <div className="w-8 h-8 border-3 border-[#033528] border-t-transparent rounded-full animate-spin" />
                 <span className="text-xs text-neutral-500">Loading catalog...</span>
               </div>
             </div>
@@ -427,17 +427,17 @@ export default function AdminProductsPage() {
                 /* =========================================================================
                     TABLE VIEW (MATCHING SHODAI REFERENCE)
                    ========================================================================= */
-                <div className="bg-white rounded-2xl border border-[#EAE4DC] shadow-xs overflow-hidden">
+                <div className="bg-white rounded-2xl border border-[#E8DFCB] shadow-xs overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs table-auto">
                       <thead>
-                        <tr className="bg-[#FAF7F2]/60 border-b border-[#EAE4DC] text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                        <tr className="bg-[#F7F2E6]/60 border-b border-[#E8DFCB] text-[10px] font-bold uppercase tracking-wider text-neutral-400">
                           <th className="py-2.5 px-2.5 w-8 text-center">
                             <input
                               type="checkbox"
                               checked={selectedProductIds.length === products.length && products.length > 0}
                               onChange={toggleSelectAll}
-                              className="accent-[#D45520] rounded"
+                              className="accent-[#033528] rounded"
                             />
                           </th>
                           <th className="py-2.5 px-2">Fragrance</th>
@@ -449,23 +449,23 @@ export default function AdminProductsPage() {
                           <th className="py-2.5 px-2 text-right">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#F4EFEB]">
+                      <tbody className="divide-y divide-[#EFE7D5]">
                         {products.length > 0 ? (
                           products.map((p) => {
                             const isSelected = selectedProductIds.includes(p.id);
                             return (
-                              <tr key={p.id} className={`hover:bg-[#FAF7F2]/60 transition-colors ${isSelected ? 'bg-amber-50/30' : ''}`}>
+                              <tr key={p.id} className={`hover:bg-[#F7F2E6]/60 transition-colors ${isSelected ? 'bg-amber-50/30' : ''}`}>
                                 <td className="py-2.5 px-2.5 text-center">
                                   <input
                                     type="checkbox"
                                     checked={isSelected}
                                     onChange={() => toggleSelectOne(p.id)}
-                                    className="accent-[#D45520] rounded"
+                                    className="accent-[#033528] rounded"
                                   />
                                 </td>
                                 <td className="py-2.5 px-2">
                                   <div className="flex items-center gap-2">
-                                    <div className="relative w-9 h-9 rounded-lg bg-[#FAF7F2] border border-[#EAE4DC] p-0.5 shrink-0 overflow-hidden">
+                                    <div className="relative w-9 h-9 rounded-lg bg-[#F7F2E6] border border-[#E8DFCB] p-0.5 shrink-0 overflow-hidden">
                                       <Image
                                         src={p.coverImage}
                                         alt={p.name}
@@ -477,7 +477,7 @@ export default function AdminProductsPage() {
                                     <div className="min-w-0 max-w-[120px] sm:max-w-[160px] xl:max-w-[220px]">
                                       <button
                                         onClick={() => setInspectProduct(p)}
-                                        className="font-bold text-neutral-900 hover:text-[#D45520] text-left truncate block transition-colors leading-tight text-xs"
+                                        className="font-bold text-neutral-900 hover:text-[#033528] text-left truncate block transition-colors leading-tight text-xs"
                                       >
                                         {p.name}
                                       </button>
@@ -544,7 +544,7 @@ export default function AdminProductsPage() {
                                     </button>
                                     <Link
                                       href={`/admin/products/${p.id}/edit`}
-                                      className="w-7 h-7 rounded-lg bg-[#FDF3EE] hover:bg-[#D45520] text-[#D45520] hover:text-white border border-[#D45520]/30 flex items-center justify-center transition-all shadow-2xs"
+                                      className="w-7 h-7 rounded-lg bg-[#EAF1ED] hover:bg-[#033528] text-[#033528] hover:text-white border border-[#033528]/30 flex items-center justify-center transition-all shadow-2xs"
                                       title="Edit Fragrance"
                                     >
                                       <Edit2 className="w-3.5 h-3.5" />
@@ -573,7 +573,7 @@ export default function AdminProductsPage() {
                   </div>
 
               {/* Pagination (Matching Shodai Reference) */}
-              <div className="p-4 border-t border-[#EAE4DC] flex items-center justify-between text-xs text-neutral-500">
+              <div className="p-4 border-t border-[#E8DFCB] flex items-center justify-between text-xs text-neutral-500">
                 <div>
                   Page <strong>{pagination.page}</strong> of <strong>{pagination.totalPages || 1}</strong>
                 </div>
@@ -581,7 +581,7 @@ export default function AdminProductsPage() {
                   <button
                     disabled={pagination.page <= 1}
                     onClick={() => fetchProducts(pagination.page - 1)}
-                    className="p-2 rounded-lg border border-[#EAE4DC] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="p-2 rounded-lg border border-[#E8DFCB] hover:bg-[#F7F2E6] disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
@@ -593,8 +593,8 @@ export default function AdminProductsPage() {
                         onClick={() => fetchProducts(pNum)}
                         className={`w-8 h-8 rounded-lg text-xs font-semibold ${
                           pagination.page === pNum
-                            ? 'bg-[#141312] text-white font-bold'
-                            : 'border border-[#EAE4DC] text-neutral-700 hover:bg-[#FAF7F2]'
+                            ? 'bg-[#033528] text-white font-bold'
+                            : 'border border-[#E8DFCB] text-neutral-700 hover:bg-[#F7F2E6]'
                         }`}
                       >
                         {pNum}
@@ -604,7 +604,7 @@ export default function AdminProductsPage() {
                   <button
                     disabled={pagination.page >= pagination.totalPages}
                     onClick={() => fetchProducts(pagination.page + 1)}
-                    className="p-2 rounded-lg border border-[#EAE4DC] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="p-2 rounded-lg border border-[#E8DFCB] hover:bg-[#F7F2E6] disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -620,10 +620,10 @@ export default function AdminProductsPage() {
                 {products.map((p) => (
                   <div
                     key={p.id}
-                    className="bg-white rounded-2xl border border-[#EAE4DC] p-4 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow group overflow-hidden"
+                    className="bg-white rounded-2xl border border-[#E8DFCB] p-4 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow group overflow-hidden"
                   >
                     <div>
-                      <div className="relative aspect-square w-full rounded-xl bg-[#FAF7F2] border border-[#EAE4DC] p-4 mb-3 overflow-hidden">
+                      <div className="relative aspect-square w-full rounded-xl bg-[#F7F2E6] border border-[#E8DFCB] p-4 mb-3 overflow-hidden">
                         <Image
                           src={p.coverImage}
                           alt={p.name}
@@ -631,15 +631,15 @@ export default function AdminProductsPage() {
                           className="object-contain group-hover:scale-105 transition-transform duration-300"
                           sizes="200px"
                         />
-                        <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-white/90 border border-[#EAE4DC] text-neutral-700">
+                        <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-white/90 border border-[#E8DFCB] text-neutral-700">
                           {p.category}
                         </span>
                       </div>
 
-                      <div className="text-[10px] font-bold text-[#D45520] uppercase tracking-wider mb-1">
+                      <div className="text-[10px] font-bold text-[#B88556] uppercase tracking-wider mb-1">
                         {p.concentration}
                       </div>
-                      <h4 className="font-bold text-sm text-neutral-900 group-hover:text-[#D45520] transition-colors truncate">
+                      <h4 className="font-bold text-sm text-neutral-900 group-hover:text-[#033528] transition-colors truncate">
                         {p.name}
                       </h4>
                       <p className="text-[11px] text-neutral-500 line-clamp-2 mt-1 leading-relaxed">
@@ -648,7 +648,7 @@ export default function AdminProductsPage() {
                     </div>
 
                     {/* Row 1: Price and Stock */}
-                    <div className="pt-3 mt-4 border-t border-[#F4EFEB] flex items-center justify-between">
+                    <div className="pt-3 mt-4 border-t border-[#EFE7D5] flex items-center justify-between">
                       <div>
                         <span className="text-[10px] text-neutral-400 block font-medium">From</span>
                         <span className="font-bold text-neutral-900 text-sm font-mono tabular-nums">
@@ -673,10 +673,10 @@ export default function AdminProductsPage() {
                     </div>
 
                     {/* Row 2: Actions Row - perfectly contained inside card with fixed shrink-0 buttons */}
-                    <div className="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-[#F4EFEB]/60 w-full">
+                    <div className="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-[#EFE7D5]/60 w-full">
                       <Link
                         href={`/admin/products/${p.id}/edit`}
-                        className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-[#FDF3EE] hover:bg-[#D45520] text-[#D45520] hover:text-white border border-[#D45520]/30 text-xs font-bold transition-all shadow-2xs truncate"
+                        className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-[#EAF1ED] hover:bg-[#033528] text-[#033528] hover:text-white border border-[#033528]/30 text-xs font-bold transition-all shadow-2xs truncate"
                         title="Edit Fragrance"
                       >
                         <Edit2 className="w-3.5 h-3.5 shrink-0" />
@@ -709,20 +709,20 @@ export default function AdminProductsPage() {
               </div>
 
               {/* Grid Pagination */}
-              <div className="p-4 bg-white rounded-2xl border border-[#EAE4DC] flex items-center justify-between text-xs text-neutral-500">
+              <div className="p-4 bg-white rounded-2xl border border-[#E8DFCB] flex items-center justify-between text-xs text-neutral-500">
                 <div>Page {pagination.page} of {pagination.totalPages}</div>
                 <div className="flex gap-2">
                   <button
                     disabled={pagination.page <= 1}
                     onClick={() => fetchProducts(pagination.page - 1)}
-                    className="px-3 py-1.5 rounded-lg border border-[#EAE4DC] hover:bg-[#FAF7F2] disabled:opacity-30"
+                    className="px-3 py-1.5 rounded-lg border border-[#E8DFCB] hover:bg-[#F7F2E6] disabled:opacity-30"
                   >
                     Previous
                   </button>
                   <button
                     disabled={pagination.page >= pagination.totalPages}
                     onClick={() => fetchProducts(pagination.page + 1)}
-                    className="px-3 py-1.5 rounded-lg border border-[#EAE4DC] hover:bg-[#FAF7F2] disabled:opacity-30"
+                    className="px-3 py-1.5 rounded-lg border border-[#E8DFCB] hover:bg-[#F7F2E6] disabled:opacity-30"
                   >
                     Next
                   </button>
@@ -741,10 +741,10 @@ export default function AdminProductsPage() {
       {inspectProduct && (
         <div className="fixed inset-0 z-50 flex justify-end">
           <div className="fixed inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setInspectProduct(null)} />
-          <div className="relative w-full max-w-lg bg-white h-full shadow-2xl flex flex-col z-10 border-l border-[#EAE4DC] overflow-y-auto p-6 sm:p-8">
-            <div className="flex items-center justify-between pb-4 border-b border-[#EAE4DC]">
+          <div className="relative w-full max-w-lg bg-white h-full shadow-2xl flex flex-col z-10 border-l border-[#E8DFCB] overflow-y-auto p-6 sm:p-8">
+            <div className="flex items-center justify-between pb-4 border-b border-[#E8DFCB]">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#D45520]" />
+                <Sparkles className="w-4 h-4 text-[#033528]" />
                 <h3 className="text-base font-bold text-neutral-900">
                   Flacon Specification Drawer
                 </h3>
@@ -759,8 +759,8 @@ export default function AdminProductsPage() {
 
             <div className="py-6 space-y-6 flex-1">
               {/* Product Hero Snapshot */}
-              <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#FAF7F2] border border-[#EAE4DC]">
-                <div className="relative w-20 h-20 rounded-xl bg-white border border-[#EAE4DC] p-2 shrink-0">
+              <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#F7F2E6] border border-[#E8DFCB]">
+                <div className="relative w-20 h-20 rounded-xl bg-white border border-[#E8DFCB] p-2 shrink-0">
                   <Image
                     src={inspectProduct.coverImage}
                     alt={inspectProduct.name}
@@ -770,7 +770,7 @@ export default function AdminProductsPage() {
                   />
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#D45520]">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#B88556]">
                     {inspectProduct.concentration}
                   </span>
                   <h4 className="text-lg font-bold text-neutral-900">{inspectProduct.name}</h4>
@@ -789,7 +789,7 @@ export default function AdminProductsPage() {
                 <h5 className="text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1">
                   Olfactory Narrative
                 </h5>
-                <p className="text-xs text-neutral-600 leading-relaxed font-sans bg-white p-3 rounded-xl border border-[#EAE4DC]">
+                <p className="text-xs text-neutral-600 leading-relaxed font-sans bg-white p-3 rounded-xl border border-[#E8DFCB]">
                   {inspectProduct.description}
                 </p>
               </div>
@@ -803,7 +803,7 @@ export default function AdminProductsPage() {
                   {inspectProduct.variants.map((v: any) => (
                     <div
                       key={v.id}
-                      className="p-3.5 rounded-xl border border-[#EAE4DC] bg-white flex items-center justify-between text-xs"
+                      className="p-3.5 rounded-xl border border-[#E8DFCB] bg-white flex items-center justify-between text-xs"
                     >
                       <div>
                         <div className="font-bold text-neutral-900">{v.size} Flacon</div>
@@ -821,11 +821,11 @@ export default function AdminProductsPage() {
               </div>
 
               {/* Public Storefront Link */}
-              <div className="pt-4 border-t border-[#EAE4DC]">
+              <div className="pt-4 border-t border-[#E8DFCB]">
                 <Link
                   href={`/product/${inspectProduct.slug}`}
                   target="_blank"
-                  className="w-full py-3 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE1] border border-[#EAE4DC] text-xs font-bold text-neutral-800 flex items-center justify-center gap-2 transition-colors"
+                  className="w-full py-3 rounded-xl bg-[#F7F2E6] hover:bg-[#EFE7D5] border border-[#E8DFCB] text-xs font-bold text-neutral-800 flex items-center justify-center gap-2 transition-colors"
                 >
                   <span>Open on Storefront</span>
                   <ExternalLink className="w-4 h-4 text-neutral-400" />
@@ -833,10 +833,10 @@ export default function AdminProductsPage() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#EAE4DC] flex gap-3">
+            <div className="pt-4 border-t border-[#E8DFCB] flex gap-3">
               <Link
                 href={`/admin/products/${inspectProduct.id}/edit`}
-                className="flex-1 py-3 text-center rounded-xl bg-[#141312] hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider transition-all"
+                className="flex-1 py-3 text-center rounded-xl bg-[#033528] hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider transition-all"
               >
                 Edit Complete Fragrance
               </Link>
@@ -846,9 +846,9 @@ export default function AdminProductsPage() {
       )}
       {/* Floating Bulk Action Bar */}
       {selectedProductIds.length > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[#141312] text-white px-5 py-3 rounded-2xl shadow-2xl border border-neutral-700 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-200">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[#033528] text-white px-5 py-3 rounded-2xl shadow-2xl border border-neutral-700 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-200">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#D45520] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#033528] animate-pulse" />
             <span className="text-xs font-bold font-mono">
               {selectedProductIds.length} item{selectedProductIds.length > 1 ? 's' : ''} selected
             </span>

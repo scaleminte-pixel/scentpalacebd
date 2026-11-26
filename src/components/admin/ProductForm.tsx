@@ -532,7 +532,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-[#D45520] hover:bg-[#B34316] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md active:scale-95 disabled:opacity-50 cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md active:scale-95 disabled:opacity-50 cursor-pointer"
           >
             {loading ? (
               <>
@@ -589,13 +589,13 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 value={name}
                 onChange={handleNameChange}
                 placeholder="e.g. Oud Imperial Royale"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm text-stone-900 bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm text-stone-900 bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
 
               {/* Automatic URL Slug Preview Pill */}
               <div className="mt-2 p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                 <div className="flex items-center gap-1.5 text-stone-500 font-mono text-[11px] truncate">
-                  <span className="text-[#D45520] font-semibold">Storefront URL:</span>
+                  <span className="text-[#033528] font-semibold">Storefront URL:</span>
                   <span className="truncate">/product/{slug || 'your-product-name'}</span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
@@ -621,7 +621,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 value={tagline}
                 onChange={(e) => setTagline(e.target.value)}
                 placeholder="e.g. Warm golden amber enrobed in aged Cambodian agarwood and royal musk."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs text-stone-900 bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs text-stone-900 bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
 
@@ -638,7 +638,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="An opulent tapestry of rich oriental nuances. Oud Ambre fuses radiant sun-warmed amber with twenty-year aged agarwood, anchored by a velvety base of cashmere musk and tonka bean."
-                className="w-full p-3 rounded-xl border border-stone-200 text-xs text-stone-800 leading-relaxed bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-3 rounded-xl border border-stone-200 text-xs text-stone-800 leading-relaxed bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
 
@@ -652,7 +652,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 value={story}
                 onChange={(e) => setStory(e.target.value)}
                 placeholder="Distilled under the desert stars, this fragrance represents the crown jewel of Scent Palace BD..."
-                className="w-full p-3 rounded-xl border border-stone-200 text-xs text-stone-800 leading-relaxed bg-white focus:outline-none focus:ring-1 focus:ring-[#D45520]"
+                className="w-full p-3 rounded-xl border border-stone-200 text-xs text-stone-800 leading-relaxed bg-white focus:outline-none focus:ring-1 focus:ring-[#033528]"
               />
             </div>
           </div>
@@ -668,7 +668,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 onClick={() => setIsCatModalOpen(true)}
                 className="inline-flex items-center gap-1.5 px-3 py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-lg text-xs font-semibold transition cursor-pointer"
               >
-                <Plus className="w-3.5 h-3.5 text-[#D45520]" />
+                <Plus className="w-3.5 h-3.5 text-[#033528]" />
                 <span>Add New Category</span>
               </button>
             </div>
@@ -909,7 +909,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                     type="checkbox"
                     checked={isOnlineSelling}
                     onChange={(e) => setIsOnlineSelling(e.target.checked)}
-                    className="accent-[#D45520] w-4 h-4 rounded"
+                    className="accent-[#033528] w-4 h-4 rounded"
                   />
                   <span>Online Store (scentpalacebd.com)</span>
                 </label>
@@ -919,7 +919,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                     type="checkbox"
                     checked={isInStoreSelling}
                     onChange={(e) => setIsInStoreSelling(e.target.checked)}
-                    className="accent-[#D45520] w-4 h-4 rounded"
+                    className="accent-[#033528] w-4 h-4 rounded"
                   />
                   <span>In-store Gulshan Atelier Tasting</span>
                 </label>
@@ -936,7 +936,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 type="checkbox"
                 checked={manageStock}
                 onChange={(e) => setManageStock(e.target.checked)}
-                className="accent-[#D45520] w-4 h-4 rounded"
+                className="accent-[#033528] w-4 h-4 rounded"
               />
             </div>
           </div>
@@ -955,7 +955,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
               <button
                 type="button"
                 onClick={handleAddVariant}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#D45520] text-white hover:bg-[#B34316] rounded-xl text-xs font-semibold shadow-xs transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#033528] text-white hover:bg-[#022A20] rounded-xl text-xs font-semibold shadow-xs transition cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>+ Add Variant</span>
@@ -1096,13 +1096,13 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
 
             {/* Real-time Upload & Conversion Progress Card */}
             {uploadProgress && uploadProgress.stage !== 'idle' && (
-              <div className="p-3 bg-[#FAF7F2] border border-[#EAE4DC] rounded-xl space-y-1.5 transition-all">
+              <div className="p-3 bg-[#F7F2E6] border border-[#E8DFCB] rounded-xl space-y-1.5 transition-all">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-1.5 font-medium">
                     {uploadProgress.stage === 'uploading' && (
                       <>
-                        <UploadCloud className="w-3.5 h-3.5 text-[#D45520] animate-bounce" />
-                        <span className="text-stone-800">Uploading: <strong className="text-[#D45520]">{uploadProgress.percent}%</strong></span>
+                        <UploadCloud className="w-3.5 h-3.5 text-[#033528] animate-bounce" />
+                        <span className="text-stone-800">Uploading: <strong className="text-[#033528]">{uploadProgress.percent}%</strong></span>
                       </>
                     )}
                     {uploadProgress.stage === 'converting' && (
@@ -1137,7 +1137,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                         ? 'bg-rose-500'
                         : uploadProgress.stage === 'converting'
                         ? 'bg-amber-500 animate-pulse'
-                        : 'bg-[#D45520]'
+                        : 'bg-[#033528]'
                     }`}
                     style={{ width: `${uploadProgress.percent}%` }}
                   />
@@ -1152,9 +1152,9 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                   replaceIndexRef.current = null;
                   fileInputRef.current?.click();
                 }}
-                className="border-2 border-dashed border-stone-300 hover:border-[#D45520] rounded-2xl p-4 text-center cursor-pointer transition-colors bg-stone-50/70 hover:bg-white group flex flex-col items-center justify-center"
+                className="border-2 border-dashed border-stone-300 hover:border-[#033528] rounded-2xl p-4 text-center cursor-pointer transition-colors bg-stone-50/70 hover:bg-white group flex flex-col items-center justify-center"
               >
-                <div className="w-9 h-9 rounded-full bg-[#D45520]/10 text-[#D45520] flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform">
+                <div className="w-9 h-9 rounded-full bg-[#033528]/10 text-[#033528] flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform">
                   <Upload className="w-4 h-4" />
                 </div>
                 <p className="text-xs font-semibold text-stone-800">
@@ -1168,10 +1168,10 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                   replaceIndexRef.current = null;
                   setMediaPickerOpen(true);
                 }}
-                className="border-2 border-dashed border-stone-300 hover:border-[#D45520] rounded-2xl p-4 text-center cursor-pointer transition-colors bg-stone-50/70 hover:bg-white group flex flex-col items-center justify-center"
+                className="border-2 border-dashed border-stone-300 hover:border-[#033528] rounded-2xl p-4 text-center cursor-pointer transition-colors bg-stone-50/70 hover:bg-white group flex flex-col items-center justify-center"
               >
                 <div className="w-9 h-9 rounded-full bg-stone-100 text-stone-700 flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform">
-                  <FolderOpen className="w-4 h-4 text-[#D45520]" />
+                  <FolderOpen className="w-4 h-4 text-[#033528]" />
                 </div>
                 <p className="text-xs font-semibold text-stone-800">Media Library</p>
                 <p className="text-[10px] text-stone-400 mt-0.5">Choose from disk</p>
@@ -1201,7 +1201,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 <button
                   type="button"
                   onClick={handleAddImageUrl}
-                  className="px-3 py-1.5 bg-[#D45520] text-white rounded-lg text-xs font-semibold"
+                  className="px-3 py-1.5 bg-[#033528] text-white rounded-lg text-xs font-semibold"
                 >
                   Add
                 </button>
@@ -1363,7 +1363,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                   type="checkbox"
                   checked={isBestSeller}
                   onChange={(e) => setIsBestSeller(e.target.checked)}
-                  className="accent-[#D45520] w-4 h-4 rounded"
+                  className="accent-[#033528] w-4 h-4 rounded"
                 />
                 <span className="font-medium text-stone-800">Best Seller Masterpiece</span>
               </label>
@@ -1373,7 +1373,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                   type="checkbox"
                   checked={isNewArrival}
                   onChange={(e) => setIsNewArrival(e.target.checked)}
-                  className="accent-[#D45520] w-4 h-4 rounded"
+                  className="accent-[#033528] w-4 h-4 rounded"
                 />
                 <span className="font-medium text-stone-800">New Seasonal Arrival</span>
               </label>
@@ -1383,7 +1383,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                   type="checkbox"
                   checked={isFeatured}
                   onChange={(e) => setIsFeatured(e.target.checked)}
-                  className="accent-[#D45520] w-4 h-4 rounded"
+                  className="accent-[#033528] w-4 h-4 rounded"
                 />
                 <span className="font-medium text-stone-800">Featured in Atelier Carousel</span>
               </label>
@@ -1399,7 +1399,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 </div>
                 <Link
                   href="/admin/reviews"
-                  className="text-xs font-semibold text-[#D45520] hover:underline"
+                  className="text-xs font-semibold text-[#033528] hover:underline"
                 >
                   Manage Reviews →
                 </Link>
@@ -1518,11 +1518,11 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 ) : (
                   <div
                     onClick={() => catFileInputRef.current?.click()}
-                    className="border-2 border-dashed border-stone-200 hover:border-[#D45520] hover:bg-[#FAF7F2] rounded-2xl p-4 text-center cursor-pointer transition-colors"
+                    className="border-2 border-dashed border-stone-200 hover:border-[#033528] hover:bg-[#F7F2E6] rounded-2xl p-4 text-center cursor-pointer transition-colors"
                   >
                     {catImageUploading ? (
                       <div className="flex flex-col items-center gap-2 py-2">
-                        <div className="w-5 h-5 border-2 border-[#D45520] border-t-transparent rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-[#033528] border-t-transparent rounded-full animate-spin" />
                         <span className="text-xs text-stone-600 font-medium">Uploading category image...</span>
                       </div>
                     ) : (
@@ -1560,7 +1560,7 @@ export const ProductForm: React.FC<Props> = ({ initialData, isEdit }) => {
                 type="button"
                 onClick={handleCreateCategory}
                 disabled={catLoading || !newCatName.trim()}
-                className="px-4 py-2 bg-[#D45520] hover:bg-[#B34316] text-white rounded-xl text-xs font-semibold disabled:opacity-50"
+                className="px-4 py-2 bg-[#033528] hover:bg-[#022A20] text-white rounded-xl text-xs font-semibold disabled:opacity-50"
               >
                 {catLoading ? 'Creating...' : 'Create Category'}
               </button>

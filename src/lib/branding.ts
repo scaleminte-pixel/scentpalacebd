@@ -17,10 +17,10 @@ export async function getBranding(): Promise<Branding> {
     }
     const storeName = m.storeName || DEFAULT_STORE_NAME;
     return {
-      storefrontLogoUrl: m.storefrontLogoUrl || '',
-      storefrontLogoDarkUrl: m.storefrontLogoDarkUrl || '',
+      storefrontLogoUrl: m.storefrontLogoUrl || DEFAULT_BRANDING.storefrontLogoUrl,
+      storefrontLogoDarkUrl: m.storefrontLogoDarkUrl || DEFAULT_BRANDING.storefrontLogoDarkUrl,
       faviconUrl: m.faviconUrl || '',
-      adminLogoUrl: m.adminLogoUrl || '',
+      adminLogoUrl: m.adminLogoUrl || DEFAULT_BRANDING.adminLogoUrl,
       adminBrandTitle: m.adminBrandTitle || storeName,
       adminBrandSubtitle: m.adminBrandSubtitle || 'Admin Console',
       adminHideText: m.adminHideText === true || m.adminHideText === 'true',

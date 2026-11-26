@@ -29,7 +29,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-[#EAE4DC] hover:border-neutral-400 p-2.5 sm:p-5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-[3px] hover:shadow-xl flex flex-col justify-between h-auto sm:h-[450px]">
+    <div className="group relative bg-white rounded-2xl border border-[#E8DFCB] hover:border-neutral-400 p-2.5 sm:p-5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-[3px] hover:shadow-xl flex flex-col justify-between h-auto sm:h-[450px]">
       {/* 1:1 Aspect Ratio Studio Image Canvas */}
       <div className="relative aspect-square w-full rounded-xl bg-white overflow-hidden mb-2 sm:mb-3">
         <Link
@@ -49,7 +49,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Quick Add To Bag Button (Burnt Orange) */}
         <button
           onClick={handleBagClick}
-          className="absolute top-2 right-2 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 text-[#D45520] hover:bg-[#FDF3EE] border border-[#EAE4DC] flex items-center justify-center shadow-2xs hover:scale-110 active:scale-95 transition-all duration-200"
+          className="absolute top-2 right-2 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 text-[#033528] hover:bg-[#EAF1ED] border border-[#E8DFCB] flex items-center justify-center shadow-2xs hover:scale-110 active:scale-95 transition-all duration-200"
           aria-label={`Select size and add ${product.name} to bag`}
           title="Choose size & add to bag"
         >
@@ -57,7 +57,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </button>
 
         {/* Concentration badge */}
-        <span className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wider bg-white/90 border border-[#EAE4DC] text-neutral-600 backdrop-blur-2xs">
+        <span className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wider bg-white/90 border border-[#E8DFCB] text-neutral-600 backdrop-blur-2xs">
           {product.concentration.replace('Extrait de Parfum', 'Extrait')}
         </span>
       </div>
@@ -67,7 +67,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div>
           <Link
             href={`/product/${product.slug}`}
-            className="font-serif text-xs sm:text-base font-medium text-neutral-900 group-hover:text-[#D45520] transition-colors line-clamp-1 block leading-snug"
+            className="font-serif text-xs sm:text-base font-medium text-neutral-900 group-hover:text-[#033528] transition-colors line-clamp-1 block leading-snug"
             title={product.name}
           >
             {product.name}
@@ -78,7 +78,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Bottom Row: Price + Size Indicator */}
-        <div className="flex items-baseline justify-between pt-2 sm:pt-3 mt-2 border-t border-[#F7F4EE]">
+        <div className="flex items-baseline justify-between pt-2 sm:pt-3 mt-2 border-t border-[#F7F2E6]">
           <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-neutral-400">
             From
           </span>

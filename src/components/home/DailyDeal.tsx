@@ -90,7 +90,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
     : 15;
 
   return (
-    <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
+    <section className="bg-[#F7F2E6] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Reveal the outer white panel first */}
         <motion.div
@@ -98,7 +98,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ duration: 0.6, ease: LUXURY_EASE }}
-          className="bg-white rounded-3xl border border-[#EAE4DC] shadow-sm overflow-hidden p-6 sm:p-10 lg:p-14"
+          className="bg-white rounded-3xl border border-[#E8DFCB] shadow-sm overflow-hidden p-6 sm:p-10 lg:p-14"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left: Product image from small left offset on desktop, vertical on mobile */}
@@ -118,7 +118,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
                   sizes="(max-width: 1024px) 100vw, 40vw"
                 />
 
-                <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#D45520] text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#033528] text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
                   Save {discountPercent}%
                 </span>
               </div>
@@ -132,7 +132,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
               transition={{ duration: 0.6, delay: 0.3, ease: LUXURY_EASE }}
               className="lg:col-span-7 flex flex-col justify-center"
             >
-              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D45520] mb-2 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B88556] mb-2 block">
                 Daily Curation
               </span>
 
@@ -141,7 +141,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
               </h2>
               <Link
                 href={`/product/${dealProduct.slug}`}
-                className="mt-2 inline-block font-serif text-lg sm:text-xl text-[#D45520] hover:underline"
+                className="mt-2 inline-block font-serif text-lg sm:text-xl text-[#033528] hover:underline"
               >
                 {dealProduct.name}
                 {dealVariant?.size ? ` · ${dealVariant.size}` : ''}
@@ -159,9 +159,9 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
               </div>
 
               {/* Countdown Timer with Tabular Numerals for Rock-Solid Stability */}
-              <div className="mt-6 pt-6 border-t border-[#F4EFEB]">
+              <div className="mt-6 pt-6 border-t border-[#EFE7D5]">
                 <div className="flex items-center gap-3">
-                  <div className="flex flex-col items-center justify-center w-13 h-13 rounded-xl bg-[#FAF7F2] border border-[#EAE4DC]">
+                  <div className="flex flex-col items-center justify-center w-13 h-13 rounded-xl bg-[#F7F2E6] border border-[#E8DFCB]">
                     <span className="text-base font-bold font-serif text-neutral-900 tabular-nums">
                       {String(timeLeft.hours).padStart(2, '0')}
                     </span>
@@ -172,7 +172,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
 
                   <span className="font-bold text-neutral-300">:</span>
 
-                  <div className="flex flex-col items-center justify-center w-13 h-13 rounded-xl bg-[#FAF7F2] border border-[#EAE4DC]">
+                  <div className="flex flex-col items-center justify-center w-13 h-13 rounded-xl bg-[#F7F2E6] border border-[#E8DFCB]">
                     <span className="text-base font-bold font-serif text-neutral-900 tabular-nums">
                       {String(timeLeft.minutes).padStart(2, '0')}
                     </span>
@@ -183,8 +183,8 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
 
                   <span className="font-bold text-neutral-300">:</span>
 
-                  <div className="flex flex-col items-center justify-center w-13 h-13 rounded-xl bg-[#FAF7F2] border border-[#EAE4DC]">
-                    <span className="text-base font-bold font-serif text-[#D45520] tabular-nums">
+                  <div className="flex flex-col items-center justify-center w-13 h-13 rounded-xl bg-[#F7F2E6] border border-[#E8DFCB]">
+                    <span className="text-base font-bold font-serif text-[#033528] tabular-nums">
                       {String(timeLeft.seconds).padStart(2, '0')}
                     </span>
                     <span className="text-[9px] uppercase tracking-wider text-neutral-400">
@@ -198,7 +198,7 @@ export const DailyDeal: React.FC<DailyDealProps> = ({ dealProductProp }) => {
               <div className="mt-8 flex items-center gap-4">
                 <button
                   onClick={handleShopDeal}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#D45520] hover:bg-[#BD4616] text-white text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg active:scale-98 cursor-pointer"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#033528] hover:bg-[#022A20] text-white text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg active:scale-98 cursor-pointer"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   <span>Shop the Deal • {formatPrice(dealPrice)}</span>

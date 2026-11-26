@@ -26,7 +26,7 @@ export const BestSellers: React.FC<BestSellersProps> = ({ initialProducts }) => 
   const heading = (sec?.title || 'BEST SELLING PRODUCT.').trim();
 
   return (
-    <section className="bg-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#EAE4DC] overflow-hidden">
+    <section className="bg-[#F7F2E6] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E8DFCB] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Section Header: Introduce heading and View All link together */}
         <motion.div
@@ -42,7 +42,7 @@ export const BestSellers: React.FC<BestSellersProps> = ({ initialProducts }) => 
 
           <Link
             href="/shop?filter=best-seller"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-800 hover:text-[#D45520] transition-colors group"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-800 hover:text-[#B88556] transition-colors group"
           >
             <span>View All</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />

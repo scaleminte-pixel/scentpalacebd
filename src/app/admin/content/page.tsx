@@ -527,7 +527,7 @@ export default function AdminContentPage() {
             href="/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#141312] text-white hover:bg-neutral-800 rounded-xl text-xs font-semibold tracking-wide transition shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#033528] text-white hover:bg-neutral-800 rounded-xl text-xs font-semibold tracking-wide transition shadow-sm"
           >
             <span>Live Storefront</span>
             <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
@@ -555,7 +555,7 @@ export default function AdminContentPage() {
             onClick={() => setActiveTab(tab.id as any)}
             className={`px-4 py-2 rounded-xl transition cursor-pointer whitespace-nowrap ${
               activeTab === tab.id
-                ? 'bg-[#D45520] text-white shadow-xs font-semibold'
+                ? 'bg-[#033528] text-white shadow-xs font-semibold'
                 : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50'
             }`}
           >
@@ -568,7 +568,7 @@ export default function AdminContentPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {loading ? (
           <div className="col-span-full py-16 text-center text-stone-400">
-            <div className="w-8 h-8 border-2 border-stone-200 border-t-[#D45520] rounded-full animate-spin mx-auto mb-3" />
+            <div className="w-8 h-8 border-2 border-stone-200 border-t-[#033528] rounded-full animate-spin mx-auto mb-3" />
             <p className="text-xs">Loading website sections...</p>
           </div>
         ) : filteredSections.length === 0 ? (
@@ -674,7 +674,7 @@ export default function AdminContentPage() {
 
                   <button
                     onClick={() => handleEditOpen(sec)}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#D45520] hover:bg-[#B34316] text-white rounded-xl text-[11px] font-semibold transition shadow-xs cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#033528] hover:bg-[#022A20] text-white rounded-xl text-[11px] font-semibold transition shadow-xs cursor-pointer"
                   >
                     <Edit3 className="w-3.5 h-3.5" /> Edit Section
                   </button>
@@ -695,7 +695,7 @@ export default function AdminContentPage() {
             {/* Modal Header */}
             <div className="p-5 sm:p-6 border-b border-stone-200 flex items-center justify-between bg-stone-50/50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#D45520]/10 text-[#D45520] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-2xl bg-[#033528]/10 text-[#033528] flex items-center justify-center shrink-0">
                   <Edit3 className="w-5 h-5" />
                 </div>
                 <div>
@@ -728,7 +728,7 @@ export default function AdminContentPage() {
                     value={form.title}
                     onChange={(e) => setForm({ ...form, title: e.target.value })}
                     required
-                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-xs focus:ring-1 focus:ring-[#D45520] focus:outline-none"
+                    className="w-full p-2.5 border border-stone-200 rounded-xl bg-white text-xs focus:ring-1 focus:ring-[#033528] focus:outline-none"
                   />
                 </div>
 
@@ -941,8 +941,8 @@ export default function AdminContentPage() {
                   </div>
 
                   {/* Announcement Preview */}
-                  <div className="p-3 bg-[#141312] text-[#ECE7DF] rounded-xl text-center text-xs flex items-center justify-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 text-[#D45520]" />
+                  <div className="p-3 bg-[#033528] text-[#EDE5D3] rounded-xl text-center text-xs flex items-center justify-center gap-2">
+                    <Sparkles className="w-3.5 h-3.5 text-[#033528]" />
                     <span>{form.announcementText || 'Your announcement preview will appear here...'}</span>
                     {form.highlightCode && (
                       <span className="font-mono text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-amber-300">
@@ -1167,7 +1167,7 @@ export default function AdminContentPage() {
                     <button
                       type="button"
                       onClick={handleAddFaqItem}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#D45520] hover:bg-[#B34316] text-white rounded-xl text-xs font-semibold shadow-xs cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#033528] hover:bg-[#022A20] text-white rounded-xl text-xs font-semibold shadow-xs cursor-pointer"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add Question
                     </button>
@@ -1228,7 +1228,7 @@ export default function AdminContentPage() {
                             value={item.q}
                             onChange={(e) => handleFaqChange(idx, 'q', e.target.value)}
                             placeholder="Question..."
-                            className="w-full p-2 border border-stone-200 rounded-xl bg-white text-xs font-medium focus:ring-1 focus:ring-[#D45520] focus:outline-none"
+                            className="w-full p-2 border border-stone-200 rounded-xl bg-white text-xs font-medium focus:ring-1 focus:ring-[#033528] focus:outline-none"
                           />
                         </div>
 
@@ -1238,7 +1238,7 @@ export default function AdminContentPage() {
                             value={item.a}
                             onChange={(e) => handleFaqChange(idx, 'a', e.target.value)}
                             placeholder="Detailed Answer..."
-                            className="w-full p-2 border border-stone-200 rounded-xl bg-white text-xs leading-relaxed focus:ring-1 focus:ring-[#D45520] focus:outline-none"
+                            className="w-full p-2 border border-stone-200 rounded-xl bg-white text-xs leading-relaxed focus:ring-1 focus:ring-[#033528] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -1652,7 +1652,7 @@ export default function AdminContentPage() {
                         max="90"
                         value={form.discountPercentage}
                         onChange={(e) => setForm({ ...form, discountPercentage: Number(e.target.value) })}
-                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white font-bold text-base text-[#D45520]"
+                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white font-bold text-base text-[#033528]"
                       />
                     </div>
 
@@ -1746,7 +1746,7 @@ export default function AdminContentPage() {
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="px-5 py-2.5 bg-[#D45520] hover:bg-[#B34316] text-white rounded-xl font-semibold shadow-md transition flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="px-5 py-2.5 bg-[#033528] hover:bg-[#022A20] text-white rounded-xl font-semibold shadow-md transition flex items-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                   {isSaving ? (
                     <>

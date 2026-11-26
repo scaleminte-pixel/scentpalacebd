@@ -224,6 +224,32 @@ async function ensureSafeBootstrap() {
     }
   }
 
+  // 2b. One-time brand refresh (Nov 2026 brand guidelines): point the logos at the official
+  //     brand assets ONCE. Later changes made in Admin → Settings are never touched again.
+  const BRAND_MARKER = 'brandRefresh2026Applied';
+  const marker = await prisma.storeSetting.findUnique({ where: { key: BRAND_MARKER } });
+  if (!marker) {
+    const brand = {
+      storefrontLogoUrl: '/brand/logo-gold.webp',
+      storefrontLogoDarkUrl: '/brand/logo-emerald.webp',
+      faviconUrl: '',
+      adminLogoUrl: '/brand/icon-gold.webp',
+    };
+    for (const [key, value] of Object.entries(brand)) {
+      await prisma.storeSetting.upsert({
+        where: { key },
+        update: { valueJson: JSON.stringify(value) },
+        create: { key, valueJson: JSON.stringify(value), group: 'BRANDING' },
+      });
+    }
+    await prisma.storeSetting.create({
+      data: { key: BRAND_MARKER, valueJson: JSON.stringify(new Date().toISOString()), group: 'BRANDING' },
+    });
+    console.log('[BRAND] Official brand logos applied (one time).');
+  } else {
+    console.log('[SAFE] Brand logos already applied. Preserving Settings logos.');
+  }
+
   // 3. Ensure Products exist. Only seed if catalog is completely empty!
   const productCount = await prisma.product.count();
   if (productCount === 0) {
