@@ -44,8 +44,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
         instantly clear and legible at all times on first landing and when scrolled.
       */}
       <header
-        className={`no-print sticky top-0 z-40 transition-all duration-300 bg-[#033528] text-[#F7F2E6] border-b border-[#E8CE5F]/15 print:hidden ${
-          isScrolled ? 'shadow-xl bg-[#033528]/95 backdrop-blur-md' : ''
+        className={`no-print sticky top-0 z-40 transition-all duration-300 lg-glass lg-emerald lg-bar text-[#F7F2E6] border-b border-[#E8CE5F]/15 print:hidden ${
+          isScrolled ? 'shadow-[0_12px_40px_-12px_rgba(3,53,40,0.55)]' : ''
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -91,7 +91,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="p-2 xl:px-3 rounded-full border border-[#E8CE5F]/25 bg-white/5 hover:border-[#E8CE5F] text-[#F7F2E6] transition-all flex items-center gap-2 text-xs"
+              className="p-2 xl:px-3 rounded-full lg-glass lg-clear hover:bg-white/20 text-[#F7F2E6] transition-all flex items-center gap-2 text-xs"
               aria-label="Search fragrances"
             >
               <Search className="w-4 h-4 text-[#E8CE5F]" />
@@ -103,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             {/* Currency Pill */}
             <button
               onClick={() => setCurrency(currency === 'BDT' ? 'USD' : 'BDT')}
-              className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-full border border-[#E8CE5F]/25 bg-white/5 text-[#F7F2E6] hover:border-[#E8CE5F] transition-colors"
+              className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-full lg-glass lg-clear text-[#F7F2E6] hover:bg-white/20 transition-colors"
               title="Change Currency"
             >
               <span>{currency}</span>
@@ -132,10 +132,10 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
       {/* Mobile Slide-Out Drawer Navigation */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex lg:hidden bg-black/70 backdrop-blur-sm animate-fade-in">
+        <div className="fixed inset-0 z-50 flex lg:hidden bg-black/35 backdrop-blur-[2px] animate-fade-in">
           <div className="fixed inset-0" onClick={() => setIsMobileMenuOpen(false)} />
 
-          <div className="relative w-4/5 max-w-sm bg-[#F7F2E6] h-full shadow-2xl flex flex-col z-10 p-6 border-r border-[#E8DFCB] overflow-y-auto">
+          <div className="relative w-4/5 max-w-sm lg-glass lg-ivory bg-[#FAF6EC]/90 [--lg-blur:32px] h-full shadow-2xl flex flex-col z-10 p-6 overflow-y-auto">
             <div className="flex items-center justify-between pb-6 border-b border-[#E8DFCB]">
               <RawdahLogo variant="dark" showSubtitle={false} imgClassName="h-9" />
               <button

@@ -88,7 +88,7 @@ export const WelcomePromoModal: React.FC = () => {
       <div className="no-print hidden md:block fixed bottom-6 left-6 z-40 transition-transform duration-300">
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#033528] text-[#F7F2E6] border border-[#E8CE5F]/40 shadow-2xl hover:border-[#E8CE5F] hover:bg-[#022A20] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-xs font-medium"
+          className="group flex items-center gap-2.5 px-4 py-2.5 rounded-full lg-glass lg-emerald text-[#F7F2E6] hover:bg-[#022A20]/85 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-xs font-medium"
           title="View Exclusive Discount Privilege"
         >
           <span className="w-6 h-6 rounded-full bg-[#E8CE5F] flex items-center justify-center text-[#033528] shrink-0 group-hover:rotate-12 transition-transform">

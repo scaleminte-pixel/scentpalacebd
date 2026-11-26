@@ -807,7 +807,7 @@ export const ProductDetailsClient: React.FC<Props> = ({ product, relatedProducts
       </div>
 
       {/* Sticky Mobile Quick Order Bar (Docked cleanly at bottom on mobile) */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/98 backdrop-blur-md border-t border-[#E8DFCB] px-4 py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.12)] flex items-center justify-between gap-2 safe-area-pb">
+      <div className="sm:hidden fixed left-3 right-3 bottom-[calc(10px+env(safe-area-inset-bottom))] z-40 rounded-[26px] lg-glass lg-ivory [--lg-blur:24px] px-3.5 py-2.5 flex items-center justify-between gap-2">
         <div className="min-w-0 flex-1">
           <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block truncate">
             {selectedVariant.size} • {selectedVariant.stock > 0 ? 'In Stock' : 'Out of Stock'}

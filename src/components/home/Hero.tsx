@@ -103,7 +103,8 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
       </div>
 
       {many && (
-        <div className="flex items-center justify-center gap-1.5 pt-3" role="tablist" aria-label="Choose banner">
+        <div className="flex justify-center pt-3">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full lg-glass lg-ivory" role="tablist" aria-label="Choose banner">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -120,6 +121,7 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
               }`}
             />
           ))}
+        </div>
         </div>
       )}
     </section>
@@ -192,7 +194,7 @@ function DesktopHero({
           >
             <div className="col-span-7">
               {s.eyebrow && (
-                <span className="inline-block mb-3 px-3 py-1 rounded-full bg-[#F7F2E6]/95 text-[#033528] text-[10px] font-bold uppercase tracking-[0.18em]">
+                <span className="inline-block mb-3 px-3.5 py-1.5 rounded-full lg-glass lg-clear text-[#F7F2E6] text-[10px] font-bold uppercase tracking-[0.18em]">
                   {s.eyebrow}
                 </span>
               )}
@@ -219,7 +221,7 @@ function DesktopHero({
         </AnimatePresence>
 
         {many && (
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-6 inline-flex items-center gap-4 px-3 py-2 rounded-full lg-glass lg-clear">
 <div className="flex items-center gap-1.5">
               {slides.map((_, i) => (
                 <button

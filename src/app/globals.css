@@ -224,3 +224,75 @@ body {
   background: rgba(232, 206, 95, 0.45);
   color: #033528;
 }
+
+/* =========================================================================
+   LIQUID GLASS (Apple-style): frosted blur + saturation, specular rim light
+   and a soft sheen. Brand-tinted variants:
+   .lg-emerald (dark bars), .lg-ivory (light panels), .lg-clear (over photos)
+   ========================================================================= */
+@layer components {
+.lg-glass {
+  position: relative;
+  isolation: isolate;
+  -webkit-backdrop-filter: blur(var(--lg-blur, 20px)) saturate(185%) brightness(1.04);
+  backdrop-filter: blur(var(--lg-blur, 20px)) saturate(185%) brightness(1.04);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, var(--lg-rim, 0.45)),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, var(--lg-edge, 0.12)),
+    0 10px 30px -12px rgba(3, 53, 40, var(--lg-drop, 0.28));
+}
+/* soft diagonal sheen, behind the content */
+.lg-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(120% 80% at 10% 0%, rgba(255, 255, 255, var(--lg-sheen, 0.22)) 0%, rgba(255, 255, 255, 0) 55%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 45%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.06) 100%);
+}
+.lg-emerald {
+  background-color: rgba(3, 53, 40, 0.86);
+  --lg-rim: 0.18;
+  --lg-edge: 0.07;
+  --lg-sheen: 0.10;
+}
+.lg-ivory {
+  background-color: rgba(250, 246, 236, 0.62);
+  --lg-rim: 0.85;
+  --lg-edge: 0.5;
+  --lg-sheen: 0.45;
+  --lg-drop: 0.18;
+}
+.lg-clear {
+  background-color: rgba(255, 255, 255, 0.12);
+  --lg-rim: 0.55;
+  --lg-edge: 0.22;
+  --lg-sheen: 0.28;
+  --lg-blur: 14px;
+}
+.lg-gold-tint {
+  background-color: rgba(232, 206, 95, 0.16);
+}
+/* Bars spanning the full width: no outer drop shadow on the sides */
+.lg-bar {
+  --lg-drop: 0;
+}
+}
+
+/* No blur support (old browsers): fall back to solid brand colours */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lg-emerald { background-color: rgba(3, 53, 40, 0.97); }
+  .lg-ivory { background-color: rgba(250, 246, 236, 0.97); }
+  .lg-clear { background-color: rgba(3, 53, 40, 0.55); }
+}
+/* Respect "reduce transparency" accessibility settings */
+@media (prefers-reduced-transparency: reduce) {
+  .lg-glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .lg-emerald { background-color: #033528; }
+  .lg-ivory { background-color: #faf6ec; }
+  .lg-clear { background-color: rgba(3, 53, 40, 0.7); }
+}

@@ -24,7 +24,7 @@ export const MobileBottomBar: React.FC = () => {
   ];
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-[#E8DFCB] shadow-[0_-4px_24px_rgba(0,0,0,0.08)] px-2 py-1.5 flex items-center justify-around safe-area-pb">
+    <div className="md:hidden fixed left-3 right-3 bottom-[calc(10px+env(safe-area-inset-bottom))] z-40 rounded-[26px] lg-glass lg-ivory [--lg-blur:24px] px-1.5 py-1.5 flex items-center justify-around">
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = !item.isAction && pathname === item.href;
@@ -34,7 +34,7 @@ export const MobileBottomBar: React.FC = () => {
             <button
               key={item.label}
               onClick={openDrawer}
-              className="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all relative text-neutral-600 active:scale-95"
+              className="flex flex-col items-center justify-center py-1 px-3 rounded-[18px] transition-all relative text-neutral-600 active:scale-95"
               aria-label="View Shopping Bag"
             >
               <div className="relative">
@@ -56,8 +56,8 @@ export const MobileBottomBar: React.FC = () => {
           <Link
             key={item.label}
             href={item.href}
-            className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all active:scale-95 ${
-              isActive ? 'text-[#033528]' : 'text-neutral-500 hover:text-neutral-900'
+            className={`flex flex-col items-center justify-center py-1 px-3 rounded-[18px] transition-all active:scale-95 ${
+              isActive ? 'text-[#033528] bg-[#033528]/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]' : 'text-neutral-600 hover:text-neutral-900'
             }`}
           >
             <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.2]' : 'stroke-[1.6]'}`} />

@@ -59,12 +59,12 @@ export const CartDrawer: React.FC = () => {
   const progressPercent = Math.min(100, Math.round((subtotal / freeShippingThreshold) * 100));
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/35 backdrop-blur-[2px] animate-fade-in">
       <div className="fixed inset-0" onClick={closeDrawer} />
 
-      <div className="relative w-full max-w-md bg-[#F7F2E6] h-full shadow-2xl flex flex-col z-10 border-l border-[#E3D8C1]">
+      <div className="relative w-full max-w-md lg-glass lg-ivory bg-[#FAF6EC]/90 [--lg-blur:32px] h-full shadow-2xl flex flex-col z-10">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8DFCB] bg-white">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/60 bg-white/40">
           <div className="flex items-center gap-2.5">
             <ShoppingBag className="w-5 h-5 text-[#033528]" />
             <h2 className="font-serif text-lg font-medium text-neutral-900 tracking-tight">
@@ -132,7 +132,7 @@ export const CartDrawer: React.FC = () => {
             items.map((item) => (
               <div
                 key={item.variantId}
-                className="flex gap-4 p-3.5 bg-white rounded-xl border border-[#E8DFCB] shadow-sm relative group"
+                className="flex gap-4 p-3.5 bg-white/70 rounded-2xl border border-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_4px_14px_-6px_rgba(3,53,40,0.15)] relative group"
               >
                 <div className="relative w-18 h-22 bg-[#F7F2E6] rounded-lg p-2 border border-neutral-100 shrink-0">
                   <Image
@@ -201,7 +201,7 @@ export const CartDrawer: React.FC = () => {
 
         {/* Footer & Checkout Area */}
         {items.length > 0 && (
-          <div className="p-6 bg-white border-t border-[#E8DFCB] space-y-4">
+          <div className="p-6 bg-white/45 border-t border-white/60 space-y-4">
             {/* Coupon Code Section */}
             <div>
               {appliedCoupon ? (
@@ -236,7 +236,7 @@ export const CartDrawer: React.FC = () => {
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-[#1C1C1C] hover:bg-[#022A20] text-white text-xs font-semibold rounded-lg transition-colors"
+                    className="px-4 py-2 bg-[#033528] hover:bg-[#022A20] text-[#F7F2E6] text-xs font-semibold rounded-lg transition-colors"
                   >
                     Apply
                   </button>
