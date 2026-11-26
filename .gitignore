@@ -68,3 +68,8 @@ prisma/.session-secret
 .env.*
 !.env.example
 launch-upload/
+
+# Local DB snapshots / corrupt copies
+*.db.*
+*.db-shm*
+*.db-wal*

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import ContentImageUploader from '@/components/admin/ContentImageUploader';
 import { DEFAULT_OUR_STORY, type OurStoryContent } from '@/lib/our-story-defaults';
+import { getHeroSlides, DEFAULT_HERO_SLIDE, MAX_HERO_SLIDES, type HeroSlide } from '@/lib/hero-slides';
 import {
   Layout,
   Eye,
@@ -51,6 +52,8 @@ export default function AdminContentPage() {
     heroButtonText: '',
     heroButtonLink: '',
     heroImageUrl: '',
+    heroSlides: [] as HeroSlide[],
+    heroAutoplaySeconds: 5,
 
     // Announcement Bar
     announcementText: '',
@@ -209,6 +212,8 @@ export default function AdminContentPage() {
       heroButtonText: c.buttonText || c.ctaText || 'Discover Fragrance',
       heroButtonLink: c.buttonLink || c.ctaLink || '/shop',
       heroImageUrl: c.imageUrl || c.bgImage || '/images/banner-oud-collection.webp',
+      heroSlides: section.sectionKey === 'hero' ? getHeroSlides(c) : [],
+      heroAutoplaySeconds: Number(c.autoplaySeconds) || 5,
 
       // Announcement
       announcementText: c.text || '',
@@ -320,20 +325,30 @@ export default function AdminContentPage() {
     const key = editingSection.sectionKey;
 
     if (key === 'hero') {
+      const slides = form.heroSlides.filter((sl) => sl.imageUrl || sl.mobileImageUrl);
+      if (slides.length === 0) {
+        alert('Add at least one banner with an image.');
+        setIsSaving(false);
+        return;
+      }
+      const first = slides[0];
       updatedContent = {
-        headlineLine1: form.headlineLine1,
-        headlineLine2: form.headlineLine2,
-        subtitle: form.heroSubtitle,
-        description: form.heroSubtitle,
-        heading: `${form.headlineLine1} ${form.headlineLine2}`.trim(),
+        slides,
+        autoplaySeconds: Math.min(Math.max(Number(form.heroAutoplaySeconds) || 5, 3), 15),
         watermarkText: form.watermarkText,
         badgeText: form.badgeText,
-        buttonText: form.heroButtonText,
-        ctaText: form.heroButtonText,
-        buttonLink: form.heroButtonLink,
-        ctaLink: form.heroButtonLink,
-        imageUrl: form.heroImageUrl,
-        bgImage: form.heroImageUrl,
+        // Banner 1 is also kept in the original single-banner fields (backwards compatible)
+        headlineLine1: first.headlineLine1,
+        headlineLine2: first.headlineLine2,
+        heading: `${first.headlineLine1} ${first.headlineLine2}`.trim(),
+        subtitle: first.subtitle,
+        description: first.subtitle,
+        buttonText: first.buttonText,
+        ctaText: first.buttonText,
+        buttonLink: first.buttonLink,
+        ctaLink: first.buttonLink,
+        imageUrl: first.imageUrl || first.mobileImageUrl,
+        bgImage: first.imageUrl || first.mobileImageUrl,
       };
     } else if (key === 'announcement') {
       updatedContent = {
@@ -766,126 +781,112 @@ export default function AdminContentPage() {
 
               {/* SECTION-SPECIFIC VISUAL CONTROLS */}
 
-              {/* 1. HERO SECTION FORM */}
-              {editingSection.sectionKey === 'hero' && (
-                <div className="space-y-4">
-                  <div className="border-b border-stone-200 pb-2">
-                    <h4 className="font-bold text-stone-900 text-sm">
-                      Hero Campaign Visual Content
-                    </h4>
-                    <p className="text-[11px] text-stone-500">
-                      Changes here directly update the main 4K desert campaign banner on the homepage.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-stone-600 font-medium mb-1">
-                        Headline Line 1
-                      </label>
-                      <input
-                        type="text"
-                        value={form.headlineLine1}
-                        onChange={(e) => setForm({ ...form, headlineLine1: e.target.value })}
-                        placeholder="e.g. A Signature Scent,"
-                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-stone-600 font-medium mb-1">
-                        Headline Line 2
-                      </label>
-                      <input
-                        type="text"
-                        value={form.headlineLine2}
-                        onChange={(e) => setForm({ ...form, headlineLine2: e.target.value })}
-                        placeholder="e.g. Crafted with Soul"
-                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white"
-                      />
-                    </div>
-                  </div>
-
+              {/* 1. HERO SECTION FORM — multiple banners */}
+              {editingSection.sectionKey === 'hero' && (() => {
+                const slides = form.heroSlides;
+                const setSlides = (next: HeroSlide[]) => setForm({ ...form, heroSlides: next });
+                const upd = (i: number, patch: Partial<HeroSlide>) => {
+                  const next = [...slides];
+                  next[i] = { ...next[i], ...patch };
+                  setSlides(next);
+                };
+                const move = (i: number, d: number) => {
+                  const j = i + d;
+                  if (j < 0 || j >= slides.length) return;
+                  const next = [...slides];
+                  [next[i], next[j]] = [next[j], next[i]];
+                  setSlides(next);
+                };
+                const txt = (i: number, label: string, k: keyof HeroSlide, ph: string) => (
                   <div>
-                    <label className="block text-stone-600 font-medium mb-1">
-                      Hero Description / Subtitle
-                    </label>
-                    <textarea
-                      rows={2}
-                      value={form.heroSubtitle}
-                      onChange={(e) => setForm({ ...form, heroSubtitle: e.target.value })}
-                      placeholder="e.g. A bold composition of rare woods, warm amber, and delicate florals..."
-                      className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white"
-                    />
+                    <label className="block text-stone-600 font-medium mb-1">{label}</label>
+                    <input type="text" value={slides[i][k]} onChange={(e) => upd(i, { [k]: e.target.value } as Partial<HeroSlide>)} placeholder={ph} className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-stone-600 font-medium mb-1">
-                        Translucent Watermark Text
-                      </label>
-                      <input
-                        type="text"
-                        value={form.watermarkText}
-                        onChange={(e) => setForm({ ...form, watermarkText: e.target.value })}
-                        placeholder="e.g. SCENT THAT LINGERS"
-                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white"
-                      />
+                );
+                return (
+                  <div className="space-y-4">
+                    <div className="border-b border-stone-200 pb-2">
+                      <h4 className="font-bold text-stone-900 text-sm">Homepage Banners</h4>
+                      <p className="text-[11px] text-stone-500">
+                        Add up to {MAX_HERO_SLIDES} banners. They change automatically. On phones they show as a rounded
+                        banner card that customers can swipe; on computers as the full-width banner. Banner 1 shows first.
+                      </p>
                     </div>
 
-                    <div>
-                      <label className="block text-stone-600 font-medium mb-1">
-                        Floating Turquoise Badge
-                      </label>
-                      <input
-                        type="text"
-                        value={form.badgeText}
-                        onChange={(e) => setForm({ ...form, badgeText: e.target.value })}
-                        placeholder="e.g. LONG LASTING"
-                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white"
-                      />
+                    {slides.map((sl, i) => (
+                      <div key={i} className="rounded-2xl border border-stone-200 bg-stone-50/60 p-4 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-stone-900 text-xs">Banner {i + 1}</span>
+                          <div className="flex items-center gap-1.5 text-[11px]">
+                            <button type="button" onClick={() => move(i, -1)} disabled={i === 0} className="px-2 py-1 rounded-lg border border-stone-200 bg-white disabled:opacity-30">↑ Up</button>
+                            <button type="button" onClick={() => move(i, 1)} disabled={i === slides.length - 1} className="px-2 py-1 rounded-lg border border-stone-200 bg-white disabled:opacity-30">↓ Down</button>
+                            <button
+                              type="button"
+                              onClick={() => setSlides(slides.filter((_, j) => j !== i))}
+                              disabled={slides.length === 1}
+                              className="px-2 py-1 rounded-lg border border-rose-200 bg-white text-rose-600 disabled:opacity-30"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {txt(i, 'Small label (pill)', 'eyebrow', 'e.g. New Arrivals')}
+                          {txt(i, 'Button text', 'buttonText', 'e.g. Shop Now')}
+                          {txt(i, 'Heading line 1', 'headlineLine1', 'e.g. A Signature Scent,')}
+                          {txt(i, 'Heading line 2', 'headlineLine2', 'e.g. Crafted with Soul')}
+                        </div>
+                        <div>
+                          <label className="block text-stone-600 font-medium mb-1">Short description</label>
+                          <textarea rows={2} value={sl.subtitle} onChange={(e) => upd(i, { subtitle: e.target.value })} placeholder="One or two short lines" className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
+                        </div>
+                        {txt(i, 'Button link', 'buttonLink', 'e.g. /shop or /product/swiss-arabian-rose-01')}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <ContentImageUploader
+                            label="Banner image (computer)"
+                            sublabel="Wide image, e.g. 1920×1080. Also used on phones if no phone image is set."
+                            imageUrl={sl.imageUrl}
+                            onChange={(url) => upd(i, { imageUrl: url })}
+                            aspectRatio="hero"
+                          />
+                          <ContentImageUploader
+                            label="Phone image (optional)"
+                            sublabel="Banner card shape, e.g. 1200×750. Keep the product on the right; text sits on the left."
+                            imageUrl={sl.mobileImageUrl}
+                            onChange={(url) => upd(i, { mobileImageUrl: url })}
+                            aspectRatio="wide"
+                          />
+                        </div>
+                      </div>
+                    ))}
+
+                    {slides.length < MAX_HERO_SLIDES && (
+                      <button
+                        type="button"
+                        onClick={() => setSlides([...slides, { ...DEFAULT_HERO_SLIDE, headlineLine1: '', headlineLine2: '', subtitle: '', imageUrl: '' }])}
+                        className="w-full py-3 rounded-xl border-2 border-dashed border-stone-300 hover:border-[#033528] hover:bg-stone-50 text-xs font-semibold text-stone-700"
+                      >
+                        + Add another banner
+                      </button>
+                    )}
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 border-t border-stone-200">
+                      <div>
+                        <label className="block text-stone-600 font-medium mb-1">Change every (seconds)</label>
+                        <input type="number" min={3} max={15} value={form.heroAutoplaySeconds} onChange={(e) => setForm({ ...form, heroAutoplaySeconds: Number(e.target.value) })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
+                      </div>
+                      <div>
+                        <label className="block text-stone-600 font-medium mb-1">Big faded text (computer)</label>
+                        <input type="text" value={form.watermarkText} onChange={(e) => setForm({ ...form, watermarkText: e.target.value })} placeholder="Empty = hide" className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
+                      </div>
+                      <div>
+                        <label className="block text-stone-600 font-medium mb-1">Round gold badge (computer)</label>
+                        <input type="text" value={form.badgeText} onChange={(e) => setForm({ ...form, badgeText: e.target.value })} placeholder="Empty = hide" className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
+                      </div>
                     </div>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-stone-600 font-medium mb-1">
-                        CTA Button Text
-                      </label>
-                      <input
-                        type="text"
-                        value={form.heroButtonText}
-                        onChange={(e) => setForm({ ...form, heroButtonText: e.target.value })}
-                        placeholder="e.g. Discover Fragrance"
-                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-stone-600 font-medium mb-1">
-                        CTA Button Link
-                      </label>
-                      <input
-                        type="text"
-                        value={form.heroButtonLink}
-                        onChange={(e) => setForm({ ...form, heroButtonLink: e.target.value })}
-                        placeholder="e.g. /shop"
-                        className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <ContentImageUploader
-                      label="Hero Campaign Background Image"
-                      sublabel="Upload 4K desert campaign visuals or luxury flacon banners"
-                      imageUrl={form.heroImageUrl}
-                      onChange={(url) => setForm({ ...form, heroImageUrl: url })}
-                      aspectRatio="hero"
-                    />
-                  </div>
-                </div>
-              )}
+                );
+              })()}
 
               {/* 2. TOP ANNOUNCEMENT BAR FORM */}
               {editingSection.sectionKey === 'announcement' && (
