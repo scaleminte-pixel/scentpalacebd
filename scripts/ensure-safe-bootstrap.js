@@ -250,6 +250,43 @@ async function ensureSafeBootstrap() {
     console.log('[SAFE] Brand logos already applied. Preserving Settings logos.');
   }
 
+  // 2c. One-time: turn the single homepage banner into 3 banners (multi-banner hero).
+  //     The existing banner stays first; later edits in Admin are never touched again.
+  const HERO_MARKER = 'heroSlides2026Applied';
+  const heroMarker = await prisma.storeSetting.findUnique({ where: { key: HERO_MARKER } });
+  if (!heroMarker) {
+    const hero = await prisma.websiteSection.findUnique({ where: { sectionKey: 'hero' } });
+    if (hero) {
+      let c = {};
+      try { c = JSON.parse(hero.contentJson || '{}'); } catch { c = {}; }
+      if (!Array.isArray(c.slides) || c.slides.length === 0) {
+        const first = {
+          eyebrow: 'New Arrivals',
+          headlineLine1: c.headlineLine1 || c.heading || 'A Signature Scent,',
+          headlineLine2: c.headlineLine2 || '',
+          subtitle: c.subtitle || c.description || '',
+          buttonText: c.buttonText || c.ctaText || 'Shop Now',
+          buttonLink: c.buttonLink || c.ctaLink || '/shop',
+          imageUrl: c.imageUrl || c.bgImage || '/images/banners/banner-opulent-oud.webp',
+          mobileImageUrl: '',
+        };
+        c.slides = [
+          first,
+          { eyebrow: 'Signature', headlineLine1: 'Rose 01,', headlineLine2: 'A Garden in Bloom', subtitle: 'Velvet rose, lychee and soft vanilla — an elegant floral signature.', buttonText: 'Shop Now', buttonLink: '/shop', imageUrl: '/images/banners/banner-rose-01.webp', mobileImageUrl: '' },
+          { eyebrow: 'Oud & Woody', headlineLine1: 'Rare Ouds,', headlineLine2: 'Royal Heritage', subtitle: 'Deep oud, warm spices and amber for evenings that linger.', buttonText: 'Explore Oud', buttonLink: '/shop', imageUrl: '/images/banners/banner-opulent-oud.webp', mobileImageUrl: '' },
+        ];
+        c.autoplaySeconds = 3;
+        await prisma.websiteSection.update({ where: { sectionKey: 'hero' }, data: { contentJson: JSON.stringify(c) } });
+        console.log('[HERO] Homepage now has 3 banners (one time).');
+      }
+    }
+    await prisma.storeSetting.create({
+      data: { key: HERO_MARKER, valueJson: JSON.stringify(new Date().toISOString()), group: 'CONTENT' },
+    });
+  } else {
+    console.log('[SAFE] Homepage banners already set up. Preserving Admin banners.');
+  }
+
   // 3. Ensure Products exist. Only seed if catalog is completely empty!
   const productCount = await prisma.product.count();
   if (productCount === 0) {

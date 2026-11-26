@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { LUXURY_EASE } from '@/utils/motion';
 import { useContent } from '@/context/ContentContext';
@@ -11,7 +11,7 @@ import { getHeroSlides, type HeroSlide } from '@/lib/hero-slides';
 
 /**
  * Homepage hero — managed in Admin → Website Content → Hero (multiple banners).
- *  • Phones: rounded banner card carousel (swipe + auto-slide + dots).
+ *  • Phones: image-only rounded banner card carousel (swipe + auto-slide + dots, no text).
  *  • Tablet / desktop: full-width cinematic banner with cross-fading slides.
  */
 export const Hero: React.FC = () => {
@@ -19,7 +19,7 @@ export const Hero: React.FC = () => {
   const heroSection = getSection('hero');
   const heroContent = getContent<any>('hero', {});
   const slides = getHeroSlides(heroContent);
-  const intervalMs = Math.min(Math.max(Number(heroContent.autoplaySeconds) || 5, 3), 15) * 1000;
+  const intervalMs = Math.min(Math.max(Number(heroContent.autoplaySeconds) || 3, 2), 15) * 1000;
 
   if (heroSection && !heroSection.isVisible) return null;
   if (slides.length === 0) return null;
@@ -79,12 +79,14 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
         className="flex overflow-x-auto snap-x snap-mandatory rounded-[22px] shadow-[0_10px_30px_-12px_rgba(3,53,40,0.35)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((s, i) => (
-          <div
+          <Link
             key={i}
-            className="relative w-full shrink-0 snap-center flex min-h-[150px] min-[400px]:min-h-[165px] overflow-hidden bg-[#033528]"
+            href={s.buttonLink || '/shop'}
+            className="relative block w-full shrink-0 snap-center aspect-[16/9] overflow-hidden bg-[#033528]"
             role="group"
             aria-roledescription="slide"
-            aria-label={`${i + 1} of ${slides.length}`}
+            aria-label={`${s.headlineLine1 || 'Banner'} (${i + 1} of ${slides.length})`}
+            draggable={false}
           >
             <Image
               src={s.mobileImageUrl || s.imageUrl}
@@ -93,33 +95,10 @@ function MobileHeroCarousel({ slides, intervalMs }: { slides: HeroSlide[]; inter
               priority={i === 0}
               loading={i === 0 ? undefined : 'lazy'}
               sizes="(max-width: 767px) 100vw, 1px"
-              className="object-cover object-[70%_center] select-none"
+              className="object-cover object-center select-none"
+              draggable={false}
             />
-            {/* Emerald wash on the left so the copy stays readable on any photo */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#033528]/90 via-[#033528]/45 via-55% to-transparent" />
-
-            <div className="relative z-10 min-h-full w-[56%] flex flex-col justify-center pl-4 pr-1 py-4">
-              {s.eyebrow && (
-                <span className="self-start mb-1.5 px-2 py-0.5 rounded-full bg-[#F7F2E6] text-[#033528] text-[8px] font-bold uppercase tracking-[0.14em] shadow-xs">
-                  {s.eyebrow}
-                </span>
-              )}
-              <h2 className="font-serif text-[15px] min-[380px]:text-[16px] min-[420px]:text-[18px] leading-[1.2] text-[#F7F2E6] drop-shadow-sm line-clamp-2">
-                {s.mobileHeadline || s.headlineLine1 || s.headlineLine2}
-              </h2>
-              {s.buttonText && (
-                <Link
-                  href={s.buttonLink || '/shop'}
-                  className="self-start mt-2.5 inline-flex items-center gap-1.5 pl-3 pr-1 py-0.5 rounded-full bg-[#F7F2E6] text-[#033528] text-[10px] font-semibold shadow-md active:scale-95 transition-transform"
-                >
-                  <span>{s.buttonText}</span>
-                  <span className="w-5 h-5 rounded-full bg-[#E8CE5F] flex items-center justify-center">
-                    <ArrowRight className="w-3 h-3" />
-                  </span>
-                </Link>
-              )}
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -170,11 +149,10 @@ function DesktopHero({
     if (!many || hovered) return;
     const t = setInterval(() => {
       if (!document.hidden) setActive((a) => (a + 1) % slides.length);
-    }, intervalMs + 1500);
+    }, intervalMs);
     return () => clearInterval(t);
   }, [many, hovered, slides.length, intervalMs]);
 
-  const go = (d: number) => setActive((a) => (a + d + slides.length) % slides.length);
   const badgeText = badge || 'LONG LASTING';
 
   return (
@@ -294,15 +272,7 @@ function DesktopHero({
 
         {many && (
           <div className="mt-6 flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => go(-1)}
-              aria-label="Previous banner"
-              className="w-9 h-9 rounded-full border border-white/40 text-white hover:bg-[#E8CE5F] hover:text-[#033528] hover:border-[#E8CE5F] flex items-center justify-center transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <div className="flex items-center gap-1.5">
+<div className="flex items-center gap-1.5">
               {slides.map((_, i) => (
                 <button
                   key={i}
@@ -314,14 +284,6 @@ function DesktopHero({
                 />
               ))}
             </div>
-            <button
-              type="button"
-              onClick={() => go(1)}
-              aria-label="Next banner"
-              className="w-9 h-9 rounded-full border border-white/40 text-white hover:bg-[#E8CE5F] hover:text-[#033528] hover:border-[#E8CE5F] flex items-center justify-center transition-colors"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
           </div>
         )}
       </div>

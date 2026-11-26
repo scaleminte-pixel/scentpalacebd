@@ -53,7 +53,7 @@ export default function AdminContentPage() {
     heroButtonLink: '',
     heroImageUrl: '',
     heroSlides: [] as HeroSlide[],
-    heroAutoplaySeconds: 5,
+    heroAutoplaySeconds: 3,
 
     // Announcement Bar
     announcementText: '',
@@ -213,7 +213,7 @@ export default function AdminContentPage() {
       heroButtonLink: c.buttonLink || c.ctaLink || '/shop',
       heroImageUrl: c.imageUrl || c.bgImage || '/images/banner-oud-collection.webp',
       heroSlides: section.sectionKey === 'hero' ? getHeroSlides(c) : [],
-      heroAutoplaySeconds: Number(c.autoplaySeconds) || 5,
+      heroAutoplaySeconds: Number(c.autoplaySeconds) || 3,
 
       // Announcement
       announcementText: c.text || '',
@@ -334,7 +334,7 @@ export default function AdminContentPage() {
       const first = slides[0];
       updatedContent = {
         slides,
-        autoplaySeconds: Math.min(Math.max(Number(form.heroAutoplaySeconds) || 5, 3), 15),
+        autoplaySeconds: Math.min(Math.max(Number(form.heroAutoplaySeconds) || 3, 2), 15),
         watermarkText: form.watermarkText,
         badgeText: form.badgeText,
         // Banner 1 is also kept in the original single-banner fields (backwards compatible)
@@ -808,8 +808,9 @@ export default function AdminContentPage() {
                     <div className="border-b border-stone-200 pb-2">
                       <h4 className="font-bold text-stone-900 text-sm">Homepage Banners</h4>
                       <p className="text-[11px] text-stone-500">
-                        Add up to {MAX_HERO_SLIDES} banners. They change automatically. On phones they show as a rounded
-                        banner card that customers can swipe; on computers as the full-width banner. Banner 1 shows first.
+                        Add up to {MAX_HERO_SLIDES} banners; they change automatically. <b>Phones show only the image</b> (rounded
+                        card, swipe, dots — no text or button; tapping opens the button link). Computers show the full-width
+                        banner with the heading, text and button. Banner 1 shows first.
                       </p>
                     </div>
 
@@ -841,18 +842,17 @@ export default function AdminContentPage() {
                           <textarea rows={2} value={sl.subtitle} onChange={(e) => upd(i, { subtitle: e.target.value })} placeholder="One or two short lines" className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
                         </div>
                         {txt(i, 'Button link', 'buttonLink', 'e.g. /shop or /product/swiss-arabian-rose-01')}
-                        {txt(i, 'Phone heading (short, optional)', 'mobileHeadline', 'e.g. 100% Original Perfumes. Empty = heading line 1')}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <ContentImageUploader
                             label="Banner image (computer)"
-                            sublabel="Wide image, e.g. 1920×1080. Also used on phones if no phone image is set."
+                            sublabel="Wide image, e.g. 1920×1080 (shown with text on computers). Also used on phones if no phone image is set."
                             imageUrl={sl.imageUrl}
                             onChange={(url) => upd(i, { imageUrl: url })}
                             aspectRatio="hero"
                           />
                           <ContentImageUploader
-                            label="Phone image (optional)"
-                            sublabel="Banner card shape, e.g. 1200×750. Keep the product on the right; text sits on the left."
+                            label="Phone banner image"
+                            sublabel="16:9 shape, e.g. 1600×900. Shown as-is on phones (no text on top), so any text should be inside the image."
                             imageUrl={sl.mobileImageUrl}
                             onChange={(url) => upd(i, { mobileImageUrl: url })}
                             aspectRatio="wide"
@@ -874,7 +874,7 @@ export default function AdminContentPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 border-t border-stone-200">
                       <div>
                         <label className="block text-stone-600 font-medium mb-1">Change every (seconds)</label>
-                        <input type="number" min={3} max={15} value={form.heroAutoplaySeconds} onChange={(e) => setForm({ ...form, heroAutoplaySeconds: Number(e.target.value) })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
+                        <input type="number" min={2} max={15} value={form.heroAutoplaySeconds} onChange={(e) => setForm({ ...form, heroAutoplaySeconds: Number(e.target.value) })} className="w-full p-2.5 border border-stone-200 rounded-xl bg-stone-50 focus:bg-white" />
                       </div>
                       <div>
                         <label className="block text-stone-600 font-medium mb-1">Big faded text (computer)</label>
